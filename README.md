@@ -21,7 +21,7 @@
 - **Taqi-ur-Rehman** (Team Member)
 
 <h3>Supervised By:</h3>
-- **Miss Amber Khan**
+ **Miss Amber Khan**
 
 ---
 
@@ -116,28 +116,4 @@ This project is licensed under the **NCDC (NUST Chip Design Centre)**. Any use o
 Special thanks to **Miss Amber Khan** for her guidance and supervision throughout this project.
 ```
 
----
 
-### Changes Made:
-1. **Team Members Section**:
-   - Added **Muhammad Atif** as the Team Leader.
-   - Included **Ahsen Ali** and **Taqi-ur-Rehman** as team members.
-   - Mentioned **Miss Amber Khan** as the project supervisor.
-
-2. **Repository Link**:
-   - Added the project repository link: [https://github.com/Atif-Mughal/NCDC-Final-Project.git](https://github.com/Atif-Mughal/NCDC-Final-Project.git).
-
-3. **License**:
-   - Specified that the project is under the **NCDC (NUST Chip Design Centre)** license.
-
-4. **Guidance for Cadence Xcelium**:
-   - Included instructions for running the project using `xrun -f run.f`.
-
-5. **Updated Contact Info**:
-   - Provided your email: [atifmughal62843@gmail.com](mailto:atifmughal62843@gmail.com).
-   - Added your LinkedIn profile: [https://www.linkedin.com/in/atif-mughal-62a00027b/](https://www.linkedin.com/in/atif-mughal-62a00027b/).
-
-6. **Acknowledgment Section**:
-   - Highlighted Miss Amber Khan’s contribution as a supervisor.
-
-Let me know if further adjustments are required!

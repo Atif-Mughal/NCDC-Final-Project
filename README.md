@@ -21,7 +21,7 @@
 - **Taqi-ur-Rehman** (Team Member)
 
 <h3>Supervised By:</h3>
-- **Miss Amber Khan**
+<h4 align="centre">Miss Amber Khan</h4>
 
 
 ---

@@ -11,7 +11,7 @@
 
 - 💬 **Ask Me About:** AXI4, UVM, Chip Design, and Functional Verification.
 
-- 📫 **Contact Me:** [your.email@example.com](mailto:your.email@example.com)
+- 📫 **Contact Me:** [atifmughal62843@gmail.com](mailto:atifmughal62843@gmail.com)
 
 ---
 

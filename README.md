@@ -2,16 +2,26 @@
 <h3 align="center">Reusable, Configurable UVM-Based Testbench for AXI4 Protocol</h3>
 
 <p align="left">
-  <img src="https://komarev.com/ghpvc/?username=axi4-vip&label=Project%20views&color=0e75b6&style=flat" alt="axi4-vip" />
+  <img src="https://komarev.com/ghpvc/?username=Atif-Mughal&label=Project%20views&color=0e75b6&style=flat" alt="Atif-Mughal" />
 </p>
 
-- 🔭 **Current Focus:** Developing a comprehensive UVM-based VIP for AXI4 Full and Lite Protocols.
-
-- 🌱 **Learning & Enhancing:** Advanced verification techniques using SystemVerilog and UVM.
-
-- 💬 **Ask Me About:** AXI4, UVM, Chip Design, and Functional Verification.
-
+- 🔭 **Project Repository:** [NCDC-Final-Project](https://github.com/Atif-Mughal/NCDC-Final-Project.git)
 - 📫 **Contact Me:** [atifmughal62843@gmail.com](mailto:atifmughal62843@gmail.com)
+- 🌐 **LinkedIn:** [Muhammad Atif](https://www.linkedin.com/in/atif-mughal-62a00027b/)
+
+---
+
+<h2 align="left">👩‍💻 Team Members</h2>
+
+- **Muhammad Atif** (Team Leader)  
+  - [LinkedIn](https://www.linkedin.com/in/atif-mughal-62a00027b/) | [Email](mailto:atifmughal62843@gmail.com)
+
+- **Ahsen Ali** (Team Member)
+
+- **Taqi-ur-Rehman** (Team Member)
+
+<h3>Supervised By: Miss Amber Khan</h3>
+
 
 ---
 
@@ -30,24 +40,27 @@
 
 ### Prerequisites
 
-- **SystemVerilog simulator** (e.g., Synopsys VCS, Cadence Xcelium, Mentor QuestaSim).
-- **UVM library** (Unified Verification Methodology).
+- **SystemVerilog simulator**: Cadence Xcelium (Recommended)
+- **UVM library**: Unified Verification Methodology
 
-### Running the Simulation
+### Running the Simulation with Cadence Xcelium
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/axi4-vip.git
-   cd axi4-vip
+   git clone https://github.com/Atif-Mughal/NCDC-Final-Project.git
+   cd NCDC-Final-Project
    ```
 
-2. Compile and run with your simulator:
+2. Navigate to the top-level directory where the simulation run file (`run.f`) is located.
+
+3. Run the simulation using the `xrun` command:
    ```bash
-   vcs -full64 -sverilog -ntb_opts uvm src/*.sv tests/*.sv -o simv
-   ./simv
+   xrun -f run.f
    ```
 
-3. Analyze the results in the log file or waveform viewer.
+4. Analyze the results:
+   - Use the Xcelium log files to debug and verify test outcomes.
+   - View waveforms using any compatible waveform viewer (e.g., SimVision).
 
 ---
 
@@ -55,40 +68,19 @@
 
 ![SystemVerilog](https://img.shields.io/badge/-SystemVerilog-3776AB?style=flat-square&logo=systemverilog&logoColor=white)
 ![UVM](https://img.shields.io/badge/-UVM-3776AB?style=flat-square&logo=uvm&logoColor=white)
-![VCS](https://img.shields.io/badge/-VCS-00599C?style=flat-square&logo=synopsys&logoColor=white)
+![Cadence Xcelium](https://img.shields.io/badge/-Cadence_Xcelium-00599C?style=flat-square&logo=cadence&logoColor=white)
 
 ---
 
-<h2 align="left">🎓 About the Developer</h2>
+<h2 align="left">🎓 About the Project</h2>
 
-- **Education**:
-  - BE Electrical Engineering, University of Engineering and Technology, Lahore.
-  - Training in Chip Design and Verification.
-  
-- **Skills**:
-  - Verilog & SystemVerilog
-  - UVM
-  - Functional Coverage
-  - AXI4 Protocol
-
-- **Contact**:
-  - [LinkedIn Profile](https://linkedin.com/in/your-profile)
-  - [Email](mailto:your.email@example.com)
-
----
-
-<h2 align="left">🛠️ Key Features</h2>
-
-- **Write Transactions**: Tests AXI4 write operations with burst and single transactions.
-- **Read Transactions**: Validates AXI4 read responses with configurable attributes.
-- **Protocol Compliance**: Ensures adherence to AXI4 specifications through monitors.
-- **Coverage Metrics**: Comprehensive coverage for AXI4 protocol operations.
+This project is a reusable **AXI4 Verification IP** developed under the supervision of **Miss Amber Khan** and the licensing of **NCDC (NUST Chip Design Centre)**. It is designed to provide a robust environment for verifying AXI4-compliant designs, enabling users to test both **AXI4 Full** and **AXI4 Lite** protocols efficiently.
 
 ---
 
 <h2 align="left">📫 Contributing</h2>
 
-We welcome contributions to make this Verification IP even better! Here's how you can contribute:
+We welcome contributions to enhance this project! Here's how you can contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
@@ -99,7 +91,26 @@ We welcome contributions to make this Verification IP even better! Here's how yo
 
 <h2 align="left">📜 License</h2>
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-```
+This project is licensed under the **NCDC (NUST Chip Design Centre)**. Any use of this code must be in accordance with the license provided by NCDC.
 
-This format is optimized for **GitHub** and styled to provide clear sections, including **features**, **getting started**, **technologies**, and **contributing**. It also uses GitHub’s Markdown capabilities like badges, links, and lists. Let me know if you’d like any further customization!
+---
+
+<h2 align="left">🔑 Key Features</h2>
+
+- **Write Transactions**: Tests AXI4 write operations with burst and single transactions.
+- **Read Transactions**: Validates AXI4 read responses with configurable attributes.
+- **Protocol Compliance**: Ensures adherence to AXI4 specifications through monitors.
+- **Coverage Metrics**: Comprehensive coverage for AXI4 protocol operations.
+
+---
+
+<h2 align="left">💻 Resources</h2>
+
+- [Cadence Xcelium Documentation](https://www.cadence.com/content/cadence-www/global/en_US/home/tools/system-design-and-verification/simulation-and-testbench-verification/xcelium-simulator.html)
+- [AXI4 Protocol Specification](https://developer.arm.com/documentation/ihi0022/latest)
+
+---
+
+<h1 align="left">🙌 Acknowledgments</h2>
+
+<h2 align="centre">Special thanks to **Miss Amber Khan** for her guidance and supervision throughout this project.</h2>

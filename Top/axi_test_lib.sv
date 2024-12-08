@@ -45,7 +45,7 @@ class base_test extends uvm_test;
         this, 
         "*master*sequencer.run_phase", 
         "default_sequence", 
-        axi_master_reset::get_type()
+        axi_master_mixed_seq::get_type()
     );
 /*
     // Set the default sequence for the Slave sequencer

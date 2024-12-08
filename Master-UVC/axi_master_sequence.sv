@@ -79,7 +79,7 @@ class axi_master_reset extends axi_master_base_seq;
 
     // Send a transaction request to assert the reset signal (`rst_i`).
     `uvm_do_with(req, {
-                   ARESETn == 1'b1; // Set `rst_i` to high to perform reset.
+                   ARESETn == 1'b0; // Set `rst_i` to high to perform reset.
                  })
   endtask
 
@@ -127,11 +127,11 @@ class axi_master_write_seq extends axi_master_base_seq;
 
     // Randomize and configure the write request
     `uvm_do_with(req, {
-      AWADDR == 'h1000;    // Target address for write
-      AWLEN  == 4;         // Write burst length
+      AWADDR == 32'h1000;    // Target address for write
+      AWLEN  == 8'h4;         // Write burst length
       AWSIZE == 3'b010;    // Write size (4 bytes per beat)
       AWBURST == 2'b01;    // INCR burst
-      WDATA  == 'hA5A5A5A5; // Write data pattern
+      WDATA  == 32'hA5A5A5A5; // Write data pattern
       WLAST  == 1'b1;      // Last beat of the transaction
     })
   endtask
@@ -180,8 +180,8 @@ class axi_master_read_seq extends axi_master_base_seq;
 
     // Randomize and configure the read request
     `uvm_do_with(req, {
-      ARADDR == 'h1000;    // Target address for read
-      ARLEN  == 8;         // Read burst length
+      ARADDR == 32'h1000;    // Target address for read
+      ARLEN  == 8'h8;         // Read burst length
       ARSIZE == 3'b010;    // Read size (4 bytes per beat)
       ARBURST == 2'b01;    // INCR burst
     })
@@ -232,17 +232,19 @@ class axi_master_mixed_seq extends axi_master_base_seq;
 
     // Perform a write transaction
     `uvm_do_with(req, {
-      AWADDR == 'h2000;    // Write target address
-      AWLEN  == 4;         // Write burst length
+      ARESETn == 1'b0;
+      AWADDR == 32'h2000;    // Write target address
+      AWLEN  == 8'h4;         // Write burst length
       AWSIZE == 3'b010;    // Write size
-      WDATA  == 'hDEADBEEF; // Write data
+      WDATA  == 32'hDEADBEEF; // Write data
       WLAST  == 1'b1;      // End of burst
     })
 
     // Perform a read transaction
     `uvm_do_with(req, {
-      ARADDR == 'h2000;    // Read target address (same as write)
-      ARLEN  == 4;         // Read burst length
+      ARESETn == 1'b0;
+      ARADDR == 32'h2000;    // Read target address (same as write)
+      ARLEN  == 8'h4;         // Read burst length
       ARSIZE == 3'b010;    // Read size
     })
   endtask

@@ -84,3 +84,169 @@ class axi_master_reset extends axi_master_base_seq;
   endtask
 
 endclass : axi_master_reset
+
+//---------------------------------------------------------------------
+// CLASS: axi_master_write_seq
+// DESCRIPTION:
+// - A UVM sequence to perform an AXI4 write transaction.
+// INHERITANCE:
+// - Extends `axi_master_base_seq` to reuse common sequence functionality.
+//---------------------------------------------------------------------
+class axi_master_write_seq extends axi_master_base_seq;
+  
+  //--------------------------------------------------------------------------
+  // MACRO: `uvm_object_utils
+  // DESCRIPTION:
+  // - Registers the sequence with the UVM factory for dynamic creation.
+  // - Enables the use of the sequence in a simulation environment.
+  //--------------------------------------------------------------------------
+  `uvm_object_utils(axi_master_write_seq)
+
+  //---------------------------------------------------------------------
+  // FUNCTION: new
+  // DESCRIPTION:
+  // - Constructor for the `axi_master_write_seq` class.
+  // - Initializes the sequence with a default or user-specified name.
+  // PARAMETERS:
+  // - name: Name of the sequence instance (default: "axi_master_write_seq").
+  //---------------------------------------------------------------------
+  function new(string name = "axi_master_write_seq");
+    super.new(name); // Calls the parent class constructor.
+  endfunction
+
+  //---------------------------------------------------------------------
+  // TASK: body
+  // DESCRIPTION:
+  // - Implements the main execution logic of the sequence.
+  // - Performs an AXI4 write transaction with valid address and data.
+  // LOGGING:
+  // - Prints an informational message when the sequence is executed.
+  //---------------------------------------------------------------------
+  virtual task body();
+    `uvm_info(get_type_name(), "Executing AXI Master Write sequence", UVM_LOW)
+
+    // Randomize and configure the write request
+    `uvm_do_with(req, {
+      AWADDR == 'h1000;    // Target address for write
+      AWLEN  == 4;         // Write burst length
+      AWSIZE == 3'b010;    // Write size (4 bytes per beat)
+      AWBURST == 2'b01;    // INCR burst
+      WDATA  == 'hA5A5A5A5; // Write data pattern
+      WLAST  == 1'b1;      // Last beat of the transaction
+    })
+  endtask
+
+endclass : axi_master_write_seq
+
+//---------------------------------------------------------------------
+// CLASS: axi_master_read_seq
+// DESCRIPTION:
+// - A UVM sequence to perform an AXI4 read transaction.
+// INHERITANCE:
+// - Extends `axi_master_base_seq` to reuse common sequence functionality.
+//---------------------------------------------------------------------
+class axi_master_read_seq extends axi_master_base_seq;
+  
+  //--------------------------------------------------------------------------
+  // MACRO: `uvm_object_utils
+  // DESCRIPTION:
+  // - Registers the sequence with the UVM factory for dynamic creation.
+// - Enables the use of the sequence in a simulation environment.
+//---------------------------------------------------------------------------
+  `uvm_object_utils(axi_master_read_seq)
+
+  //---------------------------------------------------------------------
+  // FUNCTION: new
+  // DESCRIPTION:
+  // - Constructor for the `axi_master_read_seq` class.
+  // - Initializes the sequence with a default or user-specified name.
+  // PARAMETERS:
+  // - name: Name of the sequence instance (default: "axi_master_read_seq").
+  //---------------------------------------------------------------------
+  function new(string name = "axi_master_read_seq");
+    super.new(name); // Calls the parent class constructor.
+  endfunction
+
+  //---------------------------------------------------------------------
+  // TASK: body
+  // DESCRIPTION:
+  // - Implements the main execution logic of the sequence.
+  // - Performs an AXI4 read transaction with valid address and length.
+  // LOGGING:
+  // - Prints an informational message when the sequence is executed.
+  //---------------------------------------------------------------------
+  virtual task body();
+    `uvm_info(get_type_name(), "Executing AXI Master Read sequence", UVM_LOW)
+
+    // Randomize and configure the read request
+    `uvm_do_with(req, {
+      ARADDR == 'h1000;    // Target address for read
+      ARLEN  == 8;         // Read burst length
+      ARSIZE == 3'b010;    // Read size (4 bytes per beat)
+      ARBURST == 2'b01;    // INCR burst
+    })
+  endtask
+
+endclass : axi_master_read_seq
+
+
+//---------------------------------------------------------------------
+// CLASS: axi_master_mixed_seq
+// DESCRIPTION:
+// - A UVM sequence to perform both AXI4 read and write transactions.
+// INHERITANCE:
+// - Extends `axi_master_base_seq` to reuse common sequence functionality.
+//---------------------------------------------------------------------
+class axi_master_mixed_seq extends axi_master_base_seq;
+  
+  //--------------------------------------------------------------------------
+  // MACRO: `uvm_object_utils
+  // DESCRIPTION:
+  // - Registers the sequence with the UVM factory for dynamic creation.
+// - Enables the use of the sequence in a simulation environment.
+//---------------------------------------------------------------------------
+  `uvm_object_utils(axi_master_mixed_seq)
+
+  //---------------------------------------------------------------------
+  // FUNCTION: new
+  // DESCRIPTION:
+  // - Constructor for the `axi_master_mixed_seq` class.
+  // - Initializes the sequence with a default or user-specified name.
+  // PARAMETERS:
+  // - name: Name of the sequence instance (default: "axi_master_mixed_seq").
+  //---------------------------------------------------------------------
+  function new(string name = "axi_master_mixed_seq");
+    super.new(name); // Calls the parent class constructor.
+  endfunction
+
+  //---------------------------------------------------------------------
+  // TASK: body
+  // DESCRIPTION:
+  // - Implements the main execution logic of the sequence.
+  // - Performs a write followed by a read to verify data integrity.
+  // LOGGING:
+  // - Prints an informational message when the sequence is executed.
+  //---------------------------------------------------------------------
+  virtual task body();
+    `uvm_info(get_type_name(), "Executing AXI Master Mixed sequence", UVM_LOW)
+
+    // Perform a write transaction
+    `uvm_do_with(req, {
+      AWADDR == 'h2000;    // Write target address
+      AWLEN  == 4;         // Write burst length
+      AWSIZE == 3'b010;    // Write size
+      WDATA  == 'hDEADBEEF; // Write data
+      WLAST  == 1'b1;      // End of burst
+    })
+
+    // Perform a read transaction
+    `uvm_do_with(req, {
+      ARADDR == 'h2000;    // Read target address (same as write)
+      ARLEN  == 4;         // Read burst length
+      ARSIZE == 3'b010;    // Read size
+    })
+  endtask
+
+endclass : axi_master_mixed_seq
+
+

@@ -1,6 +1,3 @@
-Here’s the revised **`README.md`** file without the directory structure:
-
-```markdown
 <h1 align="center">AXI4 Verification IP (VIP)</h1>
 <h3 align="center">Reusable, Configurable UVM-Based Testbench for AXI4 Protocol</h3>
 

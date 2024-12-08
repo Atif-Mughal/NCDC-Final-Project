@@ -20,8 +20,7 @@
 
 - **Taqi-ur-Rehman** (Team Member)
 
-<h3>Supervised By:</h3>
-<h4 align="centre">Miss Amber Khan</h4>
+<h3>Supervised By: Miss Amber Khan</h3>
 
 
 ---

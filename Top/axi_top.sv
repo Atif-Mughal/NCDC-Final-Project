@@ -18,7 +18,7 @@ module AXI_top;
     import uvm_pkg::*;                // UVM base package
     `include "uvm_macros.svh"         // UVM macros for testbench automation
     import axi_parameters::*;
-    typedef uvm_config_db#(virtual axi4_if) axi4_if_config;
+    //typedef uvm_config_db#(virtual axi4_if) axi4_if_config;
 
     //---------------------------------------------------------------------------
     // axi_master AND SLAVE PACKAGE IMPORTS
@@ -48,9 +48,9 @@ module AXI_top;
     //---------------------------------------------------------------------------
     initial begin
         // Configure the virtual interface for the axi_master environment
-        uvm_config_db#(virtual axi4_vif)::set(
+        uvm_config_db#(virtual axi4_if)::set(
             null,                     // Parent (null for global scope)
-            "*wish*",                 // Match pattern for components
+            "*tb*",                 // Match pattern for components
             "vif",                    // Field name
             hw_top.axi_vif           // Virtual interface instance
         );

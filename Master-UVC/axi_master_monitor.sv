@@ -8,7 +8,7 @@ class axi_master_monitor extends uvm_monitor;
 
   // This property is the virtual interfaced needed for this component to drive 
   // and view HDL signals. 
-  virtual axi_master_if vif;
+  virtual axi4_if vif;
   int packet_count = 1;
 
   // This port is used to connect the monitor to the scoreboard
@@ -27,7 +27,7 @@ class axi_master_monitor extends uvm_monitor;
   endfunction : new
 
   function void build_phase(uvm_phase phase);
-    if (!AXI_if_config::get(this, get_full_name(),"vif", vif))
+    if (!uvm_config_db#(virtual axi4_if)::get(this, get_full_name(),"vif", vif))
       `uvm_error("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"})
   endfunction: build_phase
 
@@ -42,7 +42,7 @@ class axi_master_monitor extends uvm_monitor;
 
     forever 
     begin
-      item = axi_master_monitor::type_id::create("item");
+      item = axi_master_seq_item::type_id::create("item");
     
       
     //   wait(!vif.reset);

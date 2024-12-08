@@ -40,7 +40,7 @@ class base_test extends uvm_test;
 
     // Set the recording detail level to UVM_FULL (full transaction recording)
     uvm_config_int::set(this, "*", "recording_detail", UVM_FULL);
-
+/*
     // Set the default sequence for the axi_master sequencer
     uvm_config_wrapper::set(
         this, 
@@ -48,7 +48,7 @@ class base_test extends uvm_test;
         "default_sequence", 
         axi_master_reset::get_type()
     );
-/*
+*/
     // Set the default sequence for the Slave sequencer
     uvm_config_wrapper::set(
         this, 
@@ -56,7 +56,6 @@ class base_test extends uvm_test;
         "default_sequence", 
         axi_slave_reset::get_type()
     );
-*/
     // Create the testbench instance
     tb = AXI_tb::type_id::create("tb", this);
   endfunction : build_phase

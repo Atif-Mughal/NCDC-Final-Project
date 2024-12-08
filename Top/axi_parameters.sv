@@ -1,4 +1,4 @@
-package axi_parameters.sv;
+package axi_parameters;
         // Parameters for AXI4 Full interface
   parameter ADDR_WIDTH = 32;   // Width of address bus in bits
   parameter DATA_WIDTH = 32;   // Width of data bus in bits

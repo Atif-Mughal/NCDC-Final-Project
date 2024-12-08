@@ -51,25 +51,50 @@ class axi_master_seq_item extends uvm_sequence_item;
   bit RLAST;                             // Read last
   bit RVALID;                            // Read valid
   rand bit RREADY;                       // Read data ready
+  
+  `uvm_object_utils_begin(axi_master_seq_item)
+  	`uvm_field_int(ARESETn, UVM_DEFAULT)
+  	`uvm_field_int(AWADDR, UVM_DEFAULT)
+  	`uvm_field_int(AWLEN, UVM_DEFAULT)
+  	`uvm_field_int(AWSIZE, UVM_DEFAULT)
+  	`uvm_field_int(AWBURST, UVM_DEFAULT)
+  	`uvm_field_int(AWLOCK, UVM_DEFAULT)
+  	`uvm_field_int(AWCACHE, UVM_DEFAULT)
+  	`uvm_field_int(AWPROT, UVM_DEFAULT)
+  	`uvm_field_int(AWVALID, UVM_DEFAULT)
+  	`uvm_field_int(AWREADY, UVM_DEFAULT)
+  	`uvm_field_int(WDATA, UVM_DEFAULT)
+  	`uvm_field_int(WSTRB, UVM_DEFAULT)
+  	`uvm_field_int(WLAST, UVM_DEFAULT)
+  	`uvm_field_int(WVALID, UVM_DEFAULT)
+  	`uvm_field_int(WREADY, UVM_DEFAULT)
+  	`uvm_field_int(BID, UVM_DEFAULT)
+  	`uvm_field_int(BRESP, UVM_DEFAULT)
+  	`uvm_field_int(BVALID, UVM_DEFAULT)
+  	`uvm_field_int(BREADY, UVM_DEFAULT)
+  	`uvm_field_int(ARADDR, UVM_DEFAULT)
+  	`uvm_field_int(ARLEN, UVM_DEFAULT)
+  	`uvm_field_int(ARSIZE, UVM_DEFAULT)
+  	`uvm_field_int(ARBURST, UVM_DEFAULT)
+  	`uvm_field_int(ARLOCK, UVM_DEFAULT)
+  	`uvm_field_int(ARCACHE, UVM_DEFAULT)
+  	`uvm_field_int(ARPROT, UVM_DEFAULT)
+  	`uvm_field_int(ARVALID, UVM_DEFAULT)
+  	`uvm_field_int(ARREADY, UVM_DEFAULT)
+  	`uvm_field_int(RID, UVM_DEFAULT)
+  	`uvm_field_int(RDATA, UVM_DEFAULT)
+  	`uvm_field_int(RRESP, UVM_DEFAULT)
+  	`uvm_field_int(RLAST, UVM_DEFAULT)
+  	`uvm_field_int(RVALID, UVM_DEFAULT)
+  	`uvm_field_int(RREADY, UVM_DEFAULT)
+ 
+  	
+  `uvm_object_utils_end
 
   // Constructor
-  function new(string name = "axi_full_seq_item");
+  function new(string name = "axi_master_seq_item");
     super.new(name);
   endfunction
 
-  // Randomize all necessary fields
-  function void randomize_all();
-    randomize(AWADDR, AWLEN, AWSIZE, AWBURST, AWLOCK, AWCACHE, AWPROT, AWVALID, 
-              WDATA, WSTRB, WLAST, WVALID, ARADDR, ARLEN, ARSIZE, ARBURST, 
-              ARLOCK, ARCACHE, ARPROT, ARVALID);
-  endfunction
-
-  // Print function (for debugging purposes)
-  function void print();
-    $display("AXI4 Write: AWADDR=%h, AWLEN=%d, AWSIZE=%d, AWBURST=%d, AWLOCK=%b, AWCACHE=%b, AWPROT=%b, WDATA=%h, WSTRB=%b, WLAST=%b", 
-             AWADDR, AWLEN, AWSIZE, AWBURST, AWLOCK, AWCACHE, AWPROT, WDATA, WSTRB, WLAST);
-    $display("AXI4 Read: ARADDR=%h, ARLEN=%d, ARSIZE=%d, ARBURST=%d, ARLOCK=%b, ARCACHE=%b, ARPROT=%b", 
-             ARADDR, ARLEN, ARSIZE, ARBURST, ARLOCK, ARCACHE, ARPROT);
-  endfunction
 
 endclass

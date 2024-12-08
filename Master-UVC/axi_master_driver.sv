@@ -52,7 +52,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     super.build_phase(phase);
 
     // Check and retrieve the virtual interface from the configuration
-    if (!axi4_if_config::get(this, "", "vif", vif)) begin
+    if (!uvm_config_db#(virtual axi4_if)::get(this, "", "vif", vif)) begin
       `uvm_error("NOVIF", "vif not set")
     end
   endfunction : build_phase
@@ -85,17 +85,9 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
   // - Drives the AXI transaction signals to the DUT.
   // - Logs the transaction details for debugging purposes.
   //---------------------------------------------------------------------------
-task send_to_dut(axi_full_seq_item item);
+task send_to_dut(axi_master_seq_item item);
     // Log the information about the sequence item for debugging purposes
-    `uvm_info(get_type_name(),
-              $sformatf("Sending AXI4 Packet: \nAWADDR=%h, AWLEN=%d, AWSIZE=%d, AWBURST=%d, "
-                        "AWLOCK=%b, AWCACHE=%b, AWPROT=%b, WDATA=%h, WSTRB=%b, WLAST=%b, "
-                        "ARADDR=%h, ARLEN=%d, ARSIZE=%d, ARBURST=%d, ARLOCK=%b, ARCACHE=%b, ARPROT=%b",
-                        item.AWADDR, item.AWLEN, item.AWSIZE, item.AWBURST, item.AWLOCK,
-                        item.AWCACHE, item.AWPROT, item.WDATA, item.WSTRB, item.WLAST,
-                        item.ARADDR, item.ARLEN, item.ARSIZE, item.ARBURST, item.ARLOCK,
-                        item.ARCACHE, item.ARPROT), UVM_LOW)
-
+    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", item.sprint()), UVM_LOW)
     // Wait for a negative edge of the clock before driving signals
     @(negedge vif.clock);
     vif.ARESETn <= item.ARESETn;

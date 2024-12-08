@@ -25,7 +25,7 @@
 ./axi_parameters.sv
 ../Master-UVC/axi_master_pkg.sv
 ../Slave-UVC/axi_slave_pkg.sv
-./axi4_if.sv
+axi4_if.sv
 
 
 

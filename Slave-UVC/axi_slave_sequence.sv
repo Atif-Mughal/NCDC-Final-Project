@@ -43,7 +43,7 @@ endclass : axi_slave_base_seq
 // INHERITANCE:
 // - Extends `axi_slave_base_seq` to reuse common sequence functionality.
 //---------------------------------------------------------------------
-class axi_slave_reset extends axi_master_base_seq;
+class axi_slave_reset extends axi_slave_base_seq;
   
   //--------------------------------------------------------------------------
   // MACRO: `uvm_object_utils

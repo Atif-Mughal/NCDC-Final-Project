@@ -3,8 +3,6 @@ package axi_slave_pkg;
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 
-typedef uvm_config_db#(virtual slave_if) slave_vif_config;
-
 `include "axi_slave_seq_item.sv"
 `include "axi_slave_monitor.sv"
 `include "axi_slave_sequencer.sv"

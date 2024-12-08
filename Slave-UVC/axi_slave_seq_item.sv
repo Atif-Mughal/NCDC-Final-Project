@@ -51,27 +51,49 @@ class axi_slave_seq_item extends uvm_sequence_item;
   rand bit RLAST;                 // Read last
   rand bit RVALID;                // Read valid
   bit RREADY;                     // Read data ready
+  
+    `uvm_object_utils_begin(axi_slave_seq_item)
+  	`uvm_field_int(ARESETn, UVM_DEFAULT)
+  	`uvm_field_int(AWADDR, UVM_DEFAULT)
+  	`uvm_field_int(AWLEN, UVM_DEFAULT)
+  	`uvm_field_int(AWSIZE, UVM_DEFAULT)
+  	`uvm_field_int(AWBURST, UVM_DEFAULT)
+  	`uvm_field_int(AWLOCK, UVM_DEFAULT)
+  	`uvm_field_int(AWCACHE, UVM_DEFAULT)
+  	`uvm_field_int(AWPROT, UVM_DEFAULT)
+  	`uvm_field_int(AWVALID, UVM_DEFAULT)
+  	`uvm_field_int(AWREADY, UVM_DEFAULT)
+  	`uvm_field_int(WDATA, UVM_DEFAULT)
+  	`uvm_field_int(WSTRB, UVM_DEFAULT)
+  	`uvm_field_int(WLAST, UVM_DEFAULT)
+  	`uvm_field_int(WVALID, UVM_DEFAULT)
+  	`uvm_field_int(WREADY, UVM_DEFAULT)
+  	`uvm_field_int(BID, UVM_DEFAULT)
+  	`uvm_field_int(BRESP, UVM_DEFAULT)
+  	`uvm_field_int(BVALID, UVM_DEFAULT)
+  	`uvm_field_int(BREADY, UVM_DEFAULT)
+  	`uvm_field_int(ARADDR, UVM_DEFAULT)
+  	`uvm_field_int(ARLEN, UVM_DEFAULT)
+  	`uvm_field_int(ARSIZE, UVM_DEFAULT)
+  	`uvm_field_int(ARBURST, UVM_DEFAULT)
+  	`uvm_field_int(ARLOCK, UVM_DEFAULT)
+  	`uvm_field_int(ARCACHE, UVM_DEFAULT)
+  	`uvm_field_int(ARPROT, UVM_DEFAULT)
+  	`uvm_field_int(ARVALID, UVM_DEFAULT)
+  	`uvm_field_int(ARREADY, UVM_DEFAULT)
+  	`uvm_field_int(RID, UVM_DEFAULT)
+  	`uvm_field_int(RDATA, UVM_DEFAULT)
+  	`uvm_field_int(RRESP, UVM_DEFAULT)
+  	`uvm_field_int(RLAST, UVM_DEFAULT)
+  	`uvm_field_int(RVALID, UVM_DEFAULT)
+  	`uvm_field_int(RREADY, UVM_DEFAULT)
+  	
+  `uvm_object_utils_end
 
   // Constructor
   function new(string name = "axi_slave_seq_item");
     super.new(name);
   endfunction
 
-  // Randomize all necessary fields
-  function void randomize_all();
-    randomize(AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID);
-  endfunction
-
-  // Print function (for debugging purposes)
-  function void print();
-    $display("AXI4 Slave Write: AWADDR=%h, AWLEN=%d, AWSIZE=%d, AWBURST=%d, AWLOCK=%b, AWCACHE=%b, AWPROT=%b, AWVALID=%b, AWREADY=%b, "
-             "WDATA=%h, WSTRB=%b, WLAST=%b, WVALID=%b, WREADY=%b, BID=%h, BRESP=%b, BVALID=%b, BREADY=%b",
-             AWADDR, AWLEN, AWSIZE, AWBURST, AWLOCK, AWCACHE, AWPROT, AWVALID, AWREADY,
-             WDATA, WSTRB, WLAST, WVALID, WREADY, BID, BRESP, BVALID, BREADY);
-    $display("AXI4 Slave Read: ARADDR=%h, ARLEN=%d, ARSIZE=%d, ARBURST=%d, ARLOCK=%b, ARCACHE=%b, ARPROT=%b, ARVALID=%b, ARREADY=%b, "
-             "RID=%h, RDATA=%h, RRESP=%b, RLAST=%b, RVALID=%b, RREADY=%b",
-             ARADDR, ARLEN, ARSIZE, ARBURST, ARLOCK, ARCACHE, ARPROT, ARVALID, ARREADY,
-             RID, RDATA, RRESP, RLAST, RVALID, RREADY);
-  endfunction
 
 endclass

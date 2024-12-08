@@ -1,3 +1,4 @@
+import axi_parameters::*;
 class axi_slave_seq_item extends uvm_sequence_item;
 
   // Parameters for AXI4 Full interface
@@ -87,7 +88,6 @@ class axi_slave_seq_item extends uvm_sequence_item;
   	`uvm_field_int(RLAST, UVM_DEFAULT)
   	`uvm_field_int(RVALID, UVM_DEFAULT)
   	`uvm_field_int(RREADY, UVM_DEFAULT)
-  	
   `uvm_object_utils_end
 
   // Constructor

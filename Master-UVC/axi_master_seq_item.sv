@@ -1,12 +1,5 @@
+import axi_parameters::*;
 class axi_master_seq_item extends uvm_sequence_item;
-
-  // Parameters for AXI4 Full interface
-  parameter ADDR_WIDTH = 32;   // Width of address bus in bits
-  parameter DATA_WIDTH = 32;   // Width of data bus in bits
-  parameter STRB_WIDTH = DATA_WIDTH / 8;  // Write strobe width
-  parameter ID_WIDTH = 8;      // Width of the ID signal
-  parameter BURST_TYPE = 2;    // Burst type (INCR, WRAP, FIXED)
-
   rand bit ARESETn;
 
   // AXI4 Write Address Channel (AW)
@@ -87,8 +80,6 @@ class axi_master_seq_item extends uvm_sequence_item;
   	`uvm_field_int(RLAST, UVM_DEFAULT)
   	`uvm_field_int(RVALID, UVM_DEFAULT)
   	`uvm_field_int(RREADY, UVM_DEFAULT)
- 
-  	
   `uvm_object_utils_end
 
   // Constructor

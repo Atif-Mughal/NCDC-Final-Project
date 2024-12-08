@@ -1,9 +1,6 @@
-interface axi4_if #(parameter ADDR_WIDTH = 32,
-                    parameter DATA_WIDTH = 32,
-                    parameter ID_WIDTH = 8);
+interface axi4_if (input clock);
 
   // Global clock and reset
-  logic ACLK;      // Global clock signal
   logic ARESETn;   // Global reset signal (active low)
 
   // Write Address Channel (AW)

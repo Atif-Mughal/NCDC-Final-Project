@@ -17,6 +17,8 @@ module AXI_top;
     //---------------------------------------------------------------------------
     import uvm_pkg::*;                // UVM base package
     `include "uvm_macros.svh"         // UVM macros for testbench automation
+    import axi_parameters::*;
+    typedef uvm_config_db#(virtual axi4_if) axi4_if_config;
 
     //---------------------------------------------------------------------------
     // axi_master AND SLAVE PACKAGE IMPORTS
@@ -25,7 +27,7 @@ module AXI_top;
     //   declarations and other related components.
     //---------------------------------------------------------------------------
     import axi_master_pkg::*;           // axi_master interface and related components
-    import slave_pkg::*;              // Slave interface and related components
+    import axi_slave_pkg::*;              // Slave interface and related components
 
     //---------------------------------------------------------------------------
     // TESTBENCH AND SCOREBOARD INCLUDES
@@ -33,8 +35,8 @@ module AXI_top;
     // - Includes testbench, scoreboard, and test library files for AXI verification.
     //---------------------------------------------------------------------------
   //  `include "../sv/AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
-    `include "AXI_tb.sv"              // AXI testbench definitions
-    `include "AXI_test_lib.sv"        // AXI test library containing sequences and tests
+    `include "axi_tb.sv"              // AXI testbench definitions
+    `include "axi_test_lib.sv"        // AXI test library containing sequences and tests
     //`include "AXI_assertions.sv"      // Assertions for AXI verification
     
 
@@ -46,20 +48,13 @@ module AXI_top;
     //---------------------------------------------------------------------------
     initial begin
         // Configure the virtual interface for the axi_master environment
-        uvm_config_db#(virtual axi_master_if)::set(
+        uvm_config_db#(virtual axi4_vif)::set(
             null,                     // Parent (null for global scope)
             "*wish*",                 // Match pattern for components
             "vif",                    // Field name
-            hw_top.wish_vif           // Virtual interface instance
+            hw_top.axi_vif           // Virtual interface instance
         );
 
-        // Configure the virtual interface for the Slave environment
-        uvm_config_db#(virtual slave_if)::set(
-            null,                     // Parent (null for global scope)
-            "*slave*",                // Match pattern for components
-            "vif",                    // Field name
-            hw_top.slave_vif          // Virtual interface instance
-        );
 
         // Start the UVM testbench
         run_test();

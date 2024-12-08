@@ -14,7 +14,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
   // MEMBER VARIABLES
   //---------------------------------------------------------------------------
   // Virtual interface for driving signals to the DUT
-  virtual AXI_if vif;
+  virtual axi4_if vif;
 
   // Instance of the analysis port for CPOL and CPHA
   uvm_analysis_port #(axi_master_seq_item) item_port_scb;
@@ -52,7 +52,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     super.build_phase(phase);
 
     // Check and retrieve the virtual interface from the configuration
-    if (!AXI_if_config::get(this, "", "vif", vif)) begin
+    if (!axi4_if_config::get(this, "", "vif", vif)) begin
       `uvm_error("NOVIF", "vif not set")
     end
   endfunction : build_phase
@@ -97,7 +97,8 @@ task send_to_dut(axi_full_seq_item item);
                         item.ARCACHE, item.ARPROT), UVM_LOW)
 
     // Wait for a negative edge of the clock before driving signals
-    @(negedge vif.CLK);
+    @(negedge vif.clock);
+    vif.ARESETn <= item.ARESETn;
 
     // Drive signals to the virtual interface based on the transaction item
     // Write Address Channel (AW)

@@ -52,7 +52,7 @@ class axi_slave_driver extends uvm_driver#(axi_slave_seq_item);
     super.build_phase(phase);
 
     // Check and retrieve the virtual interface from the configuration
-    if (!AXI_if_config::get(this, "", "vif", vif)) begin
+    if (!axi4_if_config::get(this, "", "vif", vif)) begin
       `uvm_error("NOVIF", "vif not set")
     end
   endfunction : build_phase
@@ -97,7 +97,8 @@ task send_to_dut(axi_full_seq_item item);
                         item.ARCACHE, item.ARPROT), UVM_LOW)
 
     // Wait for a negative edge of the clock before driving signals
-    @(negedge vif.CLK);
+    @(negedge vif.clock);
+    vif.ARESETn <= item.ARESETn;
 
     // Drive signals to the virtual interface based on the transaction item
     // Write Address Channel (AW)

@@ -2,7 +2,6 @@ package axi_master_pkg;
  import uvm_pkg::*;
  `include "uvm_macros.svh"
 
-  //typedef uvm_config_db#(virtual axi_master_if) axi_master_if_config;
   `include "axi_master_seq_item.sv"
   `include "axi_master_monitor.sv"
   `include "axi_master_sequencer.sv"

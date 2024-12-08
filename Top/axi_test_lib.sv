@@ -46,17 +46,17 @@ class base_test extends uvm_test;
         this, 
         "*master*sequencer.run_phase", 
         "default_sequence", 
-        axi_master_interrupt_zero_seq::get_type()
+        axi_master_reset::get_type()
     );
-
+/*
     // Set the default sequence for the Slave sequencer
     uvm_config_wrapper::set(
         this, 
         "*slave*sequencer.run_phase", 
         "default_sequence", 
-        AXI_read_sequence_seq::get_type()
+        axi_slave_reset::get_type()
     );
-
+*/
     // Create the testbench instance
     tb = AXI_tb::type_id::create("tb", this);
   endfunction : build_phase

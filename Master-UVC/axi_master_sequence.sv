@@ -34,3 +34,53 @@ class axi_master_base_seq extends uvm_sequence #(axi_master_seq_item);
     end
   endtask : post_body
 endclass : axi_master_base_seq
+
+//---------------------------------------------------------------------
+// CLASS: axi_master_reset
+// DESCRIPTION:
+// - A UVM sequence to reset the AXI interface by asserting the 
+//   `rst_i` signal.
+// INHERITANCE:
+// - Extends `axi_master_base_seq` to reuse common sequence functionality.
+//---------------------------------------------------------------------
+class axi_master_reset extends axi_master_base_seq;
+  
+  //--------------------------------------------------------------------------
+  // MACRO: `uvm_object_utils
+  // DESCRIPTION:
+  // - Registers the sequence with the UVM factory for dynamic creation.
+  // - Enables the use of the sequence in a simulation environment.
+  //--------------------------------------------------------------------------
+  `uvm_object_utils(axi_master_reset)
+
+  //---------------------------------------------------------------------
+  // FUNCTION: new
+  // DESCRIPTION:
+  // - Constructor for the `axi_master_reset` class.
+  // - Initializes the sequence with a default or user-specified name.
+  // PARAMETERS:
+  // - name: Name of the sequence instance (default: "axi_master_reset").
+  //---------------------------------------------------------------------
+  function new(string name = "axi_master_reset");
+    super.new(name); // Calls the parent class constructor.
+  endfunction
+
+  //---------------------------------------------------------------------
+  // TASK: body
+  // DESCRIPTION:
+  // - Implements the main execution logic of the sequence.
+  // - Resets the Wishbone interface by asserting the `rst_i` signal.
+  // LOGGING:
+  // - Prints an informational message when the sequence is executed.
+  //---------------------------------------------------------------------
+  virtual task body();
+    // Log a message indicating the start of the sequence execution.
+    `uvm_info(get_type_name(), "Executing wishbone_reset sequence", UVM_LOW)
+
+    // Send a transaction request to assert the reset signal (`rst_i`).
+    `uvm_do_with(req, {
+                   ARESETn == 1'b1; // Set `rst_i` to high to perform reset.
+                 })
+  endtask
+
+endclass : axi_master_reset

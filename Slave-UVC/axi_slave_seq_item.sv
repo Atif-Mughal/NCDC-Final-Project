@@ -7,6 +7,8 @@ class axi_slave_seq_item extends uvm_sequence_item;
   parameter ID_WIDTH = 8;      // Width of the ID signal
   parameter BURST_TYPE = 2;    // Burst type (INCR, WRAP, FIXED)
 
+  rand bit ARESETn;
+
   // AXI4 Write Address Channel (AW)
   bit [ADDR_WIDTH-1:0] AWADDR;     // Write address
   bit [7:0] AWLEN;                // Burst length

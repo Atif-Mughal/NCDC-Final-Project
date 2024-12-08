@@ -49,7 +49,8 @@ class axi_master_monitor extends uvm_monitor;
       
       //sample inputs
     // Wait for a positive edge of the clock before sampling signals
-    @(posedge vif.CLK);
+    @(posedge vif.clock);
+    item.ARESETn   = vif.ARESETn;
     
     // Sample input signals from the virtual interface (AXI4 Write signals)
     item.AWADDR   = vif.AWADDR;
@@ -70,7 +71,7 @@ class axi_master_monitor extends uvm_monitor;
     item.BREADY   = vif.BREADY;
 
     // Wait for a negative edge of the clock to sample output signals
-    @(negedge vif.CLK);
+    @(negedge vif.clock);
     
     // Sample output signals from the virtual interface (AXI4 Read signals)
     item.BID      = vif.BID;

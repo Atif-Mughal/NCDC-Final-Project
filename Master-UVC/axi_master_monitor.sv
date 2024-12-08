@@ -8,7 +8,7 @@ class axi_master_monitor extends uvm_monitor;
 
   // This property is the virtual interfaced needed for this component to drive 
   // and view HDL signals. 
-  virtual wishbone_if vif;
+  virtual axi_master_if vif;
   int packet_count = 1;
 
   // This port is used to connect the monitor to the scoreboard

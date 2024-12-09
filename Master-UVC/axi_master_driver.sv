@@ -102,7 +102,7 @@ task send_to_dut(axi_master_seq_item item);
     vif.AWCACHE <= item.AWCACHE;
     vif.AWPROT <= item.AWPROT;
     vif.AWVALID <= item.AWVALID;
-
+    
     // Write Data Channel (W)
     vif.WDATA <= item.WDATA;
     vif.WSTRB <= item.WSTRB;

@@ -1,4 +1,4 @@
-import axi_parameters::*;
+//import axi_parameters::*;
 class axi_master_seq_item extends uvm_sequence_item;
   rand bit ARESETn;
 

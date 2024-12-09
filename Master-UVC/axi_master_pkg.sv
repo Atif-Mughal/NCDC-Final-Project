@@ -1,6 +1,7 @@
 package axi_master_pkg;
  import uvm_pkg::*;
  `include "uvm_macros.svh"
+ import axi_parameters::*;
 
   `include "axi_master_seq_item.sv"
   `include "axi_master_monitor.sv"

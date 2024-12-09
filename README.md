@@ -113,4 +113,4 @@ This project is licensed under the **NCDC (NUST Chip Design Centre)**. Any use o
 
 <h1 align="left">🙌 Acknowledgments</h2>
 
-<h2 align="centre">Special thanks to **Miss Amber Khan** for her guidance and supervision throughout this project.</h2>
+<h2 align="centre">Special Thanks to **Miss Amber Khan** for her guidance and supervision throughout this project.</h2>

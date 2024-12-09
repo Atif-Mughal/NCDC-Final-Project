@@ -51,4 +51,43 @@ interface axi4_if (input clock);
   logic                      RVALID;   // Read valid
   logic                      RREADY;   // Read ready
 
+  // --------------------------------------------------------------
+  // Assertions to ensure AXI4 protocol compliance
+  // --------------------------------------------------------------
+
+  // Write Address Validity
+  assert property (@(posedge clock) (ARESETn == 1'b1 && AWVALID) |-> AWREADY)
+    else $error("Write address phase: AWVALID asserted but AWREADY not received.");
+
+  // Write Data Validity
+  assert property (@(posedge clock) (ARESETn == 1'b1 && WVALID) |-> WREADY)
+    else $error("Write data phase: WVALID asserted but WREADY not received.");
+
+  // Write Response Validity
+  assert property (@(posedge clock) (ARESETn == 1'b1 && BVALID) |-> BREADY)
+    else $error("Write response phase: BVALID asserted but BREADY not received.");
+
+  // Read Address Validity
+  assert property (@(posedge clock) (ARESETn == 1'b1 && ARVALID) |-> ARREADY)
+    else $error("Read address phase: ARVALID asserted but ARREADY not received.");
+
+  // Read Data Validity
+  assert property (@(posedge clock) (ARESETn == 1'b1 && RVALID) |-> RREADY)
+    else $error("Read data phase: RVALID asserted but RREADY not received.");
+
+  // Write Data Completeness
+  assert property (@(posedge clock) (ARESETn == 1'b1 && WVALID && WLAST) |-> (WSTRB != 0))
+    else $error("Write data phase: WLAST asserted but WSTRB is zero.");
+
+  // Read Data Completeness
+  assert property (@(posedge clock) (ARESETn == 1'b1 && RVALID && RLAST) |-> (RRESP == 2'b00))
+    else $error("Read data phase: RLAST asserted but RRESP is not OKAY.");
+
+  // Burst Length Validation
+  assert property (@(posedge clock) (ARESETn == 1'b1 && AWVALID && AWLEN > 0) |-> (AWLEN <= 16))
+    else $error("Write address phase: AWLEN exceeds maximum burst length.");
+
+  assert property (@(posedge clock) (ARESETn == 1'b1 && ARVALID && ARLEN > 0) |-> (ARLEN <= 16))
+    else $error("Read address phase: ARLEN exceeds maximum burst length.");
+
 endinterface

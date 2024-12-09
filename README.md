@@ -41,7 +41,7 @@
 ### Prerequisites
 
 - **SystemVerilog simulator**: Cadence Xcelium (Recommended)
-- **UVM library**: Unified Verification Methodology
+- **UVM library**: Universal Verification Methodology
 
 ### Running the Simulation with Cadence Xcelium
 

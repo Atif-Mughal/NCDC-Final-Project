@@ -588,5 +588,3 @@ class axi_master_mixed_seq extends axi_master_base_seq;
   endtask
 
 endclass : axi_master_mixed_seq
-
-

@@ -28,6 +28,6 @@
 axi4_if.sv
 
 
-
+//AXI_scoreboard.sv
 hw_top.sv
 axi_top.sv

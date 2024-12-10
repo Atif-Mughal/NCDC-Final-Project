@@ -52,6 +52,8 @@
 /home/cc/Videos/NCDC-Final-Project/Slave-UVC/axi_slave_agent.sv
 ../Slave-UVC/axi_slave_env.sv
 /home/cc/Videos/NCDC-Final-Project/Slave-UVC/axi_slave_env.sv
+AXI_scoreboard.sv
+/home/cc/Videos/NCDC-Final-Project/Top/AXI_scoreboard.sv
 axi_tb.sv
 /home/cc/Videos/NCDC-Final-Project/Top/axi_tb.sv
 axi_test_lib.sv

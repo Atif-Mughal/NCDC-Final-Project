@@ -1,0 +1,1 @@
+-covdut AXI_top -coverage functional -covoverwrite -f run.f -access +rwc -gui

@@ -446,7 +446,7 @@ class axi_master_read_after_write extends axi_master_base_seq;
 //---------------------------------------------------------------------------
   `uvm_object_utils(axi_master_read_after_write)
   
-   axi_master_read_operation rd_op_h;;
+   axi_master_read_operation rd_op_h;
    axi_master_write_operation wr_op_h;
     
   //---------------------------------------------------------------------
@@ -495,7 +495,7 @@ class axi_master_multiple_write extends axi_master_base_seq;
 // - Enables the use of the sequence in a simulation environment.
 //---------------------------------------------------------------------------
   `uvm_object_utils(axi_master_multiple_write)
-   axi_master_write_opration mul_wr_op_h;
+   axi_master_write_operation mul_wr_op_h;
 
     
   //---------------------------------------------------------------------

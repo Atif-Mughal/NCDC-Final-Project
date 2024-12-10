@@ -34,7 +34,7 @@ module AXI_top;
     //---------------------------------------------------------------------------
     // - Includes testbench, scoreboard, and test library files for AXI verification.
     //---------------------------------------------------------------------------
-  //  `include "../sv/AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
+    `include "AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
     `include "axi_tb.sv"              // AXI testbench definitions
     `include "axi_test_lib.sv"        // AXI test library containing sequences and tests
     //`include "AXI_assertions.sv"      // Assertions for AXI verification

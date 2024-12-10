@@ -61,8 +61,8 @@ class AXI_tb extends uvm_env;
     );
 
     // Connect the Slave monitor's analysis port to the Scoreboard's output FIFO
-    slave.agent.monitor.mon2scoreboard_port.connect(
-        scoreboard.slave_out_fifo.analysis_export
+    slave.my_agent.monitor.item_collected_port.connect(
+        scoreboard.slave_in_fifo.analysis_export
     );
   endfunction : connect_phase
 

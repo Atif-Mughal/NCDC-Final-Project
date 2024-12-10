@@ -1,0 +1,17 @@
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - LmApi Version = SftShrDevJava20.01-p001
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - FlexNet Java Tool-Kit Version = 11.16
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - Begin parsing license server path configuration
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - Successfully parsed license server path configuration. License server path = 5280@10.19.32.90
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - Recheck started ....
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - Minimum recheck interval has elapsed. Will be doing a real recheck
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - lmiFailureCount = 0
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] -   Time spent in server Recheck was 1
+[INFO ] 2024-12-10 04:00:43 [com.cadence.softshare.service.LmApi] [shared-license-bridge-recheck-timer] - Re-check completed with status 0 (time 1).
+[INFO ] 2024-12-10 04:00:44 [com.cadence.softshare.service.LmApi] [main] - Check-out (Increment) started ....
+[INFO ] 2024-12-10 04:00:44 [com.cadence.softshare.service.LmApi] [main] - Checkout request received for 1 count of Integrated_Metrics_Center 22.0with queue mode = 0
+[INFO ] 2024-12-10 04:00:45 [com.cadence.softshare.service.LmApi] [main] - Skipping handle setting for the checkout as it is disabled
+[INFO ] 2024-12-10 04:00:45 [com.cadence.softshare.service.LmApi] [main] - Check-out (Increment) completed with status 0 (time 304).
+[INFO ] 2024-12-10 04:00:45 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 39033
+[INFO ] 2024-12-10 04:01:16 [com.cadence.softshare.service.LmApi] [Thread-4] - CheckInAll started ....
+[INFO ] 2024-12-10 04:01:16 [com.cadence.softshare.service.LmApi] [Thread-4] - Check-in of Integrated_Metrics_Center with count 1 was successful.
+[INFO ] 2024-12-10 04:01:16 [com.cadence.softshare.service.LmApi] [Thread-4] - CheckInAll completed (time 2).

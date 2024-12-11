@@ -18,7 +18,6 @@ class axi_slave_agent extends uvm_agent;
   // Instances of the axi_slave monitor, driver, and sequencer components.
   axi_slave_monitor          monitor;   // Monitors transactions on the interface
   axi_slave_driver           driver;    // Drives transactions to the DUT
-  axi_slave_sequencer        sequencer; // Sequences transaction items
   
   // Macro to register the component with UVM Factory
   `uvm_component_utils(axi_slave_agent)
@@ -45,23 +44,9 @@ class axi_slave_agent extends uvm_agent;
     monitor = axi_slave_monitor::type_id::create("monitor", this);
     
     if (is_active == UVM_ACTIVE) begin
-      // Create the driver and sequencer if the agent is active
-      sequencer = axi_slave_sequencer::type_id::create("sequencer", this);
       driver    = axi_slave_driver::type_id::create("driver", this);
     end
   endfunction : build_phase
 
-  //---------------------------------------------------------------------------
-  // PHASE: connect_phase
-  //---------------------------------------------------------------------------
-  // - Connects the driver to the sequencer.
-  // - Establishes the producer-consumer relationship.
-  //---------------------------------------------------------------------------
-  virtual function void connect_phase(uvm_phase phase);
-    if (is_active == UVM_ACTIVE) begin
-      // Connect driver sequencer port to sequencer export
-      driver.seq_item_port.connect(sequencer.seq_item_export);
-    end
-  endfunction : connect_phase
 
 endclass : axi_slave_agent

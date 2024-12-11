@@ -1,4 +1,7 @@
+import uvm_pkg::*;                // UVM base package
+`include "uvm_macros.svh"         // UVM macros for testbench automation
 import axi_parameters::*;
+`include "../Master-UVC/axi_master_seq_item.sv"
 // CLASS: AXI_scorboard
 // DESCRIPTION:
 // - Implements a UVM scoreboard for comparing and verifying the data flow 
@@ -19,31 +22,31 @@ class AXI_scorboard extends uvm_scoreboard;
   // CLASS PROPERTIES
   //---------------------------------------------------------------------------
   uvm_tlm_analysis_fifo #(axi_master_seq_item) master_in_fifo;  // FIFO for Master transactions
-  uvm_tlm_analysis_fifo #(axi_slave_seq_item) slave_in_fifo;      // FIFO for Slave interface packets
+  uvm_tlm_analysis_fifo #(axi_master_seq_item) slave_in_fifo;      // FIFO for Slave interface packets
 
 
   axi_master_seq_item master_in; // Stores Master transaction data
-  axi_slave_seq_item slave_in;     // Stores Slave interface packet data
+  axi_master_seq_item slave_in;     // Stores Slave interface packet data
 
     // *******************************************************************
     // **                     COVERAGE GROUPS                          **
     // *******************************************************************
     covergroup master_coverage;
-        c1: coverpoint master_in.AWADDR {
+        c1: coverpoint master_in.ADDR {
             bins b1[] = {[0: ADDR_WIDTH>>2]};
             bins b2 = {((1<<ADDR_WIDTH) - 1)};
         }
-        c3: coverpoint master_in.AWREADY; 
-        c4: coverpoint master_in.WREADY; 
+        c3: coverpoint master_in.BURST_SIZE; 
+        c4: coverpoint master_in.BURST_LENGTH; 
     endgroup
 
     covergroup slave_coverage;
-        c1: coverpoint slave_in.AWADDR {
+        c1: coverpoint slave_in.ADDR {
             bins b1[] = {[0: ADDR_WIDTH>>2]};
             bins b2 = {((1<<ADDR_WIDTH) - 1)};
         }
-        c3: coverpoint slave_in.AWREADY; 
-        c4: coverpoint slave_in.WREADY; 
+        c3: coverpoint slave_in.BURST_SIZE; 
+        c4: coverpoint slave_in.BURST_LENGTH; 
     endgroup
 
   //---------------------------------------------------------------------------

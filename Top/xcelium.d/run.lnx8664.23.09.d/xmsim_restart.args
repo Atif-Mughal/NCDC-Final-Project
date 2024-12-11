@@ -10,18 +10,17 @@
 /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
 -sv_lib
 /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/additions/sv/lib/64bit/libuvmpli.so
--COVOVERWRITE
 -SVSEED
 random
-+UVM_TESTNAME=base_test
--gui
++UVM_TESTNAME=axi_reset_test
 -MESSAGES
+-RUN
 -SV_LIB
 /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/additions/sv/lib/64bit/libuvmdpi.so
 +EMGRLOG
 xrun.log
 -XLSTIME
-1733803353
+1733910044
 -XLKEEP
 -XLMODE
 ./xcelium.d/run.lnx8664.23.09.d
@@ -35,4 +34,4 @@ xrun
 -XLVERSION
 "TOOL:	xrun(64)	23.09-s006"
 -XLNAME
-./xcelium.d/run.lnx8664.23.09.d/ncdc-0052_4bd44233-4e1c-4257-983e-d15b64e83d3c
+./xcelium.d/run.lnx8664.23.09.d/ncdc-0052_d543121c-9f6f-496c-bc7c-32edb8506321

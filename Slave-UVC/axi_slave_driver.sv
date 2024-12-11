@@ -1,140 +1,297 @@
-//==============================================================================
-//
-// CLASS: axi_slave_driver
-// DESCRIPTION:
-// - Implements the AXI driver functionality in UVM.
-// - Responsible for driving transactions to the DUT and communicating
-//   with the sequencer.
-//
-//==============================================================================
+import config_pkg::*;
+import axi_parameters::*;
+class axi_slave_driver extends uvm_driver;
+    `uvm_component_utils(axi_slave_driver)
+    
+    // Components
+    virtual axi4_if vif;
 
-class axi_slave_driver extends uvm_driver#(axi_slave_seq_item);
+    // Variables
+    axi_master_seq_item write_transaction, read_transaction;
+    bit [7:0] mem [bit[ADDR_WIDTH-1:0]];
+    bit [ADDR_WIDTH-1:0] write_addr, read_addr;
+    bit write_done, read_done;
+    test_config test_cfg;
+    
 
-  //---------------------------------------------------------------------------
-  // MEMBER VARIABLES
-  //---------------------------------------------------------------------------
-  // Virtual interface for driving signals to the DUT
-  virtual axi4_if vif;
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+        write_done = 1;
+        read_done = 1;
+        // Retrieve configuration from ConfigDB
+        if (!uvm_config_db#(test_config)::get(null, "*tb*", "test_cfg", test_cfg)) 
+            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+    endfunction //new()
+    function void build_phase(uvm_phase phase);
+        write_transaction = new("write_transaction");
+        read_transaction = new("read_transaction");
+    endfunction: build_phase
 
-  // Instance of the analysis port for CPOL and CPHA
-  uvm_analysis_port #(axi_slave_seq_item) item_port_scb;
+    task run_phase(uvm_phase phase);
+        vif.s_drv_cb.AWREADY    <= 1;
+        vif.s_drv_cb.ARREADY    <= 1;
+        vif.s_drv_cb.WREADY     <= 1;
+        // vif.s_drv_cb.BVALID     <= 1;
+        // vif.s_drv_cb.RLAST      <= 1;
+        vif.s_drv_cb.RVALID     <= 1;
+        vif.s_drv_cb.RDATA      <= 'b0;
+        forever begin
+            @(vif.s_drv_cb);
+            drive();
+        end
+    endtask: run_phase
 
-  // Transaction item to be driven to the DUT
-  axi_slave_seq_item item;
+    
 
-  //---------------------------------------------------------------------------
-  // REGISTER COMPONENT WITH UVM FACTORY
-  //---------------------------------------------------------------------------
-  `uvm_component_utils(axi_slave_driver)
+    task drive();
+        if(!test_cfg.ARESET_n) begin
+            vif.s_drv_cb.RVALID <= 0;
+            vif.s_drv_cb.BVALID <= 0;
+            return;
+        end
+        fork
+            begin
+                // `uvm_info("DEBUG_S", $sformatf("w_addr(), w_done = %0d", w_done), UVM_HIGH)
+                if(write_done) begin
+                    write_done = 0;
+                    read_write_address();
+                    read_write_data();
+                    write_done = 1;
+                end
+            end
+            begin
+                // `uvm_info("DEBUG_S", $sformatf("r_addr(), r_done = %0d", r_done), UVM_HIGH)
+                if(read_done) begin
+                    read_done = 0;
+                    read_read_address();
+                    send_read_data();
+                    read_done = 1;
+                end
+            end
+        join_none
+    endtask: drive
 
-  //---------------------------------------------------------------------------
-  // CONSTRUCTOR: new
-  //---------------------------------------------------------------------------
-  // Creates an instance of the driver with the specified name and parent.
-  //---------------------------------------------------------------------------
-  function new (string name = "axi_slave_driver", uvm_component parent);
-    super.new(name, parent);
+    task read_write_address();
+        `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
+        wait(vif.s_drv_cb.AWVALID);
+        write_transaction.ID     = vif.s_drv_cb.AWID;
+        write_transaction.ADDR   = vif.s_drv_cb.AWADDR;
+        write_transaction.BURST_SIZE = vif.s_drv_cb.AWSIZE;
+        write_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.AWBURST);
+        write_transaction.BURST_LENGTH  = vif.s_drv_cb.AWLEN;
 
-    // Informational message indicating the driver construction
-    `uvm_info(get_type_name(), "Inside axi_slave_driver constructor", UVM_HIGH)
+        write_transaction.print();
+    endtask: read_write_address
+    task read_write_data();
+        int start_addr, current_addr, aligned_addr;
+        int lower_byte_lane, upper_byte_lane, upper_wrap_boundary, lower_wrap_boundary;
+        int bytes_per_beat, total_bytes;
+        bit is_aligned;
+        int byte_index;
+        bit error_flag, alignment_error;
+        `uvm_info("DEBUG_S", "Inside read_write_data", UVM_HIGH)
+        
+        vif.s_drv_cb.BVALID <= 0;  // Start by deasserting BVALID signal
+        
+        // Initial values and calculations
+        start_addr = write_transaction.ADDR;
+        bytes_per_beat = 2**write_transaction.BURST_SIZE;
+        total_bytes = bytes_per_beat * (write_transaction.BURST_LENGTH + 1);
+        aligned_addr = int'(start_addr / bytes_per_beat) * bytes_per_beat;
+        `uvm_info("DEBUG_S", $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
+        is_aligned = start_addr == aligned_addr;
 
-    // Create the analysis port for monitoring transactions
-    item_port_scb = new("item_port_scb", this);
-  endfunction : new
+        // Calculate boundaries for WRAP Burst
+        if (write_transaction.BURST_TYPE == WRAP) begin
+            lower_wrap_boundary = int'(start_addr / total_bytes) * total_bytes;
+            upper_wrap_boundary = lower_wrap_boundary + total_bytes;
+            `uvm_info("DEBUG_S", $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
+        end
 
-  //---------------------------------------------------------------------------
-  // PHASE: build_phase
-  //---------------------------------------------------------------------------
-  // - Retrieves the virtual interface configuration.
-  // - Reports an error if the interface is not set.
-  //---------------------------------------------------------------------------
-  function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
+        // Check if the wrap burst is aligned or not
+        if (write_transaction.BURST_TYPE == WRAP && !is_aligned)
+            alignment_error = 1;
 
-    // Check and retrieve the virtual interface from the configuration
-    if (!uvm_config_db#(virtual axi4_if)::get(this, "", "vif", vif)) begin
-      `uvm_error("NOVIF", "vif not set")
-    end
-  endfunction : build_phase
+        // Store data into memory
+        error_flag = 0;
+        for (int i = 0; i < write_transaction.BURST_LENGTH + 1; i++) begin
+            `uvm_info("DEBUG_S", "Inside read_data_loop", UVM_HIGH)
+            
+            if (i == 0 || write_transaction.BURST_TYPE == FIXED) begin
+                lower_byte_lane = start_addr - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                upper_byte_lane = aligned_addr + bytes_per_beat - 1 - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                current_addr = start_addr;
+                byte_index = is_aligned ? 0 : lower_byte_lane;
+                while (byte_index >= bytes_per_beat) begin
+                    byte_index -= bytes_per_beat;
+                end
+            end else begin
+                lower_byte_lane = current_addr - int'(current_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                upper_byte_lane = lower_byte_lane + bytes_per_beat - 1;
+                byte_index = 0;
+            end
 
-  //---------------------------------------------------------------------------
-  // PHASE: run_phase
-  //---------------------------------------------------------------------------
-  // - Runs continuously, fetching transactions from the sequencer and driving
-  //   them to the DUT.
-  //---------------------------------------------------------------------------
-  task run_phase(uvm_phase phase);
-    forever begin
-      // Create a new transaction item
-      item = axi_slave_seq_item::type_id::create("item");
+            `uvm_info("DEBUG_S", $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
+            
+            wait(vif.s_drv_cb.WVALID); // Wait for valid write data
+            
+            error_flag = 0;
+            for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
+                if (current_addr + j - lower_byte_lane >= 2**ADDR_WIDTH)
+                    error_flag = 1;
+                if (error_flag || alignment_error)
+                    continue;
+                mem[current_addr + j - lower_byte_lane] = vif.s_drv_cb.WDATA[8 * byte_index +: 8];
+                `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
+                byte_index++;
+                byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
+            end
 
-      // Fetch the next transaction from the sequencer
-      seq_item_port.get_next_item(item);
+            // Update address
+            if (write_transaction.BURST_TYPE != FIXED) begin
+                if (is_aligned) begin
+                    current_addr = current_addr + bytes_per_beat;
+                    if (write_transaction.BURST_TYPE == WRAP) begin
+                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
+                        current_addr = current_addr >= upper_wrap_boundary ? lower_wrap_boundary : current_addr;
+                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
+                    end
+                end else begin
+                    current_addr = aligned_addr + bytes_per_beat;
+                    is_aligned = 1;
+                end
+            end
+            @(vif.s_drv_cb);
+        end
 
-      // Drive the transaction to the DUT
-      send_to_dut(item);
+        // Write back the response
+        vif.s_drv_cb.BID <= write_transaction.ID;
+        if (error_flag || alignment_error)
+            vif.s_drv_cb.BRESP <= 2'b01; // Error response
+        else
+            vif.s_drv_cb.BRESP <= 2'b00; // OKAY response
 
-      // Mark the transaction as done
-      seq_item_port.item_done();
-    end
-  endtask : run_phase
+        @(vif.s_drv_cb);
+        vif.s_drv_cb.BVALID <= 1;
+        @(vif.s_drv_cb);
+        wait(vif.s_drv_cb.BREADY); // Wait for BREADY to deassert BVALID
+        vif.s_drv_cb.BVALID <= 0; // Deassert BVALID
+    endtask: read_write_data
 
-  //---------------------------------------------------------------------------
-  // TASK: send_to_dut
-  //---------------------------------------------------------------------------
-  // - Drives the AXI transaction signals to the DUT.
-  // - Logs the transaction details for debugging purposes.
-  //---------------------------------------------------------------------------
-task send_to_dut(axi_slave_seq_item item);
-    // Log the information about the sequence item for debugging purposes
-    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", item.sprint()), UVM_LOW)
+    task read_read_address();
+        `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
+        wait(vif.s_drv_cb.ARVALID);
+        read_transaction.ID     = vif.s_drv_cb.ARID;
+        read_transaction.ADDR   = vif.s_drv_cb.ARADDR;
+        read_transaction.BURST_SIZE = vif.s_drv_cb.ARSIZE;
+        read_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.ARBURST);
+        read_transaction.BURST_LENGTH  = vif.s_drv_cb.ARLEN;
 
-    // Wait for a negative edge of the clock before driving signals
-    @(negedge vif.clock);
-    vif.ARESETn <= item.ARESETn;
+        read_transaction.print();
+    endtask: read_read_address
 
-    // Drive signals to the virtual interface based on the transaction item
-    // Write Address Channel (AW)
-    vif.AWADDR <= item.AWADDR;
-    vif.AWLEN <= item.AWLEN;
-    vif.AWSIZE <= item.AWSIZE;
-    vif.AWBURST <= item.AWBURST;
-    vif.AWLOCK <= item.AWLOCK;
-    vif.AWCACHE <= item.AWCACHE;
-    vif.AWPROT <= item.AWPROT;
-    vif.AWVALID <= item.AWVALID;
+    task send_read_data();
+        int start_addr, current_addr, aligned_addr;
+        int lower_byte_lane, upper_byte_lane, upper_wrap_boundary, lower_wrap_boundary;
+        int bytes_per_beat, total_bytes;
+        bit is_aligned;
+        int byte_index;
+        bit error_flag;
+        `uvm_info("SLAVE", "Inside send_read_data", UVM_HIGH)
+        
+        start_addr = read_transaction.ADDR;
+        bytes_per_beat = 2**read_transaction.BURST_SIZE;
+        total_bytes = bytes_per_beat * (read_transaction.BURST_LENGTH + 1);
 
-    // Write Data Channel (W)
-    vif.WDATA <= item.WDATA;
-    vif.WSTRB <= item.WSTRB;
-    vif.WLAST <= item.WLAST;
-    vif.WVALID <= item.WVALID;
+        // Calculate aligned address
+        aligned_addr = int'(start_addr / bytes_per_beat) * bytes_per_beat;
+        `uvm_info("DEBUG_S", $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
+        is_aligned = start_addr == aligned_addr;
 
-    // Write Response Channel (B) - only set once the response is received
-    vif.BREADY <= item.BREADY;
+        // If WRAP Burst, calculate wrap boundary
+        if (read_transaction.BURST_TYPE == WRAP) begin
+            lower_wrap_boundary = int'(start_addr / total_bytes) * total_bytes;
+            upper_wrap_boundary = lower_wrap_boundary + total_bytes;
+            `uvm_info("DEBUG_S", $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
+        end
 
-    // Read Address Channel (AR)
-    vif.ARADDR <= item.ARADDR;
-    vif.ARLEN <= item.ARLEN;
-    vif.ARSIZE <= item.ARSIZE;
-    vif.ARBURST <= item.ARBURST;
-    vif.ARLOCK <= item.ARLOCK;
-    vif.ARCACHE <= item.ARCACHE;
-    vif.ARPROT <= item.ARPROT;
-    vif.ARVALID <= item.ARVALID;
+        // Initializing signals
+        vif.s_drv_cb.RLAST <= 0;
+        vif.s_drv_cb.RVALID <= 0;
+        vif.s_drv_cb.RID <= read_transaction.ID;
 
-    // Read Data Channel (R) - only set once the response is received
-    vif.RREADY <= item.RREADY;
+        // Store data
+        for (int i = 0; i < read_transaction.BURST_LENGTH + 1; i++) begin
+            `uvm_info("DEBUG_S", "Inside read_data_loop", UVM_HIGH)
 
-endtask : send_to_dut
+            // Lane selection for the first transfer (handle unaligned address cases)
+            if (i == 0 || read_transaction.BURST_TYPE == FIXED) begin
+                lower_byte_lane = start_addr - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                upper_byte_lane = aligned_addr + bytes_per_beat - 1 - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                current_addr = start_addr;
+                byte_index = is_aligned ? 0 : lower_byte_lane;
+                while (byte_index >= bytes_per_beat) begin
+                    byte_index -= bytes_per_beat;
+                end
+            end else begin
+                lower_byte_lane = current_addr - int'(current_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
+                upper_byte_lane = lower_byte_lane + bytes_per_beat - 1;
+                byte_index = 0;
+            end
 
-  //---------------------------------------------------------------------------
-  // PHASE: start_of_simulation_phase
-  //---------------------------------------------------------------------------
-  // - Logs an informational message at the start of the simulation.
-  //---------------------------------------------------------------------------
-  function void start_of_simulation_phase(uvm_phase phase);
-    `uvm_info(get_type_name(), "I am here", UVM_HIGH)
-  endfunction : start_of_simulation_phase
+            `uvm_info("DEBUG_S", $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
+            `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
+            
+            wait(vif.s_drv_cb.WVALID); // Wait for valid read data
+            
+            error_flag = 0;
+            for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
+                if (current_addr + j - lower_byte_lane >= 2**ADDR_WIDTH)
+                    error_flag = 1;
+                if (error_flag)
+                    continue;
+                mem[current_addr + j - lower_byte_lane] = vif.s_drv_cb.WDATA[8 * byte_index +: 8];
+                `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
+                byte_index++;
+                byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
+            end
 
-endclass : axi_slave_driver
+            // Update address
+            if (read_transaction.BURST_TYPE != FIXED) begin
+                if (is_aligned) begin
+                    current_addr = current_addr + bytes_per_beat;
+                    if (read_transaction.BURST_TYPE == WRAP) begin
+                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
+                        current_addr = current_addr >= upper_wrap_boundary ? lower_wrap_boundary : current_addr;
+                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
+                    end
+                end else begin
+                    current_addr = aligned_addr + bytes_per_beat;
+                    is_aligned = 1;
+                end
+            end
+            @(vif.s_drv_cb);
+        end
+
+        // Write back the response
+        vif.s_drv_cb.RID <= read_transaction.ID;
+        if (error_flag)
+            vif.s_drv_cb.RRESP <= 2'b01; // Error response
+        else
+            vif.s_drv_cb.RRESP <= 2'b00; // OKAY response
+
+        @(vif.s_drv_cb);
+        vif.s_drv_cb.RVALID <= 1;
+        @(vif.s_drv_cb);
+        wait(vif.s_drv_cb.RREADY); // Wait for RREADY to deassert RVALID
+        vif.s_drv_cb.RVALID <= 0; // Deassert RVALID
+    endtask: send_read_data
+ 
+endclass //axi_s_driver extends uvm_driver
+
+

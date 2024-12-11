@@ -7,10 +7,10 @@
 -timescale 1ns/1ns
 +SVSEED=random
 -uvmhome /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
-+UVM_TESTNAME=base_test
++UVM_TESTNAME=axi_reset_test
 +UVM_VERBOSITY=UVM_HIGH
 
-
+axi_config.sv
 // include directories
 //*** add incdir include directories here
 -incdir ../Master-UVC/
@@ -26,7 +26,6 @@
 ../Master-UVC/axi_master_pkg.sv
 ../Slave-UVC/axi_slave_pkg.sv
 axi4_if.sv
-
 
 //AXI_scoreboard.sv
 hw_top.sv

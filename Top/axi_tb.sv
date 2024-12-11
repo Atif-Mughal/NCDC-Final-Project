@@ -19,7 +19,7 @@ class AXI_tb extends uvm_env;
   //---------------------------------------------------------------------------
   axi_slave_env slave;               // Instance of the Slave environment
   axi_master_env master;         // Instance of the axi_master environment
-  AXI_scorboard scoreboard;      // Instance of the scoreboard for data verification
+  //AXI_scorboard scoreboard;      // Instance of the scoreboard for data verification
 
   //---------------------------------------------------------------------------
   // CONSTRUCTOR
@@ -45,9 +45,9 @@ class AXI_tb extends uvm_env;
     master = axi_master_env::type_id::create("master", this);
 
     // Create the Scoreboard instance
-    scoreboard = AXI_scorboard::type_id::create("scoreboard", this);
+    //scoreboard = AXI_scorboard::type_id::create("scoreboard", this);
   endfunction : build_phase
-
+/*
   //---------------------------------------------------------------------------
   // CONNECT PHASE
   //---------------------------------------------------------------------------
@@ -56,15 +56,17 @@ class AXI_tb extends uvm_env;
   //---------------------------------------------------------------------------
   function void connect_phase(uvm_phase phase);
     // Connect the axi_master monitor's item_collected_port to the Scoreboard's input FIFO
-    master.my_agent.monitor.item_collected_port.connect(
+    master.my_agent.monitor.mon2scb_port.connect(
         scoreboard.master_in_fifo.analysis_export
     );
 
     // Connect the Slave monitor's analysis port to the Scoreboard's output FIFO
-    slave.my_agent.monitor.item_collected_port.connect(
+    slave.my_agent.monitor.mon2scb_port.connect(
         scoreboard.slave_in_fifo.analysis_export
     );
   endfunction : connect_phase
+  
+  */
 
 endclass : AXI_tb
 

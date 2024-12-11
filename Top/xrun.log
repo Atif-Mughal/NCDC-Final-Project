@@ -1,29 +1,24 @@
 xrun(64): 23.09-s006: (c) Copyright 1995-2024 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.09-s006: Started on Dec 10, 2024 at 09:02:33 PKT
+TOOL:	xrun(64)	23.09-s006: Started on Dec 11, 2024 at 14:40:44 PKT
 xrun
-	-f coverage.f
-		-covdut AXI_top
-		-coverage functional
-		-covoverwrite
-		-f run.f
-			-64
-			-access +rwc
-			-sv
-			-timescale 1ns/1ns
-			+SVSEED=random
-			-uvmhome /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
-			+UVM_TESTNAME=base_test
-			+UVM_VERBOSITY=UVM_HIGH
-			-incdir ../Master-UVC/
-			-incdir ../Slave-UVC/
-			./axi_parameters.sv
-			../Master-UVC/axi_master_pkg.sv
-			../Slave-UVC/axi_slave_pkg.sv
-			axi4_if.sv
-			hw_top.sv
-			axi_top.sv
+	-f run.f
+		-64
 		-access +rwc
-		-gui
+		-sv
+		-timescale 1ns/1ns
+		+SVSEED=random
+		-uvmhome /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
+		+UVM_TESTNAME=axi_reset_test
+		+UVM_VERBOSITY=UVM_HIGH
+		axi_config.sv
+		-incdir ../Master-UVC/
+		-incdir ../Slave-UVC/
+		./axi_parameters.sv
+		../Master-UVC/axi_master_pkg.sv
+		../Slave-UVC/axi_slave_pkg.sv
+		axi4_if.sv
+		hw_top.sv
+		axi_top.sv
 
    User defined plus("+") options:
 	+UVM_VERBOSITY=UVM_HIGH
@@ -343,26 +338,59 @@ xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds
 DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
 |
 xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
-xmsim: *W,NOMTDGUI: Multi-Threaded Dumping is disabled for interactive debug mode.
-SVSEED set randomly from command line: 652479857
-
--------------------------------------
-Relinquished control to SimVision...
-xcelium> 
+Loading snapshot worklib.hw_top:sv .................... Done
+SVSEED set randomly from command line: -1692706013
 xcelium> source /home/cc/mnt/XCELIUM2309/tools/xcelium/files/xmsimrc
 xcelium> source /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/additions/sv/files/tcl/uvm_sim.tcl
-xcelium> ^C
+xcelium> run
+----------------------------------------------------------------
+CDNS-UVM-1.1d (23.09-s006)
+(C) 2007-2013 Mentor Graphics Corporation
+(C) 2007-2013 Cadence Design Systems, Inc.
+(C) 2006-2013 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_WARNING @ 0: reporter [TPRGED] Type name 'axi_master_seq_item' already registered with factory. No string-based lookup support for multiple types with the same type name.
+UVM_INFO @ 0: reporter [RNTST] Running test axi_reset_test...
+UVM_INFO ../Master-UVC/axi_master_env.sv(27) @ 0: uvm_test_top.env.master [axi_master_env] Building axi_master ENV
+UVM_FATAL /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_component.svh(1750) @ 0: seq_item_port [CLDEXT] Cannot set 'seq_item_port' as a child of 'uvm_test_top.env.master.my_agent.driver', which already has a child by that name.
+
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :    2
+UVM_WARNING :    1
+UVM_ERROR :    0
+UVM_FATAL :    1
+** Report counts by id
+[CLDEXT]     1
+[RNTST]     1
+[TPRGED]     1
+[axi_master_env]     1
+Simulation complete via $finish(1) at time 0 FS + 6
+/home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_report_object.svh:292     $finish;
 xcelium> exit
-xmsim: *W,NORUNCMD: No 'run' command issued.
-xmsim: *N,COVCGN: Coverage configuration file command "set_covergroup -new_instance_reporting" can be specified to improve the scoping and naming of covergroup instances. It may be noted that subsequent merging of a coverage database saved with this command and a coverage database saved without this command is not allowed.
-
-coverage setup:
-  workdir  :  ./cov_work
-  dutinst  :  AXI_top(AXI_top)
-  scope    :  scope
-  testname :  test_sv652479857
-
-coverage files:
-  model(design data) :  ./cov_work/scope/icc_00000000_1762d2ce.ucm
-  data               :  ./cov_work/scope/test_sv652479857/icc_00000000_1762d2ce.ucd
-TOOL:	xrun(64)	23.09-s006: Exiting on Dec 10, 2024 at 09:02:50 PKT  (total: 00:00:17)
+TOOL:	xrun(64)	23.09-s006: Exiting on Dec 11, 2024 at 14:40:46 PKT  (total: 00:00:02)

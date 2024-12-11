@@ -1,88 +1,194 @@
-//-----------------------------------------------------------------------------
-// CLASS: base_test
-// DESCRIPTION:
-// - Base test class for the AXI environment, extending the UVM `uvm_test` class.
-// - Sets up the testbench, configures default sequences for the axi_master and Slave
-//   agents, and provides hooks for UVM phases.
-//-----------------------------------------------------------------------------
-class base_test extends uvm_test;
+import config_pkg::*;
+class axi_base_test extends uvm_test;
+    `uvm_component_utils(axi_base_test)
+    
+    // Components
+    //axi_master_sequencer seqr;
+    AXI_tb env;
+    axi_write_sequence  write_seq;
+    axi_read_sequence  read_seq;
 
-  //---------------------------------------------------------------------------
-  // UVM COMPONENT UTILS
-  //---------------------------------------------------------------------------
-  // - Registers this test class with the UVM factory for dynamic instantiation.
-  //---------------------------------------------------------------------------
-  `uvm_component_utils(base_test)
+    test_config test_cfg;
 
-  //---------------------------------------------------------------------------
-  // CLASS PROPERTIES
-  //---------------------------------------------------------------------------
-  AXI_tb tb;                      // Handle to the testbench (top-level environment)
-  uvm_objection obj;              // UVM objection mechanism for phase control
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+        test_cfg = new("test_cfg");
+        test_cfg.number_of_write_cases = 30;
+        test_cfg.number_of_read_cases = 30;
+    endfunction //new()
 
-  //---------------------------------------------------------------------------
-  // CONSTRUCTOR
-  //---------------------------------------------------------------------------
-  // - Instantiates the `base_test` object with the given name and parent.
-  //---------------------------------------------------------------------------
-  function new(string name, uvm_component parent=null);
-    super.new(name, parent);      // Call the base class constructor
-  endfunction : new
+    //  Function: build_phase
+    function void build_phase(uvm_phase phase);
+        test_cfg.burst_type = -1;
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
+        
+        write_seq = new("write_seq");
+        read_seq = new("read_seq");
+        env = AXI_tb::type_id::create("env", this);
+    endfunction: build_phase
+    
+    //  Function: end_of_elaboration_phase
+    function void end_of_elaboration_phase(uvm_phase phase);
+        super.end_of_elaboration_phase(phase);
+        uvm_top.print_topology();
+    endfunction: end_of_elaboration_phase
+    
+    //  Function: run_phase
+    task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+        fork
+            write_seq.start(env.master.my_agent.sequencer);
+            begin
+                #300;
+                read_seq.start(env.master.my_agent.sequencer);
+            end
+        join
+        phase.drop_objection(this);
+    endtask: run_phase
+    
+endclass //axi_base_test extends uvm_test
 
-  //---------------------------------------------------------------------------
-  // BUILD PHASE
-  //---------------------------------------------------------------------------
-  // - Part of the UVM build process, where components and configurations are created.
-  // - Configures recording settings and default sequences for agents.
-  //---------------------------------------------------------------------------
-  virtual function void build_phase(uvm_phase phase);
-    super.build_phase(phase);     // Call the base class build_phase
 
-    // Set the recording detail level to UVM_FULL (full transaction recording)
-    uvm_config_int::set(this, "*", "recording_detail", UVM_FULL);
-    // Set the default sequence for the axi_master sequencer
-    uvm_config_wrapper::set(
-        this, 
-        "*master*sequencer.run_phase", 
-        "default_sequence", 
-        axi_master_mixed_seq::get_type()
-    );
-/*
-    // Set the default sequence for the Slave sequencer
-    uvm_config_wrapper::set(
-        this, 
-        "*slave*sequencer.run_phase", 
-        "default_sequence", 
-        axi_slave_reset::get_type()
-    );
-    */
-    // Create the testbench instance
-    tb = AXI_tb::type_id::create("tb", this);
-  endfunction : build_phase
+// ****************************************************************************************
+//                                  Reset Test Cases
+// ****************************************************************************************
+class axi_reset_test extends axi_base_test;
+    `uvm_component_utils(axi_reset_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
 
-  //---------------------------------------------------------------------------
-  // RUN PHASE
-  //---------------------------------------------------------------------------
-  // - Controls the main simulation loop and test execution.
-  // - Uses UVM objections to manage phase transitions.
-  //---------------------------------------------------------------------------
-  task run_phase(uvm_phase phase);
-    super.run_phase(phase);       // Call the base class run_phase
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);  
+        test_cfg.ARESET_n = 0;
+    endfunction: build_phase
 
-    // Get the objection handle for this phase
-    obj = phase.get_objection();
+    function void end_of_elaboration_phase(uvm_phase phase);
+        super.end_of_elaboration_phase(phase);
+    endfunction: end_of_elaboration_phase
+    
+    task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        write_seq.start(env.master.my_agent.sequencer);
+        phase.drop_objection(this);
+    endtask: run_phase
+endclass //write_test extends axi_base_test
 
-    // Set a drain time of 10ns to allow processes to complete before phase ends
-    obj.set_drain_time(this, 10ns);
-  endtask : run_phase
 
-  //---------------------------------------------------------------------------
-  // END OF ELABORATION PHASE
-  //---------------------------------------------------------------------------
-  // - Prints the UVM topology for verification and debugging.
-  //---------------------------------------------------------------------------
-  function void end_of_elaboration_phase(uvm_phase phase);
-    uvm_top.print_topology();     // Print the UVM component hierarchy
-  endfunction : end_of_elaboration_phase
+// ****************************************************************************************
+//                                  Directed Test Cases
+// ****************************************************************************************
+class axi_write_test extends axi_base_test;
+    `uvm_component_utils(axi_write_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
 
-endclass : base_test
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase); 
+        test_cfg.ARESET_n = 1; 
+    endfunction: build_phase
+
+    function void end_of_elaboration_phase(uvm_phase phase);
+        super.end_of_elaboration_phase(phase);
+    endfunction: end_of_elaboration_phase
+    
+    task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        write_seq.start(env.master.my_agent.sequencer);
+        phase.drop_objection(this);
+    endtask: run_phase
+endclass //write_test extends axi_base_test
+
+class axi_read_test extends axi_base_test;
+    `uvm_component_utils(axi_read_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
+
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase); 
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg); 
+        test_cfg.ARESET_n = 1; 
+    endfunction: build_phase
+
+    function void end_of_elaboration_phase(uvm_phase phase);
+        super.end_of_elaboration_phase(phase);
+    endfunction: end_of_elaboration_phase
+    
+    task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        write_seq.start(env.master.my_agent.sequencer);
+        read_seq.start(env.master.my_agent.sequencer);
+        phase.drop_objection(this);
+    endtask: run_phase
+endclass //write_test extends axi_base_test
+
+class axi_fixed_test extends axi_base_test;
+    `uvm_component_utils(axi_fixed_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
+
+    function void build_phase(uvm_phase phase);
+        test_cfg.burst_type = 0;
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
+        test_cfg.ARESET_n = 1; 
+        
+        write_seq = new("write_seq");
+        read_seq = new("read_seq");
+        env = AXI_tb::type_id::create("env", this);
+    endfunction: build_phase
+
+    task run_phase(uvm_phase phase);
+        super.run_phase(phase);
+    endtask: run_phase
+endclass //axi_fixed_test extends axi_base_test
+
+class axi_incr_test extends axi_base_test;
+    `uvm_component_utils(axi_incr_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
+
+    function void build_phase(uvm_phase phase);
+        test_cfg.burst_type = 1;
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
+        test_cfg.ARESET_n = 1; 
+        
+        write_seq = new("write_seq");
+        read_seq = new("read_seq");
+        env = AXI_tb::type_id::create("env", this);
+    endfunction: build_phase
+
+    task run_phase(uvm_phase phase);
+        super.run_phase(phase);
+    endtask: run_phase
+endclass //axi_fixed_test extends axi_base_test
+
+class axi_wrap_test extends axi_base_test;
+    `uvm_component_utils(axi_wrap_test)
+    
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction //new()
+
+    function void build_phase(uvm_phase phase);
+        test_cfg.burst_type = 2;
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
+        test_cfg.ARESET_n = 1; 
+        
+        write_seq = new("write_seq");
+        read_seq = new("read_seq");
+        env = AXI_tb::type_id::create("env", this);
+    endfunction: build_phase
+
+    task run_phase(uvm_phase phase);
+        super.run_phase(phase);
+    endtask: run_phase
+endclass //axi_fixed_test extends axi_base_test

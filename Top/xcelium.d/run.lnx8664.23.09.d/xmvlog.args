@@ -9,6 +9,7 @@
 -define
 UVM_PLI
 -sv
+axi_config.sv
 -INCDIR
 ../Master-UVC/
 -INCDIR

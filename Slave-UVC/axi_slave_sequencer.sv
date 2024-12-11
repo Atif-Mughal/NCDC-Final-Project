@@ -8,7 +8,7 @@
 // - Extends `uvm_sequencer` with the transaction type `axi_slave_seq_item`.
 //------------------------------------------------------------------------------ 
 
-class axi_slave_sequencer extends uvm_sequencer #(axi_slave_seq_item);
+class axi_slave_sequencer extends uvm_sequencer #(axi_master_seq_item);
 
   //--------------------------------------------------------------------------
   // MACRO: `uvm_component_utils

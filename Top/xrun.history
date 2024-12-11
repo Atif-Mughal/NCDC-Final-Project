@@ -1,18 +1,6 @@
-s1(08Dec2024:14:53:51):  xrun -f run.f 
-s2(08Dec2024:14:56:09):  xrun -f run.f 
-s3(08Dec2024:14:56:30):  xrun -f run.f 
-s4(08Dec2024:15:31:09):  xrun -f run.f 
-s5(08Dec2024:15:32:17):  xrun -f run.f 
-s6(08Dec2024:15:33:17):  xrun -f run.f 
-s7(08Dec2024:15:35:37):  xrun -f run.f 
-s8(08Dec2024:16:05:17):  xrun -f run.f 
-s9(10Dec2024:08:49:26):  xrun -f run.f 
-s10(10Dec2024:08:51:29):  xrun -f run.f 
-s11(10Dec2024:08:53:04):  xrun -f run.f 
-s12(10Dec2024:08:54:07):  xrun -f run.f 
-s13(10Dec2024:08:54:56):  xrun -f run.f 
-s14(10Dec2024:08:55:13):  xrun -f run.f 
-s15(10Dec2024:08:59:17):  xrun -covdut top -coverage functional -covoverwrite -f run.f 
-s16(10Dec2024:08:59:55):  xrun -covdut AXI_top -coverage functional -covoverwrite -f run.f 
-s17(10Dec2024:09:00:14):  xrun -covdut AXI_top -coverage functional -covoverwrite -f run.f -access +rwc -gui 
-s18(10Dec2024:09:02:33):  xrun -f coverage.f 
+s1(11Dec2024:13:29:52):  xrun -f run.f 
+s2(11Dec2024:13:39:25):  xrun -f run.f 
+s3(11Dec2024:13:42:08):  xrun -f run.f 
+s4(11Dec2024:13:50:51):  xrun -f run.f 
+s5(11Dec2024:13:51:51):  xrun -f run.f 
+s6(11Dec2024:14:40:44):  xrun -f run.f 

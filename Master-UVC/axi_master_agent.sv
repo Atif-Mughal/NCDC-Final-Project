@@ -57,11 +57,13 @@ class axi_master_agent extends uvm_agent;
   // - Connects the driver to the sequencer.
   // - Establishes the producer-consumer relationship.
   //---------------------------------------------------------------------------
+  /*
   virtual function void connect_phase(uvm_phase phase);
-    if (is_active == UVM_ACTIVE) begin
+   // if (is_active == UVM_ACTIVE) begin
       // Connect driver sequencer port to sequencer export
       driver.seq_item_port.connect(sequencer.seq_item_export);
-    end
+   // end
   endfunction : connect_phase
+  */
 
 endclass : axi_master_agent

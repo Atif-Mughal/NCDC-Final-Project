@@ -228,7 +228,7 @@ class axi_fixed_test extends axi_base_test;
     function void build_phase(uvm_phase phase);
         test_cfg.burst_type = 0;                  // Fixed burst type
         test_cfg.ARESET_n = 1;                   // Active low reset signal
-
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg); // Set test configuration
         write_seq = new("write_seq");            // Instantiate write sequence
         read_seq = new("read_seq");              // Instantiate read sequence
         env = AXI_tb::type_id::create("env", this); // Create testbench environment

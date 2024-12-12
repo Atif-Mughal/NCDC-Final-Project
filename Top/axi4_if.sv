@@ -33,32 +33,25 @@ interface axi4_if (input bit clk);
     logic [1:0] RRESP;
     logic RLAST, RVALID, RREADY;
 
-    /* Clocking Blocks: 3 CBs are defined as follows
-            1. m_drv_cb - Clocking block for master driver
-            2. s_drv_cb - Clocking block for slave driver
-            3. mon_cb   - Clocking block for monitors of both master and slave */
-    clocking m_drv_cb @(posedge clk);
-        output AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, 
-                BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+    clocking master_driver_cb @(posedge clk);
+        output AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
         input AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
-    clocking mon_cb @(posedge clk);
-        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, 
-                BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+    clocking monitor_cb @(posedge clk);
+        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
         input AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
-    clocking s_drv_cb @(posedge clk);
-        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, 
-                BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+    clocking slave_driver_cb @(posedge clk);
+        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
         output AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
-    modport MDRV(clocking m_drv_cb);
-    modport MMON(clocking mon_cb);
-    modport SDRV(clocking s_drv_cb);
-    modport SMON(clocking mon_cb);
+    modport Master_Driver_MP(clocking master_driver_cb);
+    modport Master_Monitor_MP(clocking monitor_cb);
+    modport Slave_Driver_MP(clocking slave_driver_cb);
+    modport Slave_Monitor_MP(clocking monitor_cb);
     
     
 

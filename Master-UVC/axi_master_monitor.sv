@@ -44,7 +44,7 @@ class axi_master_monitor extends uvm_monitor;
     task run_phase(uvm_phase phase);
         forever begin
             run_mon(phase);  // Monitor the AXI signals in each phase iteration
-            @(vif.mon_cb);    // Synchronize with the AXI interface clock
+            @(vif.monitor_cb);    // Synchronize with the AXI interface clock
         end
     endtask
 
@@ -73,32 +73,32 @@ class axi_master_monitor extends uvm_monitor;
 
     // ******************* Write Transaction Monitoring *******************
     task write_monitor();
-        if (vif.mon_cb.AWVALID && vif.mon_cb.AWREADY) begin
+        if (vif.monitor_cb.AWVALID && vif.monitor_cb.AWREADY) begin
             write_transaction = axi_master_seq_item::type_id::create("write_transaction");
 
             // Collect Write Address channel information
-            write_transaction.ADDR = vif.mon_cb.AWADDR;
-            write_transaction.ID = vif.mon_cb.AWID;
-            write_transaction.BURST_SIZE = vif.mon_cb.AWSIZE;
-            write_transaction.BURST_LENGTH = vif.mon_cb.AWLEN;
-            write_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.AWBURST);
+            write_transaction.ADDR = vif.monitor_cb.AWADDR;
+            write_transaction.ID = vif.monitor_cb.AWID;
+            write_transaction.BURST_SIZE = vif.monitor_cb.AWSIZE;
+            write_transaction.BURST_LENGTH = vif.monitor_cb.AWLEN;
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
             write_transaction.DATA = new [write_transaction.BURST_LENGTH + 1];
 
             // Collect Write Data channel information
             for (int i = 0; i < write_transaction.BURST_LENGTH + 1; i++) begin
-                @(vif.mon_cb);  // Wait for the AXI interface
-                wait(vif.mon_cb.WVALID && vif.mon_cb.WREADY);  // Ensure WVALID and WREADY are asserted
+                @(vif.monitor_cb);  // Wait for the AXI interface
+                wait(vif.monitor_cb.WVALID && vif.monitor_cb.WREADY);  // Ensure WVALID and WREADY are asserted
                 write_transaction.DATA[i] = new [DATA_WIDTH / 8];  // Initialize the data
                 for (int j = 0; j < DATA_WIDTH / 8; j++) begin
-                    write_transaction.DATA[i][j] = vif.mon_cb.WDATA[8 * j +: 8];  // Capture the write data
+                    write_transaction.DATA[i][j] = vif.monitor_cb.WDATA[8 * j +: 8];  // Capture the write data
                 end
             end
 
             // Wait for Write Response
-            wait(vif.mon_cb.BVALID);
+            wait(vif.monitor_cb.BVALID);
 
             // Collect Write Response
-            write_transaction.WRITE_RESP = vif.mon_cb.BRESP;
+            write_transaction.WRITE_RESP = vif.monitor_cb.BRESP;
 
             // Send the captured transaction to the analysis port for reporting or coverage
             mon2scb_port.write(write_transaction);
@@ -108,27 +108,27 @@ class axi_master_monitor extends uvm_monitor;
 
     // ******************* Read Transaction Monitoring *******************
     task read_monitor();
-        if (vif.mon_cb.ARVALID && vif.mon_cb.ARREADY) begin
+        if (vif.monitor_cb.ARVALID && vif.monitor_cb.ARREADY) begin
             read_transaction = axi_master_seq_item::type_id::create("read_transaction");
 
             // Collect Read Address channel information
-            read_transaction.ADDR = vif.mon_cb.ARADDR;
-            read_transaction.ID = vif.mon_cb.ARID;
-            read_transaction.BURST_SIZE = vif.mon_cb.ARSIZE;
-            read_transaction.BURST_LENGTH = vif.mon_cb.ARLEN;
-            read_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.ARBURST);
+            read_transaction.ADDR = vif.monitor_cb.ARADDR;
+            read_transaction.ID = vif.monitor_cb.ARID;
+            read_transaction.BURST_SIZE = vif.monitor_cb.ARSIZE;
+            read_transaction.BURST_LENGTH = vif.monitor_cb.ARLEN;
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
             read_transaction.DATA = new [read_transaction.BURST_LENGTH + 1];
             read_transaction.READ_RESP = new [read_transaction.BURST_LENGTH + 1];
 
             // Collect Read Data channel information
             for (int i = 0; i < read_transaction.BURST_LENGTH + 1; i++) begin
-                @(vif.mon_cb);  // Wait for the AXI interface
-                wait(vif.mon_cb.RVALID && vif.mon_cb.RREADY);  // Ensure RVALID and RREADY are asserted
+                @(vif.monitor_cb);  // Wait for the AXI interface
+                wait(vif.monitor_cb.RVALID && vif.monitor_cb.RREADY);  // Ensure RVALID and RREADY are asserted
                 read_transaction.DATA[i] = new [DATA_WIDTH / 8];  // Initialize the data
                 for (int j = 0; j < DATA_WIDTH / 8; j++) begin
-                    read_transaction.DATA[i][j] = vif.mon_cb.RDATA[8 * j +: 8];  // Capture the read data
+                    read_transaction.DATA[i][j] = vif.monitor_cb.RDATA[8 * j +: 8];  // Capture the read data
                 end
-                read_transaction.READ_RESP[i] = vif.mon_cb.RRESP;  // Capture the read response
+                read_transaction.READ_RESP[i] = vif.monitor_cb.RRESP;  // Capture the read response
             end
 
             // Send the captured read transaction to the analysis port

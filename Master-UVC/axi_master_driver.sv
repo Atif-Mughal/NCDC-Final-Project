@@ -61,8 +61,8 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         `uvm_info(get_type_name(), "Started AXI Master Driver", UVM_HIGH)
         
         // Drive initial values for read/write control signals
-        vif.m_drv_cb.BREADY <= 1;
-        vif.m_drv_cb.RREADY <= 1;
+        vif.master_driver_cb.BREADY <= 1;
+        vif.master_driver_cb.RREADY <= 1;
        
 
         // Forever loop to continuously drive transactions
@@ -78,9 +78,9 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     
         // Handle reset signal and drive control signals accordingly
         if (test_cfg.ARESET_n == 0) begin
-            vif.m_drv_cb.AWVALID <= 0;
-            vif.m_drv_cb.WVALID <= 0;
-            vif.m_drv_cb.ARVALID <= 0;
+            vif.master_driver_cb.AWVALID <= 0;
+            vif.master_driver_cb.WVALID <= 0;
+            vif.master_driver_cb.ARVALID <= 0;
             
             return;
         end
@@ -129,28 +129,28 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         `uvm_info("DEBUG", "Inside send_write_address()", UVM_HIGH)
         
         // Drive Write Address Channel signals
-        @(vif.m_drv_cb);  // Synchronize with the AXI interface
-        vif.m_drv_cb.AWID   <= write_transaction.ID;
-        vif.m_drv_cb.AWADDR <= write_transaction.ADDR;
-        vif.m_drv_cb.AWLEN  <= write_transaction.BURST_LENGTH;
-        vif.m_drv_cb.AWSIZE <= write_transaction.BURST_SIZE;
-        vif.m_drv_cb.AWBURST<= write_transaction.BURST_TYPE;
+        @(vif.master_driver_cb);  // Synchronize with the AXI interface
+        vif.master_driver_cb.AWID   <= write_transaction.ID;
+        vif.master_driver_cb.AWADDR <= write_transaction.ADDR;
+        vif.master_driver_cb.AWLEN  <= write_transaction.BURST_LENGTH;
+        vif.master_driver_cb.AWSIZE <= write_transaction.BURST_SIZE;
+        vif.master_driver_cb.AWBURST<= write_transaction.BURST_TYPE;
 
         // Assert AWVALID after one clock cycle
-        @(vif.m_drv_cb);
+        @(vif.master_driver_cb);
         AWVALID = 1;
-        vif.m_drv_cb.AWVALID <= AWVALID;
+        vif.master_driver_cb.AWVALID <= AWVALID;
         `uvm_info("DEBUG", "Asserted AWVALID", UVM_HIGH)
 
         // Wait for AWREADY and deassert AWVALID
-        @(vif.m_drv_cb);
-        wait(vif.m_drv_cb.AWREADY);
+        @(vif.master_driver_cb);
+        wait(vif.master_driver_cb.AWREADY);
         AWVALID = 0;
-        vif.m_drv_cb.AWVALID <= AWVALID;
+        vif.master_driver_cb.AWVALID <= AWVALID;
         `uvm_info("DEBUG", "Deasserted AWVALID", UVM_HIGH)
 
         // Wait for write response (BVALID) to complete the transaction
-        wait(vif.m_drv_cb.BVALID);
+        wait(vif.master_driver_cb.BVALID);
     endtask: send_write_address
 
     // ****************************************************************************
@@ -167,30 +167,30 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         end
 
         // Wait for write address channel to be ready
-        wait(AWVALID && vif.m_drv_cb.AWREADY);
+        wait(AWVALID && vif.master_driver_cb.AWREADY);
         `uvm_info("DEBUG", "Packed write data", UVM_HIGH)
 
         // Send data beats one by one
         for (int i = 0; i < len; i++) begin
             `uvm_info("DEBUG", $sformatf("Sending data beat %0d", i), UVM_HIGH)
-            @(vif.m_drv_cb);
-            vif.m_drv_cb.WID    <= write_transaction.ID;
-            vif.m_drv_cb.WDATA  <= temp[i];
-            vif.m_drv_cb.WLAST  <= (i == len - 1) ? 1 : 0;
+            @(vif.master_driver_cb);
+            vif.master_driver_cb.WID    <= write_transaction.ID;
+            vif.master_driver_cb.WDATA  <= temp[i];
+            vif.master_driver_cb.WLAST  <= (i == len - 1) ? 1 : 0;
 
             // Assert WVALID
-            @(vif.m_drv_cb);
-            vif.m_drv_cb.WVALID <= 1;
+            @(vif.master_driver_cb);
+            vif.master_driver_cb.WVALID <= 1;
 
             // Wait for WREADY and deassert WVALID
             #1;
-            wait(vif.m_drv_cb.WREADY);
-            vif.m_drv_cb.WVALID <= 0;
-            vif.m_drv_cb.WLAST  <= 0;
+            wait(vif.master_driver_cb.WREADY);
+            vif.master_driver_cb.WVALID <= 0;
+            vif.master_driver_cb.WLAST  <= 0;
         end
 
         // Wait for write response (BVALID) to complete the transaction
-        wait(vif.m_drv_cb.BVALID);
+        wait(vif.master_driver_cb.BVALID);
     endtask: send_write_data
 
     // ****************************************************************************
@@ -198,24 +198,24 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ****************************************************************************
     task send_read_address();
         // Send the read address signals to AXI interface
-        @(vif.m_drv_cb);
-        vif.m_drv_cb.ARID   <= read_transaction.ID;
-        vif.m_drv_cb.ARADDR <= read_transaction.ADDR;
-        vif.m_drv_cb.ARLEN  <= read_transaction.BURST_LENGTH;
-        vif.m_drv_cb.ARSIZE <= read_transaction.BURST_SIZE;
-        vif.m_drv_cb.ARBURST<= read_transaction.BURST_TYPE;
+        @(vif.master_driver_cb);
+        vif.master_driver_cb.ARID   <= read_transaction.ID;
+        vif.master_driver_cb.ARADDR <= read_transaction.ADDR;
+        vif.master_driver_cb.ARLEN  <= read_transaction.BURST_LENGTH;
+        vif.master_driver_cb.ARSIZE <= read_transaction.BURST_SIZE;
+        vif.master_driver_cb.ARBURST<= read_transaction.BURST_TYPE;
 
         // Assert ARVALID after one clock cycle
-        @(vif.m_drv_cb);
-        vif.m_drv_cb.ARVALID <= 1;
+        @(vif.master_driver_cb);
+        vif.master_driver_cb.ARVALID <= 1;
 
         // Wait for ARREADY and deassert ARVALID
-        @(vif.m_drv_cb);
-        wait(vif.m_drv_cb.ARREADY);
-        vif.m_drv_cb.ARVALID <= 0;
+        @(vif.master_driver_cb);
+        wait(vif.master_driver_cb.ARREADY);
+        vif.master_driver_cb.ARVALID <= 0;
 
         // Wait for RLAST signal before sending next address
-        wait(vif.m_drv_cb.RLAST && vif.m_drv_cb.RVALID);
+        wait(vif.master_driver_cb.RLAST && vif.master_driver_cb.RVALID);
     endtask: send_read_address
 
 endclass: axi_master_driver

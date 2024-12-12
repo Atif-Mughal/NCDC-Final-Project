@@ -392,16 +392,16 @@ package axi_master_pkg;
                      |
 xmvlog: *W,TSNSPK (../Master-UVC/axi_master_pkg.sv,1|21): `timescale is not specified for the package.  The default timescale of 1ns/1ns will be assumed for this package.
 file: ../Slave-UVC/axi_slave_pkg.sv
-            write_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.AWBURST);
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
                                                   |
 xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,75|50): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-            read_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.ARBURST);
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
                                                  |
 xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,110|49): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-        write_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.AWBURST);
+        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
                                               |
 xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,86|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-        read_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.ARBURST);
+        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
                                              |
 xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,196|45): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
 file: axi_top.sv
@@ -558,16 +558,16 @@ xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cd
 		axi_slave_pkg
 		hw_top
 		AXI_top
-            write_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.AWBURST);
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
                                                   |
 xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,75|50): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-            read_transaction.BURST_TYPE = B_TYPE'(vif.mon_cb.ARBURST);
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
                                                  |
 xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,110|49): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-        write_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.AWBURST);
+        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
                                               |
 xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,86|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
-        read_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.ARBURST);
+        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
                                              |
 xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,196|45): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
 	Building instance overlay tables: .................... Done

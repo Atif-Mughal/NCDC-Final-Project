@@ -1,7 +1,7 @@
 import axi_parameters::*;
-typedef enum bit [1:0] { FIXED, INCR, WRAP } B_TYPE;
 
 class axi_master_seq_item extends uvm_sequence_item;
+  typedef enum bit [1:0] { FIXED, INCR, WRAP } B_TYPE;
 
   // AXI Attributes
   bit [7:0] ID;                               // Transaction ID

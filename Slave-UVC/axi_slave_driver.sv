@@ -34,15 +34,15 @@ class axi_slave_driver extends uvm_driver;
     endfunction: build_phase
 
     task run_phase(uvm_phase phase);
-        vif.s_drv_cb.AWREADY    <= 1;
-        vif.s_drv_cb.ARREADY    <= 1;
-        vif.s_drv_cb.WREADY     <= 1;
-        // vif.s_drv_cb.BVALID     <= 1;
-        // vif.s_drv_cb.RLAST      <= 1;
-        vif.s_drv_cb.RVALID     <= 1;
-        vif.s_drv_cb.RDATA      <= 'b0;
+        vif.slave_driver_cb.AWREADY    <= 1;
+        vif.slave_driver_cb.ARREADY    <= 1;
+        vif.slave_driver_cb.WREADY     <= 1;
+        // vif.slave_driver_cb.BVALID     <= 1;
+        // vif.slave_driver_cb.RLAST      <= 1;
+        vif.slave_driver_cb.RVALID     <= 1;
+        vif.slave_driver_cb.RDATA      <= 'b0;
         forever begin
-            @(vif.s_drv_cb);
+            @(vif.slave_driver_cb);
             drive();
         end
     endtask: run_phase
@@ -51,8 +51,8 @@ class axi_slave_driver extends uvm_driver;
 
     task drive();
         if(!test_cfg.ARESET_n) begin
-            vif.s_drv_cb.RVALID <= 0;
-            vif.s_drv_cb.BVALID <= 0;
+            vif.slave_driver_cb.RVALID <= 0;
+            vif.slave_driver_cb.BVALID <= 0;
             return;
         end
         fork
@@ -79,12 +79,12 @@ class axi_slave_driver extends uvm_driver;
 
     task read_write_address();
         `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
-        wait(vif.s_drv_cb.AWVALID);
-        write_transaction.ID     = vif.s_drv_cb.AWID;
-        write_transaction.ADDR   = vif.s_drv_cb.AWADDR;
-        write_transaction.BURST_SIZE = vif.s_drv_cb.AWSIZE;
-        write_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.AWBURST);
-        write_transaction.BURST_LENGTH  = vif.s_drv_cb.AWLEN;
+        wait(vif.slave_driver_cb.AWVALID);
+        write_transaction.ID     = vif.slave_driver_cb.AWID;
+        write_transaction.ADDR   = vif.slave_driver_cb.AWADDR;
+        write_transaction.BURST_SIZE = vif.slave_driver_cb.AWSIZE;
+        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
+        write_transaction.BURST_LENGTH  = vif.slave_driver_cb.AWLEN;
 
         write_transaction.print();
     endtask: read_write_address
@@ -97,7 +97,7 @@ class axi_slave_driver extends uvm_driver;
         bit error_flag, alignment_error;
         `uvm_info("DEBUG_S", "Inside read_write_data", UVM_HIGH)
         
-        vif.s_drv_cb.BVALID <= 0;  // Start by deasserting BVALID signal
+        vif.slave_driver_cb.BVALID <= 0;  // Start by deasserting BVALID signal
         
         // Initial values and calculations
         start_addr = write_transaction.ADDR;
@@ -142,7 +142,7 @@ class axi_slave_driver extends uvm_driver;
             `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
             `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
             
-            wait(vif.s_drv_cb.WVALID); // Wait for valid write data
+            wait(vif.slave_driver_cb.WVALID); // Wait for valid write data
             
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
@@ -150,7 +150,7 @@ class axi_slave_driver extends uvm_driver;
                     error_flag = 1;
                 if (error_flag || alignment_error)
                     continue;
-                mem[current_addr + j - lower_byte_lane] = vif.s_drv_cb.WDATA[8 * byte_index +: 8];
+                mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
                 `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
                 byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
@@ -170,31 +170,31 @@ class axi_slave_driver extends uvm_driver;
                     is_aligned = 1;
                 end
             end
-            @(vif.s_drv_cb);
+            @(vif.slave_driver_cb);
         end
 
         // Write back the response
-        vif.s_drv_cb.BID <= write_transaction.ID;
+        vif.slave_driver_cb.BID <= write_transaction.ID;
         if (error_flag || alignment_error)
-            vif.s_drv_cb.BRESP <= 2'b01; // Error response
+            vif.slave_driver_cb.BRESP <= 2'b01; // Error response
         else
-            vif.s_drv_cb.BRESP <= 2'b00; // OKAY response
+            vif.slave_driver_cb.BRESP <= 2'b00; // OKAY response
 
-        @(vif.s_drv_cb);
-        vif.s_drv_cb.BVALID <= 1;
-        @(vif.s_drv_cb);
-        wait(vif.s_drv_cb.BREADY); // Wait for BREADY to deassert BVALID
-        vif.s_drv_cb.BVALID <= 0; // Deassert BVALID
+        @(vif.slave_driver_cb);
+        vif.slave_driver_cb.BVALID <= 1;
+        @(vif.slave_driver_cb);
+        wait(vif.slave_driver_cb.BREADY); // Wait for BREADY to deassert BVALID
+        vif.slave_driver_cb.BVALID <= 0; // Deassert BVALID
     endtask: read_write_data
 
     task read_read_address();
         `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
-        wait(vif.s_drv_cb.ARVALID);
-        read_transaction.ID     = vif.s_drv_cb.ARID;
-        read_transaction.ADDR   = vif.s_drv_cb.ARADDR;
-        read_transaction.BURST_SIZE = vif.s_drv_cb.ARSIZE;
-        read_transaction.BURST_TYPE = B_TYPE'(vif.s_drv_cb.ARBURST);
-        read_transaction.BURST_LENGTH  = vif.s_drv_cb.ARLEN;
+        wait(vif.slave_driver_cb.ARVALID);
+        read_transaction.ID     = vif.slave_driver_cb.ARID;
+        read_transaction.ADDR   = vif.slave_driver_cb.ARADDR;
+        read_transaction.BURST_SIZE = vif.slave_driver_cb.ARSIZE;
+        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
+        read_transaction.BURST_LENGTH  = vif.slave_driver_cb.ARLEN;
 
         read_transaction.print();
     endtask: read_read_address
@@ -226,9 +226,9 @@ class axi_slave_driver extends uvm_driver;
         end
 
         // Initializing signals
-        vif.s_drv_cb.RLAST <= 0;
-        vif.s_drv_cb.RVALID <= 0;
-        vif.s_drv_cb.RID <= read_transaction.ID;
+        vif.slave_driver_cb.RLAST <= 0;
+        vif.slave_driver_cb.RVALID <= 0;
+        vif.slave_driver_cb.RID <= read_transaction.ID;
 
         // Store data
         for (int i = 0; i < read_transaction.BURST_LENGTH + 1; i++) begin
@@ -253,7 +253,7 @@ class axi_slave_driver extends uvm_driver;
             `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
             `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
             
-            wait(vif.s_drv_cb.WVALID); // Wait for valid read data
+            wait(vif.slave_driver_cb.WVALID); // Wait for valid read data
             
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
@@ -261,7 +261,7 @@ class axi_slave_driver extends uvm_driver;
                     error_flag = 1;
                 if (error_flag)
                     continue;
-                mem[current_addr + j - lower_byte_lane] = vif.s_drv_cb.WDATA[8 * byte_index +: 8];
+                mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
                 `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
                 byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
@@ -281,21 +281,21 @@ class axi_slave_driver extends uvm_driver;
                     is_aligned = 1;
                 end
             end
-            @(vif.s_drv_cb);
+            @(vif.slave_driver_cb);
         end
 
         // Write back the response
-        vif.s_drv_cb.RID <= read_transaction.ID;
+        vif.slave_driver_cb.RID <= read_transaction.ID;
         if (error_flag)
-            vif.s_drv_cb.RRESP <= 2'b01; // Error response
+            vif.slave_driver_cb.RRESP <= 2'b01; // Error response
         else
-            vif.s_drv_cb.RRESP <= 2'b00; // OKAY response
+            vif.slave_driver_cb.RRESP <= 2'b00; // OKAY response
 
-        @(vif.s_drv_cb);
-        vif.s_drv_cb.RVALID <= 1;
-        @(vif.s_drv_cb);
-        wait(vif.s_drv_cb.RREADY); // Wait for RREADY to deassert RVALID
-        vif.s_drv_cb.RVALID <= 0; // Deassert RVALID
+        @(vif.slave_driver_cb);
+        vif.slave_driver_cb.RVALID <= 1;
+        @(vif.slave_driver_cb);
+        wait(vif.slave_driver_cb.RREADY); // Wait for RREADY to deassert RVALID
+        vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
     endtask: send_read_data
  
 endclass //axi_s_driver extends uvm_driver

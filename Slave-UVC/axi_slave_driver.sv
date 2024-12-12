@@ -57,7 +57,6 @@ class axi_slave_driver extends uvm_driver;
         end
         fork
             begin
-                // `uvm_info("DEBUG_S", $sformatf("w_addr(), w_done = %0d", w_done), UVM_HIGH)
                 if(write_done) begin
                     write_done = 0;
                     read_write_address();
@@ -66,7 +65,7 @@ class axi_slave_driver extends uvm_driver;
                 end
             end
             begin
-                // `uvm_info("DEBUG_S", $sformatf("r_addr(), r_done = %0d", r_done), UVM_HIGH)
+                
                 if(read_done) begin
                     read_done = 0;
                     read_read_address();
@@ -78,7 +77,7 @@ class axi_slave_driver extends uvm_driver;
     endtask: drive
 
     task read_write_address();
-        `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         wait(vif.slave_driver_cb.AWVALID);
         write_transaction.ID     = vif.slave_driver_cb.AWID;
         write_transaction.ADDR   = vif.slave_driver_cb.AWADDR;
@@ -95,7 +94,7 @@ class axi_slave_driver extends uvm_driver;
         bit is_aligned;
         int byte_index;
         bit error_flag, alignment_error;
-        `uvm_info("DEBUG_S", "Inside read_write_data", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside read_write_data", UVM_HIGH)
         
         vif.slave_driver_cb.BVALID <= 0;  // Start by deasserting BVALID signal
         
@@ -104,15 +103,15 @@ class axi_slave_driver extends uvm_driver;
         bytes_per_beat = 2**write_transaction.BURST_SIZE;
         total_bytes = bytes_per_beat * (write_transaction.BURST_LENGTH + 1);
         aligned_addr = int'(start_addr / bytes_per_beat) * bytes_per_beat;
-        `uvm_info("DEBUG_S", $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
+        `uvm_info(get_type_name(), $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
         is_aligned = start_addr == aligned_addr;
 
         // Calculate boundaries for WRAP Burst
         if (write_transaction.BURST_TYPE == WRAP) begin
             lower_wrap_boundary = int'(start_addr / total_bytes) * total_bytes;
             upper_wrap_boundary = lower_wrap_boundary + total_bytes;
-            `uvm_info("DEBUG_S", $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
         end
 
         // Check if the wrap burst is aligned or not
@@ -122,7 +121,7 @@ class axi_slave_driver extends uvm_driver;
         // Store data into memory
         error_flag = 0;
         for (int i = 0; i < write_transaction.BURST_LENGTH + 1; i++) begin
-            `uvm_info("DEBUG_S", "Inside read_data_loop", UVM_HIGH)
+            `uvm_info(get_type_name(), "Inside read_data_loop", UVM_HIGH)
             
             if (i == 0 || write_transaction.BURST_TYPE == FIXED) begin
                 lower_byte_lane = start_addr - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
@@ -138,9 +137,9 @@ class axi_slave_driver extends uvm_driver;
                 byte_index = 0;
             end
 
-            `uvm_info("DEBUG_S", $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
             
             wait(vif.slave_driver_cb.WVALID); // Wait for valid write data
             
@@ -151,7 +150,7 @@ class axi_slave_driver extends uvm_driver;
                 if (error_flag || alignment_error)
                     continue;
                 mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
-                `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
+                `uvm_info(get_type_name(), $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
                 byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
             end
@@ -161,9 +160,9 @@ class axi_slave_driver extends uvm_driver;
                 if (is_aligned) begin
                     current_addr = current_addr + bytes_per_beat;
                     if (write_transaction.BURST_TYPE == WRAP) begin
-                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
+                        `uvm_info(get_type_name(), $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
                         current_addr = current_addr >= upper_wrap_boundary ? lower_wrap_boundary : current_addr;
-                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
+                        `uvm_info(get_type_name(), $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
                     end
                 end else begin
                     current_addr = aligned_addr + bytes_per_beat;
@@ -188,7 +187,7 @@ class axi_slave_driver extends uvm_driver;
     endtask: read_write_data
 
     task read_read_address();
-        `uvm_info("DEBUG_S", "Inside read_write_address", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         wait(vif.slave_driver_cb.ARVALID);
         read_transaction.ID     = vif.slave_driver_cb.ARID;
         read_transaction.ADDR   = vif.slave_driver_cb.ARADDR;
@@ -214,15 +213,15 @@ class axi_slave_driver extends uvm_driver;
 
         // Calculate aligned address
         aligned_addr = int'(start_addr / bytes_per_beat) * bytes_per_beat;
-        `uvm_info("DEBUG_S", $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
+        `uvm_info(get_type_name(), $sformatf("Calculated aligned address %0d", aligned_addr), UVM_HIGH)
         is_aligned = start_addr == aligned_addr;
 
         // If WRAP Burst, calculate wrap boundary
         if (read_transaction.BURST_TYPE == WRAP) begin
             lower_wrap_boundary = int'(start_addr / total_bytes) * total_bytes;
             upper_wrap_boundary = lower_wrap_boundary + total_bytes;
-            `uvm_info("DEBUG_S", $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("Calculated Lower Wrap Boundary: %0d", lower_wrap_boundary), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("Calculated Upper Wrap Boundary: %0d", upper_wrap_boundary), UVM_HIGH)
         end
 
         // Initializing signals
@@ -232,7 +231,7 @@ class axi_slave_driver extends uvm_driver;
 
         // Store data
         for (int i = 0; i < read_transaction.BURST_LENGTH + 1; i++) begin
-            `uvm_info("DEBUG_S", "Inside read_data_loop", UVM_HIGH)
+            `uvm_info(get_type_name(), "Inside read_data_loop", UVM_HIGH)
 
             // Lane selection for the first transfer (handle unaligned address cases)
             if (i == 0 || read_transaction.BURST_TYPE == FIXED) begin
@@ -249,9 +248,10 @@ class axi_slave_driver extends uvm_driver;
                 byte_index = 0;
             end
 
-            `uvm_info("DEBUG_S", $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
-            `uvm_info("DEBUG_S", $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
+            $display("WALID = %0d", vif.slave_driver_cb.WVALID);
             
             wait(vif.slave_driver_cb.WVALID); // Wait for valid read data
             
@@ -262,7 +262,7 @@ class axi_slave_driver extends uvm_driver;
                 if (error_flag)
                     continue;
                 mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
-                `uvm_info("DEBUG_S", $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
+                `uvm_info(get_type_name(), $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
                 byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;
             end
@@ -272,9 +272,9 @@ class axi_slave_driver extends uvm_driver;
                 if (is_aligned) begin
                     current_addr = current_addr + bytes_per_beat;
                     if (read_transaction.BURST_TYPE == WRAP) begin
-                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
+                        `uvm_info(get_type_name(), $sformatf("Updated current_addr before boundary check: %0d", current_addr), UVM_HIGH)
                         current_addr = current_addr >= upper_wrap_boundary ? lower_wrap_boundary : current_addr;
-                        `uvm_info("DEBUG_S", $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
+                        `uvm_info(get_type_name(), $sformatf("Updated current_addr after boundary check: %0d", current_addr), UVM_HIGH)
                     end
                 end else begin
                     current_addr = aligned_addr + bytes_per_beat;
@@ -298,6 +298,6 @@ class axi_slave_driver extends uvm_driver;
         vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
     endtask: send_read_data
  
-endclass //axi_s_driver extends uvm_driver
+endclass 
 
 

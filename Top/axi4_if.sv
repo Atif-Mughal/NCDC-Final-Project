@@ -77,7 +77,7 @@ interface axi4_if (input bit clk);
     //                              Monitor Clocking Block
     //////////////////////////////////////////////////////////////////////////////////////////
     clocking monitor_cb @(posedge clk);
-        output  AWID, AWADDR, AWLEN, AWSIZE, AWBURST, AWVALID, 
+        input  AWID, AWADDR, AWLEN, AWSIZE, AWBURST, AWVALID, 
                WID, WDATA, WSTRB, WLAST, WVALID, BREADY,
                ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
         input  AWREADY, WREADY, BID, BRESP, BVALID,

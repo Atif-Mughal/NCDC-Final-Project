@@ -88,7 +88,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         fork
             // Handle Write Transaction
             begin
-                `uvm_info("DEBUG", $sformatf("Sending write address: write_done = %0d", write_done), UVM_DEBUG)
+                `uvm_info(get_type_name(), $sformatf("Sending write address: write_done = %0d", write_done), UVM_DEBUG)
                 if (write_done) begin
                     write_done = 0;  // Set write transaction flag to false
                     seq_item_port.get_next_item(write_transaction);  // Get next write transaction
@@ -110,12 +110,12 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
                 `uvm_info(get_type_name(), $sformatf("Sending read address: read_done = %0d", read_done), UVM_DEBUG)
                 if (read_done) begin
                     read_done = 0;  // Set read transaction flag to false
-                    seq_item_port.get_next_item(read_transaction);  // Get next read transaction
+                    seq_item_port2.get_next_item(read_transaction);  // Get next read transaction
                     `uvm_info(get_name(), "Read packet received in master driver", UVM_LOW)
                     read_transaction.print();  // Print transaction details for debugging
                     
                     send_read_address();  // Send the read address
-                    seq_item_port.item_done();  // Indicate completion of the transaction
+                    seq_item_port2.item_done();  // Indicate completion of the transaction
                     read_done = 1;  // Set read transaction flag to true
                 end
             end
@@ -126,7 +126,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ** send_write_address Implementation
     // ****************************************************************************
     task send_write_address();
-        `uvm_info("DEBUG", "Inside send_write_address()", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside send_write_address()", UVM_HIGH)
         
         // Drive Write Address Channel signals
         @(vif.master_driver_cb);  // Synchronize with the AXI interface
@@ -140,14 +140,14 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         @(vif.master_driver_cb);
         AWVALID = 1;
         vif.master_driver_cb.AWVALID <= AWVALID;
-        `uvm_info("DEBUG", "Asserted AWVALID", UVM_HIGH)
+        `uvm_info(get_type_name(), "Asserted AWVALID", UVM_HIGH)
 
         // Wait for AWREADY and deassert AWVALID
         @(vif.master_driver_cb);
         wait(vif.master_driver_cb.AWREADY);
         AWVALID = 0;
         vif.master_driver_cb.AWVALID <= AWVALID;
-        `uvm_info("DEBUG", "Deasserted AWVALID", UVM_HIGH)
+        `uvm_info(get_type_name(), "Deasserted AWVALID", UVM_HIGH)
 
         // Wait for write response (BVALID) to complete the transaction
         wait(vif.master_driver_cb.BVALID);
@@ -159,20 +159,20 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     task send_write_data();
         int len = write_transaction.BURST_LENGTH + 1;
         temp = new[len];  // Create buffer for data transfer
-        `uvm_info("DEBUG", "Inside send_write_data()", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside send_write_data()", UVM_HIGH)
         
         // Pack data for transfer
         foreach (write_transaction.DATA[i, j]) begin
             temp[i][8*j+:8] = write_transaction.DATA[i][j];
         end
-
+        //$display("AWALID = %0d  and  AWREADY = %0d", vif.slave_driver_cb.WVALID);
         // Wait for write address channel to be ready
         wait(AWVALID && vif.master_driver_cb.AWREADY);
-        `uvm_info("DEBUG", "Packed write data", UVM_HIGH)
+        `uvm_info(get_type_name(), "Packed write data", UVM_HIGH)
 
         // Send data beats one by one
         for (int i = 0; i < len; i++) begin
-            `uvm_info("DEBUG", $sformatf("Sending data beat %0d", i), UVM_HIGH)
+            `uvm_info(get_type_name(), $sformatf("Sending data beat %0d", i), UVM_HIGH)
             @(vif.master_driver_cb);
             vif.master_driver_cb.WID    <= write_transaction.ID;
             vif.master_driver_cb.WDATA  <= temp[i];

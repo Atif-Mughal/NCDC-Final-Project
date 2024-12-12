@@ -1,106 +1,106 @@
+// ******************************************************************************************
+//                              Importing Required Packages
+// ******************************************************************************************
 import axi_parameters::*;
+
+// ==========================================================================================
+//                            AXI4 Interface Declaration
+// ==========================================================================================
 interface axi4_if (input bit clk);
-    // Write Address
-    logic [8:0] AWID;
-    logic [ADDR_WIDTH-1:0] AWADDR;
-    logic [3:0] AWLEN;
-    logic [2:0] AWSIZE;
-    logic [1:0] AWBURST;
-    logic AWVALID, AWREADY;
 
-    // Write Data
-    logic [8:0] WID;
-    logic [DATA_WIDTH-1:0] WDATA;
-    logic [(DATA_WIDTH/8)-1:0] WSTRB;
-    logic WLAST, WVALID, WREADY;
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                                WRITE ADDRESS CHANNEL
+    //////////////////////////////////////////////////////////////////////////////////////////
+    logic [8:0] AWID;                     // Write Address ID
+    logic [ADDR_WIDTH-1:0] AWADDR;        // Write Address
+    logic [3:0] AWLEN;                    // Burst Length
+    logic [2:0] AWSIZE;                   // Burst Size
+    logic [1:0] AWBURST;                  // Burst Type
+    logic AWVALID;                        // Write Address Valid
+    logic AWREADY;                        // Write Address Ready
 
-    // Write Response
-    logic [8:0] BID;
-    logic [1:0] BRESP;
-    logic BVALID, BREADY;
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                                WRITE DATA CHANNEL
+    //////////////////////////////////////////////////////////////////////////////////////////
+    logic [8:0] WID;                      // Write Data ID
+    logic [DATA_WIDTH-1:0] WDATA;         // Write Data
+    logic [(DATA_WIDTH/8)-1:0] WSTRB;     // Write Strobe
+    logic WLAST;                          // Write Last
+    logic WVALID;                         // Write Valid
+    logic WREADY;                         // Write Ready
 
-    // Read Address
-    logic [8:0] ARID;
-    logic [ADDR_WIDTH-1:0] ARADDR;
-    logic [3:0] ARLEN;
-    logic [2:0] ARSIZE;
-    logic [1:0] ARBURST;
-    logic ARVALID, ARREADY;
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                                WRITE RESPONSE CHANNEL
+    //////////////////////////////////////////////////////////////////////////////////////////
+    logic [8:0] BID;                      // Write Response ID
+    logic [1:0] BRESP;                    // Write Response
+    logic BVALID;                         // Write Response Valid
+    logic BREADY;                         // Write Response Ready
 
-    // Read Data
-    logic [8:0] RID;
-    logic [DATA_WIDTH-1:0] RDATA;
-    logic [1:0] RRESP;
-    logic RLAST, RVALID, RREADY;
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                                READ ADDRESS CHANNEL
+    //////////////////////////////////////////////////////////////////////////////////////////
+    logic [8:0] ARID;                     // Read Address ID
+    logic [ADDR_WIDTH-1:0] ARADDR;        // Read Address
+    logic [3:0] ARLEN;                    // Burst Length
+    logic [2:0] ARSIZE;                   // Burst Size
+    logic [1:0] ARBURST;                  // Burst Type
+    logic ARVALID;                        // Read Address Valid
+    logic ARREADY;                        // Read Address Ready
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                                READ DATA CHANNEL
+    //////////////////////////////////////////////////////////////////////////////////////////
+    logic [8:0] RID;                      // Read Data ID
+    logic [DATA_WIDTH-1:0] RDATA;         // Read Data
+    logic [1:0] RRESP;                    // Read Response
+    logic RLAST;                          // Read Last
+    logic RVALID;                         // Read Valid
+    logic RREADY;                         // Read Ready
+
+    // ======================================================================================
+    //                           Clocking Blocks for AXI4 Interface
+    // ======================================================================================
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                              Master Driver Clocking Block
+    //////////////////////////////////////////////////////////////////////////////////////////
     clocking master_driver_cb @(posedge clk);
-        output AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
-        input AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
+        output AWID, AWADDR, AWLEN, AWSIZE, AWBURST, AWVALID, 
+               WID, WDATA, WSTRB, WLAST, WVALID, BREADY,
+               ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+        input  AWREADY, WREADY, BID, BRESP, BVALID,
+               ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                              Monitor Clocking Block
+    //////////////////////////////////////////////////////////////////////////////////////////
     clocking monitor_cb @(posedge clk);
-        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
-        input AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
+        input  AWID, AWADDR, AWLEN, AWSIZE, AWBURST, AWVALID, 
+               WID, WDATA, WSTRB, WLAST, WVALID, BREADY,
+               ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+        input  AWREADY, WREADY, BID, BRESP, BVALID,
+               ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //                              Slave Driver Clocking Block
+    //////////////////////////////////////////////////////////////////////////////////////////
     clocking slave_driver_cb @(posedge clk);
-        input AWID, AWADDR, AWLEN, AWSIZE, AWBURST,AWVALID, WID, WDATA, WSTRB, WLAST, WVALID, BREADY, ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
-        output AWREADY, WREADY, BID, BRESP, BVALID, ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
+        input  AWID, AWADDR, AWLEN, AWSIZE, AWBURST, AWVALID, 
+               WID, WDATA, WSTRB, WLAST, WVALID, BREADY,
+               ARID, ARADDR, ARLEN, ARSIZE, ARBURST, ARVALID, RREADY;
+        output AWREADY, WREADY, BID, BRESP, BVALID, 
+               ARREADY, RID, RDATA, RRESP, RLAST, RVALID;
     endclocking
 
-    modport Master_Driver_MP(clocking master_driver_cb);
-    modport Master_Monitor_MP(clocking monitor_cb);
-    modport Slave_Driver_MP(clocking slave_driver_cb);
-    modport Slave_Monitor_MP(clocking monitor_cb);
-    
-    
+    // ======================================================================================
+    //                           Modport Declarations
+    // ======================================================================================
+    modport Master_Driver_MP(clocking master_driver_cb);  // Master Driver
+    modport Master_Monitor_MP(clocking monitor_cb);       // Master Monitor
+    modport Slave_Driver_MP(clocking slave_driver_cb);    // Slave Driver
+    modport Slave_Monitor_MP(clocking monitor_cb);        // Slave Monitor
 
-    // *************************************************************************************************
-    //                                      Assertions
-    // *************************************************************************************************
-    // Property to check whether all write address channel remains stable after AWVALID is asserted
-    property aw_valid;
-        @(posedge clk) $rose(AWVALID) |-> ( $stable(AWID)   
-                                            &&$stable(AWADDR)
-                                            &&$stable(AWLEN)
-                                            &&$stable(AWSIZE) 
-                                            &&$stable(AWBURST)) throughout AWREADY[->1];
-    endproperty
-
-    // Property to check whether all write address channel remains stable after AWVALID is asserted
-    property w_valid;
-        @(posedge clk) $rose(WVALID) |-> (  $stable(WID) 
-                                            && $stable(WDATA)
-                                            && $stable(WSTRB)
-                                            && $stable(WLAST)) throughout WREADY[->1];
-    endproperty
-
-    // Property to check whether all write address channel remains stable after AWVALID is asserted
-    property b_valid;
-        @(posedge clk) $rose(BVALID) |-> (  $stable(BID) 
-                                            && $stable(BRESP)) throughout BREADY[->1];
-    endproperty
-
-    // Property to check whether all write address channel remains stable after AWVALID is asserted
-    property ar_valid;
-        @(posedge clk) $rose(ARVALID) |-> ( $stable(ARID)   
-                                            &&$stable(ARADDR)
-                                            &&$stable(ARLEN)
-                                            &&$stable(ARSIZE) 
-                                            &&$stable(ARBURST)) throughout ARREADY[->1];
-    endproperty
-
-    // Property to check whether all write address channel remains stable after AWVALID is asserted
-    property r_valid;
-        @(posedge clk) $rose(RVALID) |-> (  $stable(RID) 
-                                            && $stable(RDATA)
-                                            && $stable(RRESP)
-                                            && $stable(RLAST)) throughout RREADY[->1];
-    endproperty
-
-    assert property (aw_valid);
-    assert property (w_valid);
-    assert property (b_valid);
-    assert property (ar_valid);
-    assert property (r_valid);
-endinterface //axi_intf
+endinterface

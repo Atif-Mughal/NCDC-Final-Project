@@ -50,7 +50,7 @@ endclass //axi_base_test extends uvm_test
 
 
 // ****************************************************************************************
-//                                  Reset Test Cases
+//                                  Reset Test Case
 // ****************************************************************************************
 class axi_reset_test extends axi_base_test;
     `uvm_component_utils(axi_reset_test)

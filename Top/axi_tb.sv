@@ -19,7 +19,7 @@ class AXI_tb extends uvm_env;
   //---------------------------------------------------------------------------
   axi_slave_env slave;               // Instance of the Slave environment
   axi_master_env master;         // Instance of the axi_master environment
-  //AXI_scorboard scoreboard;      // Instance of the scoreboard for data verification
+  AXI_scorboard scoreboard;      // Instance of the scoreboard for data verification
 
   //---------------------------------------------------------------------------
   // CONSTRUCTOR
@@ -45,9 +45,9 @@ class AXI_tb extends uvm_env;
     master = axi_master_env::type_id::create("master", this);
 
     // Create the Scoreboard instance
-    //scoreboard = AXI_scorboard::type_id::create("scoreboard", this);
+    scoreboard = AXI_scorboard::type_id::create("scoreboard", this);
   endfunction : build_phase
-/*
+
   //---------------------------------------------------------------------------
   // CONNECT PHASE
   //---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ class AXI_tb extends uvm_env;
     );
   endfunction : connect_phase
   
-  */
+ 
 
 endclass : AXI_tb
 

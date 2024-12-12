@@ -18,7 +18,9 @@ class axi_master_agent extends uvm_agent;
   // Instances of the axi_master monitor, driver, and sequencer components.
   axi_master_monitor          monitor;   // Monitors transactions on the interface
   axi_master_driver           driver;    // Drives transactions to the DUT
-  axi_master_sequencer        sequencer; // Sequences transaction items
+ 
+  uvm_sequencer #(axi_master_seq_item) write_seqr;
+  uvm_sequencer #(axi_master_seq_item) read_seqr;
   
   // Macro to register the component with UVM Factory
   `uvm_component_utils(axi_master_agent)
@@ -40,13 +42,15 @@ class axi_master_agent extends uvm_agent;
   //---------------------------------------------------------------------------
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    
+    write_seqr = uvm_sequencer#(axi_master_seq_item)::type_id::create("write_seqr", this);
+    read_seqr = uvm_sequencer#(axi_master_seq_item)::type_id::create("read_seqr",this);    
     // Create the monitor instance
     monitor = axi_master_monitor::type_id::create("monitor", this);
+     
     
     if (is_active == UVM_ACTIVE) begin
       // Create the driver and sequencer if the agent is active
-      sequencer = axi_master_sequencer::type_id::create("sequencer", this);
+    
       driver    = axi_master_driver::type_id::create("driver", this);
     end
   endfunction : build_phase
@@ -57,13 +61,16 @@ class axi_master_agent extends uvm_agent;
   // - Connects the driver to the sequencer.
   // - Establishes the producer-consumer relationship.
   //---------------------------------------------------------------------------
-  /*
+  
   virtual function void connect_phase(uvm_phase phase);
-   // if (is_active == UVM_ACTIVE) begin
+  
+    if (is_active == UVM_ACTIVE) begin
       // Connect driver sequencer port to sequencer export
-      driver.seq_item_port.connect(sequencer.seq_item_export);
-   // end
+      
+      driver.seq_item_port.connect(write_seqr.seq_item_export);
+      driver.seq_item_port2.connect(read_seqr.seq_item_export);
+   end
   endfunction : connect_phase
-  */
+  
 
 endclass : axi_master_agent

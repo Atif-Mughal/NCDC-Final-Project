@@ -59,6 +59,8 @@ interface axi4_if (input bit clk);
     modport MMON(clocking mon_cb);
     modport SDRV(clocking s_drv_cb);
     modport SMON(clocking mon_cb);
+    
+    
 
     // *************************************************************************************************
     //                                      Assertions

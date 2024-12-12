@@ -1,5 +1,6 @@
 import config_pkg::*;
 import axi_parameters::*;
+typedef enum bit [1:0] { FIXED, INCR, WRAP } B_TYPE;
 class axi_slave_monitor extends uvm_monitor;
     `uvm_component_utils(axi_slave_monitor)
 
@@ -19,6 +20,10 @@ class axi_slave_monitor extends uvm_monitor;
         super.new(name, parent);
         write_done = 1;   // Initially set write transaction as done
         read_done = 1;    // Initially set read transaction as done
+        if (!uvm_config_db#(virtual axi4_if)::get(null,"*env*","vif",vif))
+        begin
+           `uvm_error(get_name(), "Interface is not available");
+        end
     endfunction
 
     // ******************* Build Phase *******************

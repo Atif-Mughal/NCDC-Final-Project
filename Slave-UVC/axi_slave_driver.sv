@@ -19,12 +19,18 @@ class axi_slave_driver extends uvm_driver;
         write_done = 1;
         read_done = 1;
         // Retrieve configuration from ConfigDB
-        if (!uvm_config_db#(test_config)::get(null, "*tb*", "test_cfg", test_cfg)) 
-            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+         
     endfunction //new()
     function void build_phase(uvm_phase phase);
         write_transaction = new("write_transaction");
         read_transaction = new("read_transaction");
+        
+        if (!uvm_config_db#(test_config)::get(null, "*", "test_cfg", test_cfg)) 
+            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+        if (!uvm_config_db#(virtual axi4_if)::get(null,"*env*","vif",vif))
+        begin
+           `uvm_error(get_name(), "Interface is not available");
+        end
     endfunction: build_phase
 
     task run_phase(uvm_phase phase);

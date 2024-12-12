@@ -1,3 +1,5 @@
+    import uvm_pkg::*;                // UVM base package
+    `include "uvm_macros.svh"         // UVM macros for testbench automation
 import axi_parameters::*;
 typedef enum bit [1:0] { FIXED, INCR, WRAP } B_TYPE;
 

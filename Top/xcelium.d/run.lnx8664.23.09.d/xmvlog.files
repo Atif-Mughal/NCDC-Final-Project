@@ -2,10 +2,10 @@
 // File created by:  xrun
 // Do not modify this file
 //
-/home/cc/Downloads/NCDC-Final-Project/Top/axi_config.sv
-/home/cc/Downloads/NCDC-Final-Project/Top/axi_parameters.sv
-/home/cc/Downloads/NCDC-Final-Project/Master-UVC/axi_master_pkg.sv
-/home/cc/Downloads/NCDC-Final-Project/Slave-UVC/axi_slave_pkg.sv
-/home/cc/Downloads/NCDC-Final-Project/Top/axi4_if.sv
-/home/cc/Downloads/NCDC-Final-Project/Top/hw_top.sv
-/home/cc/Downloads/NCDC-Final-Project/Top/axi_top.sv
+/home/cc/Videos/NCDC-Final-Project/Top/axi_config.sv
+/home/cc/Videos/NCDC-Final-Project/Top/axi_parameters.sv
+/home/cc/Videos/NCDC-Final-Project/Master-UVC/axi_master_pkg.sv
+/home/cc/Videos/NCDC-Final-Project/Slave-UVC/axi_slave_pkg.sv
+/home/cc/Videos/NCDC-Final-Project/Top/axi4_if.sv
+/home/cc/Videos/NCDC-Final-Project/Top/hw_top.sv
+/home/cc/Videos/NCDC-Final-Project/Top/axi_top.sv

@@ -17,9 +17,11 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ******************* Component Interface *******************
     // Virtual Interface for the AXI Master interface (connected to the DUT)
     virtual axi4_if vif;
+    
 
     // ******************* UVM Ports *******************
-    //uvm_seq_item_pull_port#(axi_master_seq_item) seq_item_port;
+    uvm_seq_item_pull_port #(REQ, RSP) seq_item_port2;
+    semaphore write_semaphore, read_semaphore;
 
     // ******************* Variables *******************
     axi_master_seq_item write_transaction, read_transaction;   // Write and Read transaction objects
@@ -34,21 +36,34 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         super.new(name, parent);
         write_done = 1;   // Initially set write transaction as done
         read_done = 1;   // Initially set read transaction as done
-        seq_item_port = new("seq_item_port", this);  // Create the port for sequence items
-        // Retrieve configuration from ConfigDB
-        if (!uvm_config_db#(test_config)::get(null, "*tb*", "test_cfg", test_cfg)) 
-            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+        seq_item_port2 = new("seq_item_port2", this);  // Create the port for sequence items
+        write_semaphore = new(1);
+        read_semaphore = new(1);
+        
     endfunction
+    
+    function void build_phase(uvm_phase phase);
+    	super.build_phase(phase);
+    	if (!uvm_config_db#(test_config)::get(null, "*", "test_cfg", test_cfg)) 
+            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+        if (!uvm_config_db#(virtual axi4_if)::get(null,"*env*","vif",vif))
+        begin
+           `uvm_fatal(get_name(), "Interface is not available");
+        end
+    endfunction
+    
     
     // ****************************************************************************
     // ** run_phase Implementation
     // ****************************************************************************
     task run_phase(uvm_phase phase);
-        `uvm_info("DEBUG", "Started AXI Master Driver", UVM_HIGH)
+        `uvm_info(get_type_name(), "Started AXI Master Driver", UVM_HIGH)
+        `uvm_info(get_type_name(), "Started AXI Master Driver", UVM_HIGH)
         
         // Drive initial values for read/write control signals
         vif.m_drv_cb.BREADY <= 1;
         vif.m_drv_cb.RREADY <= 1;
+       
 
         // Forever loop to continuously drive transactions
         forever begin
@@ -60,11 +75,13 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ** drive Implementation
     // ****************************************************************************
     task drive();
+    
         // Handle reset signal and drive control signals accordingly
         if (test_cfg.ARESET_n == 0) begin
             vif.m_drv_cb.AWVALID <= 0;
             vif.m_drv_cb.WVALID <= 0;
             vif.m_drv_cb.ARVALID <= 0;
+            
             return;
         end
         

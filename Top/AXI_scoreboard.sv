@@ -1,7 +1,6 @@
 import uvm_pkg::*;                // UVM base package
 `include "uvm_macros.svh"         // UVM macros for testbench automation
 import axi_parameters::*;
-`include "../Master-UVC/axi_master_seq_item.sv"
 // CLASS: AXI_scorboard
 // DESCRIPTION:
 // - Implements a UVM scoreboard for comparing and verifying the data flow 
@@ -27,7 +26,7 @@ class AXI_scorboard extends uvm_scoreboard;
 
   axi_master_seq_item master_in; // Stores Master transaction data
   axi_master_seq_item slave_in;     // Stores Slave interface packet data
-
+/*
     // *******************************************************************
     // **                     COVERAGE GROUPS                          **
     // *******************************************************************
@@ -48,6 +47,7 @@ class AXI_scorboard extends uvm_scoreboard;
         c3: coverpoint slave_in.BURST_SIZE; 
         c4: coverpoint slave_in.BURST_LENGTH; 
     endgroup
+    */
 
   //---------------------------------------------------------------------------
   // CONSTRUCTOR
@@ -62,8 +62,8 @@ class AXI_scorboard extends uvm_scoreboard;
     master_in_fifo = new("master_in_fifo", this); // FIFO for Master interface
     slave_in_fifo = new("slave_in_fifo", this);     // FIFO for Slave interface
 
-    master_coverage = new();
-    slave_coverage = new();
+    //master_coverage = new();
+    //slave_coverage = new();
 
   endfunction : new
 
@@ -81,7 +81,7 @@ class AXI_scorboard extends uvm_scoreboard;
                   master_in_fifo.get_peek_export.get(master_in);
                   // Log the information about the sequence item for debugging purposes
                   `uvm_info(get_type_name(), $sformatf("Packet is \n %s", master_in.sprint()), UVM_LOW)
-                  master_coverage.sample();
+                 // master_coverage.sample();
 
                 
             end
@@ -90,7 +90,7 @@ class AXI_scorboard extends uvm_scoreboard;
                   slave_in_fifo.get_peek_export.get(slave_in);
                   // Log the information about the sequence item for debugging purposes
                    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", slave_in.sprint()), UVM_LOW)
-                  slave_coverage.sample();
+                 // slave_coverage.sample();
             end
 
       join

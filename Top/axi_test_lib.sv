@@ -37,10 +37,10 @@ class axi_base_test extends uvm_test;
     task run_phase(uvm_phase phase);
     phase.raise_objection(this);
         fork
-            write_seq.start(env.master.my_agent.sequencer);
+            write_seq.start(env.master.my_agent.write_seqr);
             begin
                 #300;
-                read_seq.start(env.master.my_agent.sequencer);
+                read_seq.start(env.master.my_agent.read_seqr);
             end
         join
         phase.drop_objection(this);
@@ -70,7 +70,7 @@ class axi_reset_test extends axi_base_test;
     
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
-        write_seq.start(env.master.my_agent.sequencer);
+        write_seq.start(env.master.my_agent.write_seqr);
         phase.drop_objection(this);
     endtask: run_phase
 endclass //write_test extends axi_base_test
@@ -97,7 +97,7 @@ class axi_write_test extends axi_base_test;
     
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
-        write_seq.start(env.master.my_agent.sequencer);
+        write_seq.start(env.master.my_agent.write_seqr);
         phase.drop_objection(this);
     endtask: run_phase
 endclass //write_test extends axi_base_test
@@ -121,8 +121,8 @@ class axi_read_test extends axi_base_test;
     
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
-        write_seq.start(env.master.my_agent.sequencer);
-        read_seq.start(env.master.my_agent.sequencer);
+        write_seq.start(env.master.my_agent.write_seqr);
+        read_seq.start(env.master.my_agent.read_seqr);
         phase.drop_objection(this);
     endtask: run_phase
 endclass //write_test extends axi_base_test
@@ -136,7 +136,7 @@ class axi_fixed_test extends axi_base_test;
 
     function void build_phase(uvm_phase phase);
         test_cfg.burst_type = 0;
-        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
+        
         test_cfg.ARESET_n = 1; 
         
         write_seq = new("write_seq");

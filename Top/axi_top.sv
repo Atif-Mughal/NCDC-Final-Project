@@ -28,17 +28,31 @@ module AXI_top;
     //---------------------------------------------------------------------------
     import axi_master_pkg::*;           // axi_master interface and related components
     import axi_slave_pkg::*;              // Slave interface and related components
+    /*
+  `include "../Master-UVC/axi_master_seq_item.sv"
+  `include "../Master-UVC/axi_master_sequence.sv"
+  `include "../Master-UVC/axi_master_monitor.sv"
+  `include "../Master-UVC/axi_master_sequencer.sv"
+  `include "../Master-UVC/axi_master_driver.sv"
+  `include "../Master-UVC/axi_master_agent.sv"
+  
+  `include "../Master-UVC/axi_master_env.sv"
+  `include "../Slave-UVC/axi_slave_monitor.sv"
+  `include "../Slave-UVC/axi_slave_driver.sv"
+  `include "../Slave-UVC/axi_slave_agent.sv"
+  `include "../Slave-UVC/axi_slave_env.sv"
+  */
 
     //---------------------------------------------------------------------------
     // TESTBENCH AND SCOREBOARD INCLUDES
     //---------------------------------------------------------------------------
     // - Includes testbench, scoreboard, and test library files for AXI verification.
     //---------------------------------------------------------------------------
-  //  `include "../sv/AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
+   `include "AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
     `include "axi_tb.sv"              // AXI testbench definitions
     `include "axi_test_lib.sv"        // AXI test library containing sequences and tests
     //`include "AXI_assertions.sv"      // Assertions for AXI verification
-    
+    //test_config test_cfg;
 
     //---------------------------------------------------------------------------
     // INITIAL BLOCK
@@ -50,10 +64,11 @@ module AXI_top;
         // Configure the virtual interface for the axi_master environment
         uvm_config_db#(virtual axi4_if)::set(
             null,                     // Parent (null for global scope)
-            "*tb*",                 // Match pattern for components
+            "*env*",                 // Match pattern for components
             "vif",                    // Field name
             hw_top.axi_vif           // Virtual interface instance
         );
+      //  uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);
 
 
         // Start the UVM testbench

@@ -37,17 +37,13 @@
 ./macros/uvm_deprecated_defines.svh
 ../Master-UVC//macros/uvm_deprecated_defines.svh
 ../Slave-UVC//macros/uvm_deprecated_defines.svh
-./axi_master_seq_item.sv
 ./axi_master_sequence.sv
 ./axi_master_monitor.sv
-./axi_master_sequencer.sv
 ./axi_master_driver.sv
 ./axi_master_agent.sv
 ./axi_master_env.sv
 ./axi_slave_monitor.sv
 ../Master-UVC//axi_slave_monitor.sv
-./axi_slave_sequencer.sv
-../Master-UVC//axi_slave_sequencer.sv
 ./axi_slave_driver.sv
 ../Master-UVC//axi_slave_driver.sv
 ./axi_slave_agent.sv

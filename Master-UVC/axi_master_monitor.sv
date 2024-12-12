@@ -31,7 +31,13 @@ class axi_master_monitor extends uvm_monitor;
     // ******************* Build Phase *******************
     // Function to create the analysis port
     function void build_phase(uvm_phase phase);
+        
         mon2scb_port = new("mon2scb_port", this);  // Create the analysis port for transaction items
+        
+        if (!uvm_config_db#(virtual axi4_if)::get(null,"*env*","vif",vif))
+        begin
+           `uvm_error(get_name(), "Interface is not available");
+        end
     endfunction
 
     // ******************* Run Phase *******************

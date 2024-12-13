@@ -24,8 +24,8 @@
 /home/cc/mnt/XCELIUM2309/tools.lnx86/methodology/UVM/CDNS-1.1d/sv/src/macros/uvm_reg_defines.svh
 /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/sv/src/macros/uvm_deprecated_defines.svh
 /home/cc/mnt/XCELIUM2309/tools.lnx86/methodology/UVM/CDNS-1.1d/sv/src/macros/uvm_deprecated_defines.svh
-axi_master_seq_item.sv
-/home/cc/Videos/NCDC-Final-Project/Top/axi_master_seq_item.sv
+../Master-UVC/axi_master_seq_item.sv
+/home/cc/Videos/NCDC-Final-Project/Master-UVC/axi_master_seq_item.sv
 ../Master-UVC/axi_master_sequence.sv
 /home/cc/Videos/NCDC-Final-Project/Master-UVC/axi_master_sequence.sv
 ../Master-UVC/axi_master_monitor.sv

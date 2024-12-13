@@ -66,6 +66,7 @@ class axi_base_test extends uvm_test;
             end
         join
         phase.drop_objection(this);                   // Drop objection after sequences complete
+        $finish;
     endtask: run_phase
 
 endclass: axi_base_test

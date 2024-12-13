@@ -37,6 +37,7 @@
 ./macros/uvm_deprecated_defines.svh
 ../Master-UVC//macros/uvm_deprecated_defines.svh
 ../Slave-UVC//macros/uvm_deprecated_defines.svh
+./axi_master_seq_item.sv
 ./axi_master_sequence.sv
 ./axi_master_monitor.sv
 ./axi_master_driver.sv

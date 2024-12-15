@@ -122,7 +122,7 @@ class axi_slave_driver extends uvm_driver;
         error_flag = 0;
         for (int i = 0; i < write_transaction.BURST_LENGTH + 1; i++) begin
             `uvm_info(get_type_name(), "Inside read_data_loop", UVM_HIGH)
-            
+            $display("Atif %0d", i);
             if (i == 0 || write_transaction.BURST_TYPE == FIXED) begin
                 lower_byte_lane = start_addr - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
                 upper_byte_lane = aligned_addr + bytes_per_beat - 1 - int'(start_addr / (DATA_WIDTH / 8)) * (DATA_WIDTH / 8);
@@ -183,6 +183,7 @@ class axi_slave_driver extends uvm_driver;
         vif.slave_driver_cb.BVALID <= 1;
         @(vif.slave_driver_cb);
         wait(vif.slave_driver_cb.BREADY); // Wait for BREADY to deassert BVALID
+        $display("Atif +++++++++++++++++++++++++++");
         vif.slave_driver_cb.BVALID <= 0; // Deassert BVALID
     endtask: read_write_data
 

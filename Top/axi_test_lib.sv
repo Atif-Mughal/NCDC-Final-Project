@@ -71,6 +71,7 @@ class axi_reset_test extends axi_base_test;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);      // Invoke base class build phase
         test_cfg.ARESET_n = 0;         // Set the reset signal to low (inactive)
+        test_cfg.number_of_write_cases = 1;  // Set number of write cases
     endfunction: build_phase
 
     //---------------------------------------------------------------------------

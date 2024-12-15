@@ -78,6 +78,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     
         // Handle reset signal and drive control signals accordingly
         if (test_cfg.ARESET_n == 0) begin
+        	`uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
             vif.master_driver_cb.AWVALID <= 0;
             vif.master_driver_cb.WVALID <= 0;
             vif.master_driver_cb.ARVALID <= 0;
@@ -173,7 +174,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         // Send data beats one by one
         for (int i = 0; i < len; i++) begin
             `uvm_info(get_type_name(), $sformatf("Sending data beat %0d", i), UVM_HIGH)
-            @(vif.master_driver_cb);
+            //@(vif.master_driver_cb);
             vif.master_driver_cb.WID    <= write_transaction.ID;
             vif.master_driver_cb.WDATA  <= temp[i];
             vif.master_driver_cb.WLAST  <= (i == len - 1) ? 1 : 0;

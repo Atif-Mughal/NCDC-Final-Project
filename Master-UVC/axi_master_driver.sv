@@ -197,6 +197,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ** send_read_address Implementation
     // ****************************************************************************
     task send_read_address();
+    	vif.master_driver_cb.ARVALID <= 0;
         // Send the read address signals to AXI interface
         @(vif.master_driver_cb);
         vif.master_driver_cb.ARID   <= read_transaction.ID;
@@ -212,10 +213,12 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         // Wait for ARREADY and deassert ARVALID
         @(vif.master_driver_cb);
         wait(vif.master_driver_cb.ARREADY);
-        vif.master_driver_cb.ARVALID <= 0;
+        @(vif.master_driver_cb);
+        
 
         // Wait for RLAST signal before sending next address
         wait(vif.master_driver_cb.RLAST && vif.master_driver_cb.RVALID);
+        //vif.master_driver_cb.ARVALID <= 0;
     endtask: send_read_address
 
 endclass: axi_master_driver

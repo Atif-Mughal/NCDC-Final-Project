@@ -10,7 +10,7 @@
 +rwc
 -timescale
 1ns/1ns
-+UVM_TESTNAME=axi_single_write_incr_test
++UVM_TESTNAME=axi_single_read_fixed_test
 -no_analogsolver
 -MESSAGES
 -XLMODE

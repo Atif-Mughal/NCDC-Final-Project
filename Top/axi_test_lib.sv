@@ -295,7 +295,7 @@ class axi_single_write_wrap_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 1;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 1;
+        test_cfg.burst_type = 2;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -342,7 +342,7 @@ class axi_multiple_write_wrap_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 30;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 1;
+        test_cfg.burst_type = 2;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -389,7 +389,7 @@ class axi_single_read_wrap_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_read_cases = 1;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 1;
+        test_cfg.burst_type = 2;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -436,7 +436,7 @@ class axi_multiple_read_wrap_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_read_cases = 30;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 1;
+        test_cfg.burst_type = 2;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -485,7 +485,7 @@ class axi_single_write_incr_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 1;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 2;
+        test_cfg.burst_type = 1;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -532,7 +532,7 @@ class axi_multiple_write_incr_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 30;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 2;
+        test_cfg.burst_type = 1;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -579,7 +579,7 @@ class axi_single_read_incr_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_read_cases = 1;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 2;
+        test_cfg.burst_type = 1;
     endfunction: new
 
     //---------------------------------------------------------------------------
@@ -626,7 +626,7 @@ class axi_multiple_read_incr_test extends axi_base_test;
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_read_cases = 30;  // Set number of write cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
-        test_cfg.burst_type = 2;
+        test_cfg.burst_type = 1;
     endfunction: new
 
     //---------------------------------------------------------------------------

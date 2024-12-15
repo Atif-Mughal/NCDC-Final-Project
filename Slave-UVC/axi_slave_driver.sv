@@ -188,7 +188,7 @@ class axi_slave_driver extends uvm_driver;
 
     task read_read_address();
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
-        slave_driver_cb.ARREADY <= 1;
+        vif.slave_driver_cb.ARREADY <= 1;
         wait(vif.slave_driver_cb.ARVALID);
         read_transaction.ID     = vif.slave_driver_cb.ARID;
         read_transaction.ADDR   = vif.slave_driver_cb.ARADDR;
@@ -297,8 +297,9 @@ class axi_slave_driver extends uvm_driver;
         
         @(vif.slave_driver_cb);
         wait(vif.slave_driver_cb.RREADY); // Wait for RREADY to deassert RVALID
-        vif.slave_driver_cb.RLAST  = 1;
-        vif.slave_driver_cb.RVALID = 0; // Deassert RVALID
+        vif.slave_driver_cb.RLAST  <= 1;
+        @(vif.slave_driver_cb);
+        vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
     endtask: send_read_data
  
 endclass 

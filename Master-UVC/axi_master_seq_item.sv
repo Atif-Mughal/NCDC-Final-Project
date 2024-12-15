@@ -69,7 +69,7 @@ class axi_master_seq_item extends uvm_sequence_item;
         solve BURST_TYPE before BURST_LENGTH;
 
         if (BURST_TYPE == FIXED)
-          BURST_LENGTH inside { 0, 1 };           // FIXED burst length limited to 1 or 2 beats
+          BURST_LENGTH inside { [0:255] };           // FIXED burst length limited to 1 or 2 beats
         else if (BURST_TYPE == WRAP)
           BURST_LENGTH inside { 1, 3, 7, 15 };    // WRAP bursts are power-of-two sizes
       }

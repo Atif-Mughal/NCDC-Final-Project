@@ -262,7 +262,7 @@ class axi_slave_driver extends uvm_driver;
                     error_flag = 1;
                 if (error_flag)
                     continue;
-                vif.slave_driver_cb.RDATA[8 * byte_index +: 8] = mem[current_addr + j - lower_byte_lane];
+                vif.slave_driver_cb.RDATA[8 * byte_index +: 8] <= mem[current_addr + j - lower_byte_lane];
                 `uvm_info(get_type_name(), $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
                 byte_index = byte_index >= bytes_per_beat ? 0 : byte_index;

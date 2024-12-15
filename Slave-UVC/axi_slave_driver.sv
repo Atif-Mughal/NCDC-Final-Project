@@ -188,6 +188,7 @@ class axi_slave_driver extends uvm_driver;
 
     task read_read_address();
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
+        slave_driver_cb.ARREADY <= 1;
         wait(vif.slave_driver_cb.ARVALID);
         read_transaction.ID     = vif.slave_driver_cb.ARID;
         read_transaction.ADDR   = vif.slave_driver_cb.ARADDR;
@@ -251,9 +252,9 @@ class axi_slave_driver extends uvm_driver;
             `uvm_info(get_type_name(), $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
             `uvm_info(get_type_name(), $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
             `uvm_info(get_type_name(), $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
-            $display("WALID = %0d", vif.slave_driver_cb.WVALID);
+            //$display("WALID = %0d", vif.slave_driver_cb.WVALID);
             
-            wait(vif.slave_driver_cb.WVALID); // Wait for valid read data
+            //wait(vif.slave_driver_cb.WVALID); // Wait for valid read data
             
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
@@ -293,9 +294,11 @@ class axi_slave_driver extends uvm_driver;
 
         @(vif.slave_driver_cb);
         vif.slave_driver_cb.RVALID <= 1;
+        
         @(vif.slave_driver_cb);
         wait(vif.slave_driver_cb.RREADY); // Wait for RREADY to deassert RVALID
-        vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
+        vif.slave_driver_cb.RLAST  = 1;
+        vif.slave_driver_cb.RVALID = 0; // Deassert RVALID
     endtask: send_read_data
  
 endclass 

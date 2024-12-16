@@ -183,7 +183,6 @@ class axi_slave_driver extends uvm_driver;
         vif.slave_driver_cb.BVALID <= 1;
         @(vif.slave_driver_cb);
         wait(vif.slave_driver_cb.BREADY); // Wait for BREADY to deassert BVALID
-        $display("Atif +++++++++++++++++++++++++++");
         vif.slave_driver_cb.BVALID <= 0; // Deassert BVALID
     endtask: read_write_data
 

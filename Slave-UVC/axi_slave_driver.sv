@@ -50,9 +50,12 @@ class axi_slave_driver extends uvm_driver;
     
 
     task drive();
-        if(!test_cfg.ARESET_n) begin
-            vif.slave_driver_cb.RVALID <= 0;
-            vif.slave_driver_cb.BVALID <= 0;
+        if(vif.ARESET_n) begin
+            vif.slave_driver_cb.RVALID      <= 0;
+            vif.slave_driver_cb.BVALID      <= 0;
+            vif.master_driver_cb.AWVALID    <= 0;
+            vif.master_driver_cb.WVALID     <= 0;
+            vif.master_driver_cb.ARVALID    <= 0;
             return;
         end
         fork
@@ -79,10 +82,11 @@ class axi_slave_driver extends uvm_driver;
     task read_write_address();
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         wait(vif.slave_driver_cb.AWVALID);
-        write_transaction.ID     = vif.slave_driver_cb.AWID;
-        write_transaction.ADDR   = vif.slave_driver_cb.AWADDR;
-        write_transaction.BURST_SIZE = vif.slave_driver_cb.AWSIZE;
-        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
+        write_transaction.ARESET_n      = vif.slave_driver_cb.ARESET_n;
+        write_transaction.ID            = vif.slave_driver_cb.AWID;
+        write_transaction.ADDR          = vif.slave_driver_cb.AWADDR;
+        write_transaction.BURST_SIZE    = vif.slave_driver_cb.AWSIZE;
+        write_transaction.BURST_TYPE    = B_TYPE'(vif.slave_driver_cb.AWBURST);
         write_transaction.BURST_LENGTH  = vif.slave_driver_cb.AWLEN;
 
         write_transaction.print();
@@ -190,11 +194,12 @@ class axi_slave_driver extends uvm_driver;
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         vif.slave_driver_cb.ARREADY <= 1;
         wait(vif.slave_driver_cb.ARVALID);
-        read_transaction.ID     = vif.slave_driver_cb.ARID;
-        read_transaction.ADDR   = vif.slave_driver_cb.ARADDR;
-        read_transaction.BURST_SIZE = vif.slave_driver_cb.ARSIZE;
-        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
-        read_transaction.BURST_LENGTH  = vif.slave_driver_cb.ARLEN;
+        read_transaction.ARESET_n       = vif.slave_driver_cb.ARESET_n;
+        read_transaction.ID             = vif.slave_driver_cb.ARID;
+        read_transaction.ADDR           = vif.slave_driver_cb.ARADDR;
+        read_transaction.BURST_SIZE     = vif.slave_driver_cb.ARSIZE;
+        read_transaction.BURST_TYPE     = B_TYPE'(vif.slave_driver_cb.ARBURST);
+        read_transaction.BURST_LENGTH   = vif.slave_driver_cb.ARLEN;
 
         read_transaction.print();
     endtask: read_read_address
@@ -206,7 +211,7 @@ class axi_slave_driver extends uvm_driver;
         bit is_aligned;
         int byte_index;
         bit error_flag;
-        `uvm_info("SLAVE", "Inside send_read_data", UVM_HIGH)
+        `uvm_info(get_type_name(), "Inside send_read_data", UVM_HIGH)
         
         start_addr = read_transaction.ADDR;
         bytes_per_beat = 2**read_transaction.BURST_SIZE;

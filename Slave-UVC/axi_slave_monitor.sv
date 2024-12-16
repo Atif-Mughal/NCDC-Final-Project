@@ -68,6 +68,7 @@ class axi_slave_monitor extends uvm_monitor;
             write_transaction = axi_master_seq_item::type_id::create("write_transaction");
 
             // Collect Write Address channel information
+            write_transaction.ARESET_n = vif.monitor_cb.ARESET_n;
             write_transaction.ADDR = vif.monitor_cb.AWADDR;
             write_transaction.ID = vif.monitor_cb.AWID;
             write_transaction.BURST_SIZE = vif.monitor_cb.AWSIZE;
@@ -103,6 +104,7 @@ class axi_slave_monitor extends uvm_monitor;
             read_transaction = axi_master_seq_item::type_id::create("read_transaction");
 
             // Collect Read Address channel information
+            read_transaction.ARESET_n = vif.monitor_cb.ARESET_n;
             read_transaction.ADDR = vif.monitor_cb.ARADDR;
             read_transaction.ID = vif.monitor_cb.ARID;
             read_transaction.BURST_SIZE = vif.monitor_cb.ARSIZE;

@@ -75,17 +75,6 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ** drive Implementation
     // ****************************************************************************
     task drive();
-    
-        // Handle reset signal and drive control signals accordingly
-        if (test_cfg.ARESET_n == 0) begin
-        	`uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
-            vif.master_driver_cb.AWVALID <= 0;
-            vif.master_driver_cb.WVALID <= 0;
-            vif.master_driver_cb.ARVALID <= 0;
-            
-            return;
-        end
-        
         fork
             // Handle Write Transaction
             begin
@@ -131,6 +120,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         
         // Drive Write Address Channel signals
         @(vif.master_driver_cb);  // Synchronize with the AXI interface
+        vif.master_driver_cb.ARESET_n   <= write_transaction.ARESET_n;
         vif.master_driver_cb.AWID   <= write_transaction.ID;
         vif.master_driver_cb.AWADDR <= write_transaction.ADDR;
         vif.master_driver_cb.AWLEN  <= write_transaction.BURST_LENGTH;
@@ -201,11 +191,12 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     	vif.master_driver_cb.ARVALID <= 0;
         // Send the read address signals to AXI interface
         @(vif.master_driver_cb);
-        vif.master_driver_cb.ARID   <= read_transaction.ID;
-        vif.master_driver_cb.ARADDR <= read_transaction.ADDR;
-        vif.master_driver_cb.ARLEN  <= read_transaction.BURST_LENGTH;
-        vif.master_driver_cb.ARSIZE <= read_transaction.BURST_SIZE;
-        vif.master_driver_cb.ARBURST<= read_transaction.BURST_TYPE;
+        vif.master_driver_cb.ARESET_n   <= read_transaction.ARESET_n;
+        vif.master_driver_cb.ARID       <= read_transaction.ID;
+        vif.master_driver_cb.ARADDR     <= read_transaction.ADDR;
+        vif.master_driver_cb.ARLEN      <= read_transaction.BURST_LENGTH;
+        vif.master_driver_cb.ARSIZE     <= read_transaction.BURST_SIZE;
+        vif.master_driver_cb.ARBURST    <= read_transaction.BURST_TYPE;
 
         // Assert ARVALID after one clock cycle
         @(vif.master_driver_cb);

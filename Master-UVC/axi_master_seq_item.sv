@@ -18,6 +18,7 @@ class axi_master_seq_item extends uvm_sequence_item;
       // ========================================================================================
       //                            AXI Attributes
       // ========================================================================================
+      bit ARESET_n;
       bit [7:0] ID;                               // Transaction ID
       rand bit [ADDR_WIDTH-1:0] ADDR;             // Address for transaction
       rand bit [7:0] DATA [][];                   // Burst data

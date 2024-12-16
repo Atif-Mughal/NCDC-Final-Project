@@ -92,13 +92,13 @@ class axi_write_sequence extends uvm_sequence;
 
             // Randomize the burst type based on test configuration
             if (test_cfg.burst_type == 0)
-                assert(item.randomize() with { BURST_TYPE == FIXED; });
+                assert(item.randomize() with { BURST_TYPE == FIXED; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 1)
-                assert(item.randomize() with { BURST_TYPE == INCR; });
+                assert(item.randomize() with { BURST_TYPE == INCR;  ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 2)
-                assert(item.randomize() with { BURST_TYPE == WRAP; });
+                assert(item.randomize() with { BURST_TYPE == WRAP;  ARESET_n == test_cfg.ARESET_n;});
             else
-                assert(item.randomize()); // Default random burst type
+                assert(item.randomize() with { ARESET_n == test_cfg.ARESET_n; }); // Default random burst type
 
             // Assign a unique ID to the transaction
             item.ID = {1'b0, id};
@@ -211,13 +211,13 @@ class axi_read_sequence extends uvm_sequence;
 
             // Randomize burst type based on the test configuration
             if (test_cfg.burst_type == 0)
-                assert(trans.randomize() with { BURST_TYPE == FIXED; });
+                assert(trans.randomize() with { BURST_TYPE == FIXED; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 1)
-                assert(trans.randomize() with { BURST_TYPE == INCR; });
+                assert(trans.randomize() with { BURST_TYPE == INCR; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 2)
-                assert(trans.randomize() with { BURST_TYPE == WRAP; });
+                assert(trans.randomize() with { BURST_TYPE == WRAP; ARESET_n == test_cfg.ARESET_n; });
             else
-                assert(trans.randomize()); // Default randomization
+                assert(trans.randomize() with { ARESET_n == test_cfg.ARESET_n; }); // Default randomization
 
             // Set transaction ID
             trans.ID = {1'b1, id};

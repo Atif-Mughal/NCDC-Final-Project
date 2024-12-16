@@ -94,11 +94,11 @@ class axi_write_sequence extends uvm_sequence;
             if (test_cfg.burst_type == 0)
                 assert(item.randomize() with { BURST_TYPE == FIXED; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 1)
-                assert(item.randomize() with { BURST_TYPE == INCR;  ARESET_n == test_cfg.ARESET_n;});
+                assert(item.randomize() with { BURST_TYPE == INCR; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 2)
-                assert(item.randomize() with { BURST_TYPE == WRAP;  ARESET_n == test_cfg.ARESET_n;});
+                assert(item.randomize() with { BURST_TYPE == WRAP; ARESET_n == test_cfg.ARESET_n;});
             else
-                assert(item.randomize() with { ARESET_n == test_cfg.ARESET_n; }); // Default random burst type
+                assert(item.randomize() with { ARESET_n == test_cfg.ARESET_n;}); // Default random burst type
 
             // Assign a unique ID to the transaction
             item.ID = {1'b0, id};
@@ -215,9 +215,9 @@ class axi_read_sequence extends uvm_sequence;
             else if (test_cfg.burst_type == 1)
                 assert(trans.randomize() with { BURST_TYPE == INCR; ARESET_n == test_cfg.ARESET_n;});
             else if (test_cfg.burst_type == 2)
-                assert(trans.randomize() with { BURST_TYPE == WRAP; ARESET_n == test_cfg.ARESET_n; });
+                assert(trans.randomize() with { BURST_TYPE == WRAP; ARESET_n == test_cfg.ARESET_n;});
             else
-                assert(trans.randomize() with { ARESET_n == test_cfg.ARESET_n; }); // Default randomization
+                assert(trans.randomize() with { ARESET_n == test_cfg.ARESET_n;}); // Default randomization
 
             // Set transaction ID
             trans.ID = {1'b1, id};

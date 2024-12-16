@@ -7,7 +7,7 @@
 -timescale 1ns/1ns
 +SVSEED=random
 -uvmhome /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
-+UVM_TESTNAME=axi_single_write_fixed_test
++UVM_TESTNAME=axi_multiple_read_wrap_test
 +UVM_VERBOSITY=UVM_HIGH
 
 axi_config.sv

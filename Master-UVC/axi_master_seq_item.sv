@@ -18,7 +18,7 @@ class axi_master_seq_item extends uvm_sequence_item;
       // ========================================================================================
       //                            AXI Attributes
       // ========================================================================================
-      bit ARESET_n;
+      rand bit ARESET_n;
       bit [7:0] ID;                               // Transaction ID
       rand bit [ADDR_WIDTH-1:0] ADDR;             // Address for transaction
       rand bit [7:0] DATA [][];                   // Burst data
@@ -37,6 +37,7 @@ class axi_master_seq_item extends uvm_sequence_item;
           // ----------------------------------------------------------------------------------------
           //                        AXI Attributes with Packing/Unpacking Macros
           // ----------------------------------------------------------------------------------------
+          `uvm_field_int(ARESET_n, UVM_DEFAULT )  
           `uvm_field_int(ID, UVM_DEFAULT + UVM_DEC)                               // Transaction ID
           `uvm_field_int(ADDR, UVM_DEFAULT + UVM_BIN)                   // Address for transaction
           // `uvm_field_array_int(DATA, UVM_DEFAULT)                   // Burst data (pack/unpack as needed)

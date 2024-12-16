@@ -120,7 +120,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         
         // Drive Write Address Channel signals
         @(vif.master_driver_cb);  // Synchronize with the AXI interface
-        vif.master_driver_cb.ARESET_n   <= write_transaction.ARESET_n;
+        vif.ARESET_n   <= write_transaction.ARESET_n;
         vif.master_driver_cb.AWID   <= write_transaction.ID;
         vif.master_driver_cb.AWADDR <= write_transaction.ADDR;
         vif.master_driver_cb.AWLEN  <= write_transaction.BURST_LENGTH;
@@ -191,7 +191,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     	vif.master_driver_cb.ARVALID <= 0;
         // Send the read address signals to AXI interface
         @(vif.master_driver_cb);
-        vif.master_driver_cb.ARESET_n   <= read_transaction.ARESET_n;
+        vif.ARESET_n   <= read_transaction.ARESET_n;
         vif.master_driver_cb.ARID       <= read_transaction.ID;
         vif.master_driver_cb.ARADDR     <= read_transaction.ADDR;
         vif.master_driver_cb.ARLEN      <= read_transaction.BURST_LENGTH;

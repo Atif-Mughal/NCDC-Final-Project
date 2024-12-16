@@ -82,7 +82,7 @@ class axi_slave_driver extends uvm_driver;
     task read_write_address();
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         wait(vif.slave_driver_cb.AWVALID);
-        write_transaction.ARESET_n      = vif.slave_driver_cb.ARESET_n;
+        write_transaction.ARESET_n      = vif.ARESET_n;
         write_transaction.ID            = vif.slave_driver_cb.AWID;
         write_transaction.ADDR          = vif.slave_driver_cb.AWADDR;
         write_transaction.BURST_SIZE    = vif.slave_driver_cb.AWSIZE;
@@ -194,7 +194,7 @@ class axi_slave_driver extends uvm_driver;
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         vif.slave_driver_cb.ARREADY <= 1;
         wait(vif.slave_driver_cb.ARVALID);
-        read_transaction.ARESET_n       = vif.slave_driver_cb.ARESET_n;
+        read_transaction.ARESET_n       = vif.ARESET_n;
         read_transaction.ID             = vif.slave_driver_cb.ARID;
         read_transaction.ADDR           = vif.slave_driver_cb.ARADDR;
         read_transaction.BURST_SIZE     = vif.slave_driver_cb.ARSIZE;

@@ -28,28 +28,263 @@ class AXI_scorboard extends uvm_scoreboard;
 
 	  axi_master_seq_item master_in, master_transaction; // Stores Master transaction data
 	  axi_master_seq_item slave_in, slave_transaction;     // Stores Slave interface packet data
-	/*
-	    // *******************************************************************
-	    // **                     COVERAGE GROUPS                          **
-	    // *******************************************************************
-	    covergroup master_coverage;
-		c1: coverpoint master_in.ADDR {
-		    bins b1[] = {[0: ADDR_WIDTH>>2]};
-		    bins b2 = {((1<<ADDR_WIDTH) - 1)};
-		}
-		c3: coverpoint master_in.BURST_SIZE; 
-		c4: coverpoint master_in.BURST_LENGTH; 
-	    endgroup
+	        // *******************************************************************
+        // **                     COVERAGE GROUPS                          **
+        // *******************************************************************
+        covergroup coverage;    	  
+    	  
+    	  //Reset
+        ARESET_n: coverpoint vif.ARESET_n;
+        
+        //Read Address Channel
+        ARADDR: coverpoint vif.ARADDR {
+				bins b1[] = {[0: ADDR_WIDTH >> 2]};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+        ARREADY: coverpoint vif.ARREADY;
+        ARVALID: coverpoint vif.ARVALID;
+        ARLEN: coverpoint vif.ARLEN;
+        ARBURST: coverpoint vif.ARBURST{
+				 bins b1[] =  {[0 : 2]};
+				 illegal_bins b2 = {3};
+        }
+        ARSIZE: coverpoint vif.ARSIZE{
+        		bins b1[] =  {[0 : 7]};
+        }
+        ARBURSTxARLEN:  cross ARBURST, ARLEN{
+						bins b1 = binsof(ARBURST) intersect {0} && binsof(ARLEN) intersect {[0:7]};
+						bins b2 = binsof(ARBURST) intersect {0} && binsof(ARLEN) intersect {[8:15]};
+						bins b3 = binsof(ARBURST) intersect {1} && binsof(ARLEN) intersect {[0:127]};        		
+						bins b4 = binsof(ARBURST) intersect {1} && binsof(ARLEN) intersect {[128:255]};
+						bins b5 = binsof(ARBURST) intersect {2} && binsof(ARLEN) intersect {1, 3, 7, 15};
+						illegal_bins b6 = binsof(ARBURST) intersect {2} && !binsof(ARLEN) intersect {1, 3, 7, 15};     		
+        }
+        
+        //Read Data Channel
+        RDATA:  coverpoint vif.RDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        RREADY: coverpoint vif.RREADY;
+        RVALID: coverpoint vif.RVALID;
+        RLAST: coverpoint vif.RLAST;
+        RRESP: coverpoint vif.RRESP;
+        
+        //Write Address Channel
+        AWADDR: coverpoint vif.AWADDR {
+				bins b1[] = {[0: ADDR_WIDTH >> 2]};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+        AWREADY: coverpoint vif.AWREADY;
+        AWVALID: coverpoint vif.AWVALID;
+        AWLEN: coverpoint vif.AWLEN;
+        AWBURST: coverpoint vif.AWBURST{
+        		 bins b1[] =  {[0 : 2]};
+        		 illegal_bins b2 = {3};
+        }
+        AWSIZE: coverpoint vif.AWSIZE{
+        		bins b1[] =  {[0 : 7]};
+        }
+        
+        AWBURSTxAWLEN:  cross AWBURST, AWLEN{
+						bins b1 = binsof(AWBURST) intersect {0} && binsof(AWLEN) intersect {[0:7]};
+						bins b2 = binsof(AWBURST) intersect {0} && binsof(AWLEN) intersect {[8:15]};
+						bins b3 = binsof(AWBURST) intersect {1} && binsof(AWLEN) intersect {[0:127]};        		
+						bins b4 = binsof(AWBURST) intersect {1} && binsof(AWLEN) intersect {[128:255]};
+						bins b5 = binsof(AWBURST) intersect {2} && binsof(AWLEN) intersect {1, 3, 7, 15};
+						illegal_bins b6 = binsof(AWBURST) intersect {2} && !binsof(AWLEN) intersect {1, 3, 7, 15}; 
+        }
+        
+        //Write Data Channel
+        WDATA:  coverpoint vif.WDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};             
+        }
+        WSTRB:  coverpoint vif.WSTRB{
+        		bins b1[] =  {0, 1, 2, 4, 8};
+        		illegal_bins b2 = default;
+        }
 
-	    covergroup slave_coverage;
-		c1: coverpoint slave_in.ADDR {
-		    bins b1[] = {[0: ADDR_WIDTH>>2]};
-		    bins b2 = {((1<<ADDR_WIDTH) - 1)};
-		}
-		c3: coverpoint slave_in.BURST_SIZE; 
-		c4: coverpoint slave_in.BURST_LENGTH; 
-	    endgroup
-	    */
+        WLAST: coverpoint vif.WLAST;
+        WREADY: coverpoint vif.WREADY;
+        WVALID: coverpoint vif.WVALID;
+        
+        //Write Response Channel
+        BRESP: coverpoint vif.BRESP;
+        BREADY: coverpoint vif.BREADY;
+        BVALID: coverpoint vif.BVALID;                 
+               
+    endgroup
+    //////////////////////////////////////////////////////////////////
+    covergroup fixed_write;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.WDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {0};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup  
+    //////////////////////////////////////////////////////////////////
+    covergroup incr_write;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.WDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {1};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup
+    //////////////////////////////////////////////////////////////////
+    covergroup wrap_write;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.WDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {2};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup
+	 //////////////////////////////////////////////////////////////////
+    covergroup fixed_read;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.RDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {0};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup  
+    //////////////////////////////////////////////////////////////////
+    covergroup incr_read;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.RDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {1};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup
+    //////////////////////////////////////////////////////////////////
+    covergroup wrap_read;
+           
+        ADDR: coverpoint master_in.ADDR {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
+				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+        }
+		  
+		  DATA:  coverpoint vif.RDATA {
+				bins b1 = {0};
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
+				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+        }
+        
+        BURST_TYPE: coverpoint master_in.BURST_TYPE{
+        		 bins b1[] =  {2};
+        }
+        BURST_SIZE: coverpoint master_in.BURST_SIZE{
+        		bins b1[] =  {[0 : 2]};
+        }
+        BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
+        		bins b1[] =  {[0 : 15]};
+        }        
+    endgroup
 
 	  //---------------------------------------------------------------------------
 	  // CONSTRUCTOR
@@ -63,9 +298,13 @@ class AXI_scorboard extends uvm_scoreboard;
 	    // Create FIFOs for capturing transactions
 	    master_in_fifo = new("master_in_fifo", this); // FIFO for Master interface
 	    slave_in_fifo = new("slave_in_fifo", this);     // FIFO for Slave interface
-
-	    //master_coverage = new();
-	    //slave_coverage = new();
+	    coverage = new();
+	    fixed_write = new();
+	    wrap_write = new();
+	    incr_write = new();
+	    fixed_read = new();
+	    wrap_read = new();
+	    incr_read = new();
 
 	  endfunction : new
 
@@ -90,7 +329,13 @@ class AXI_scorboard extends uvm_scoreboard;
                   master_transaction = master_in;
                   if (m_received === 2'b11)
                   	check();
-                 // master_coverage.sample();
+			coverage.sample();
+                  fixed_write.sample();
+			fixed_read.sample();
+			incr_write.sample();
+			incr_read.sample();
+			wrap_write.sample();
+			wrap_read.sample();
 
                 
             end
@@ -107,7 +352,14 @@ class AXI_scorboard extends uvm_scoreboard;
                   slave_transaction = slave_in;
                   if (s_received == 2'b11)
                   	check();
-                 // slave_coverage.sample();
+			coverage.sample();
+			fixed_write.sample();
+			fixed_read.sample();
+			incr_write.sample();
+			incr_read.sample();
+			wrap_write.sample();
+			wrap_read.sample();
+
             end
 
       join

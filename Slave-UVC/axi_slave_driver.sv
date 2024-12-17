@@ -78,6 +78,7 @@ class axi_slave_driver extends uvm_driver;
     endtask: drive
 
     task read_write_address();
+        vif.slave_driver_cb.AWREADY    <= 1;
         `uvm_info(get_type_name(), "Inside read_write_address", UVM_HIGH)
         wait(vif.slave_driver_cb.AWVALID);
         write_transaction.ARESET_n     = vif.ARESET_n;
@@ -86,7 +87,8 @@ class axi_slave_driver extends uvm_driver;
         write_transaction.BURST_SIZE = vif.slave_driver_cb.AWSIZE;
         write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
         write_transaction.BURST_LENGTH  = vif.slave_driver_cb.AWLEN;
-
+        #1;
+        vif.slave_driver_cb.AWREADY    <= 0;
         write_transaction.print();
     endtask: read_write_address
     task read_write_data();
@@ -142,9 +144,10 @@ class axi_slave_driver extends uvm_driver;
             `uvm_info(get_type_name(), $sformatf("lower_byte_lane is %0d", lower_byte_lane), UVM_HIGH)
             `uvm_info(get_type_name(), $sformatf("upper_byte_lane is %0d", upper_byte_lane), UVM_HIGH)
             `uvm_info(get_type_name(), $sformatf("current_addr is %0d", current_addr), UVM_HIGH)
-            
+            vif.slave_driver_cb.WREADY    <= 1;
             wait(vif.slave_driver_cb.WVALID); // Wait for valid write data
-            
+            #1;
+            vif.slave_driver_cb.WREADY    <= 0;
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
                 mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
@@ -181,7 +184,6 @@ class axi_slave_driver extends uvm_driver;
         vif.slave_driver_cb.BVALID <= 1;
         @(vif.slave_driver_cb);
         wait(vif.slave_driver_cb.BREADY); // Wait for BREADY to deassert BVALID
-        $display("Atif +++++++++++++++++++++++++++");
         vif.slave_driver_cb.BVALID <= 0; // Deassert BVALID
     endtask: read_write_data
 
@@ -197,6 +199,8 @@ class axi_slave_driver extends uvm_driver;
         read_transaction.BURST_LENGTH  = vif.slave_driver_cb.ARLEN;
 
         read_transaction.print();
+        #1;
+        vif.slave_driver_cb.ARREADY <= 0;
     endtask: read_read_address
 
     task send_read_data();

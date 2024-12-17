@@ -22,10 +22,12 @@ class AXI_scorboard extends uvm_scoreboard;
   //---------------------------------------------------------------------------
   uvm_tlm_analysis_fifo #(axi_master_seq_item) master_in_fifo;  // FIFO for Master transactions
   uvm_tlm_analysis_fifo #(axi_master_seq_item) slave_in_fifo;      // FIFO for Slave interface packets
+  
+  bit [1:0] m_received, s_received;
 
 
-  axi_master_seq_item master_in; // Stores Master transaction data
-  axi_master_seq_item slave_in;     // Stores Slave interface packet data
+  axi_master_seq_item master_in, master_transaction; // Stores Master transaction data
+  axi_master_seq_item slave_in, slave_transaction;     // Stores Slave interface packet data
 /*
     // *******************************************************************
     // **                     COVERAGE GROUPS                          **
@@ -81,6 +83,13 @@ class AXI_scorboard extends uvm_scoreboard;
                   master_in_fifo.get_peek_export.get(master_in);
                   // Log the information about the sequence item for debugging purposes
                   `uvm_info(get_type_name(), $sformatf("Packet is \n %s", master_in.sprint()), UVM_LOW)
+                  if (master_in.ID[7] == 0)
+                  	m_received[0] = 1'b1;
+                  if (master_in.ID[7] == 1)
+                  	m_received[1] = 1'b1;
+                  master_transaction = master_in;
+                  if (m_received === 2'b11)
+                  	check();
                  // master_coverage.sample();
 
                 
@@ -90,10 +99,28 @@ class AXI_scorboard extends uvm_scoreboard;
                   slave_in_fifo.get_peek_export.get(slave_in);
                   // Log the information about the sequence item for debugging purposes
                    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", slave_in.sprint()), UVM_LOW)
+                   
+                   if (slave_in.ID[7] == 0)
+                  	s_received[0] = 1'b1;
+                  if (slave_in.ID[7] == 1)
+                  	s_received[1] = 1'b1;
+                  slave_transaction = slave_in;
+                  if (s_received == 2'b11)
+                  	check();
                  // slave_coverage.sample();
             end
 
       join
     endtask : run_phase
+    function void check();
+    	if (master_transaction.compare(slave_transaction))
+    	begin
+    		`uvm_info(get_type_name, $sformatf("Test Passed"), UVM_LOW)
+    	end
+    	else begin
+    		`uvm_info(get_type_name, $sformatf("Test FAILED"), UVM_LOW)
+    	end
+    
+    endfunction
 
 endclass

@@ -38,8 +38,8 @@ class axi_master_seq_item extends uvm_sequence_item;
           //                        AXI Attributes with Packing/Unpacking Macros
           // ----------------------------------------------------------------------------------------
           `uvm_field_int(ARESET_n, UVM_DEFAULT ) 
-          `uvm_field_int(ID, UVM_DEFAULT + UVM_DEC)                               // Transaction ID
-          `uvm_field_int(ADDR, UVM_DEFAULT + UVM_BIN)                   // Address for transaction
+          `uvm_field_int(ID, UVM_DEFAULT + UVM_BIN + UVM_NOCOMPARE)                               // Transaction ID
+          `uvm_field_int(ADDR, UVM_DEFAULT + UVM_HEX)                   // Address for transaction
           // `uvm_field_sarray_int(DATA, UVM_DEFAULT)                   // Burst data (pack/unpack as needed)
           `uvm_field_int(BURST_SIZE, UVM_DEFAULT)                        // Burst size (number of bytes per beat)
           `uvm_field_int(BURST_LENGTH, UVM_DEFAULT)                      // Burst length (number of beats)

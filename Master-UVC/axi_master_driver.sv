@@ -238,6 +238,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         wait(vif.master_driver_cb.ARREADY);
         @(vif.master_driver_cb);
         
+        
 
         // Wait for RLAST signal before sending next address
         wait(vif.master_driver_cb.RLAST);

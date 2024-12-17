@@ -20,7 +20,7 @@ class axi_write_sequence extends uvm_sequence;
     const int number_of_transactions;
 
     // Transaction ID (incremented for each transaction)
-    bit [7:0] id;
+    bit [6:0] id;
 
     // AXI transaction object
     axi_master_seq_item item;
@@ -143,7 +143,7 @@ class axi_read_sequence extends uvm_sequence;
     const int number_of_transactions;
 
     // Transaction ID (incremented for each transaction)
-    bit [7:0] id;
+    bit [6:0] id;
 
     // AXI transaction object to store transaction details
     axi_master_seq_item trans;
@@ -249,7 +249,7 @@ class axi_write_raw_sequence extends uvm_sequence;
     const int number_of_transactions;
 
     // Transaction ID (incremented for each transaction)
-    bit [7:0] id;
+    bit [6:0] id;
 
     // AXI transaction object
     axi_master_seq_item item;
@@ -372,7 +372,7 @@ class axi_read_raw_sequence extends uvm_sequence;
     const int number_of_transactions;
 
     // Transaction ID (incremented for each transaction)
-    bit [7:0] id;
+    bit [6:0] id;
 
     // AXI transaction object to store transaction details
     axi_master_seq_item trans;

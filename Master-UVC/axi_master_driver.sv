@@ -58,6 +58,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     // ****************************************************************************
     task run_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "Started AXI Master Driver", UVM_HIGH)
+        `uvm_info(get_type_name(), "Started AXI Master Driver", UVM_HIGH)
         
         // Drive initial values for read/write control signals
         vif.master_driver_cb.BREADY <= 1;
@@ -67,7 +68,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         // Forever loop to continuously drive transactions
         forever begin
             drive();  // Main driving task
-            #2;       // Small delay between transactions
+            #1;       // Small delay between transactions
         end
     endtask: run_phase
     // ****************************************************************************
@@ -90,17 +91,19 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
                     `uvm_info(get_name(), "Write packet received in master driver", UVM_LOW)
                     write_transaction.print();  // Print transaction details for debugging
                     if (write_transaction.ARESET_n == 0) begin
-                    	`uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
-                        vif.master_driver_cb.AWVALID <= 0;
-                        vif.master_driver_cb.WVALID <= 0;
-                        vif.master_driver_cb.ARVALID <= 0;
-                        vif.slave_driver_cb.RVALID <= 0;
-                        vif.slave_driver_cb.BVALID <= 0;
-                        @(vif.master_driver_cb);
-                        @(vif.master_driver_cb);
-                        `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+                    	    `uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
+			    vif.master_driver_cb.AWVALID <= 0;
+			    vif.master_driver_cb.WVALID <= 0;
+			    vif.master_driver_cb.ARVALID <= 0;
+			    vif.slave_driver_cb.RVALID <= 0;
+            		    vif.slave_driver_cb.BVALID <= 0;
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
                     end
                     else begin
+		            // Send write address and data
 		            fork
 		                send_write_address();  // Send the write address
 		                send_write_data();     // Send the write data
@@ -120,15 +123,15 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
                     `uvm_info(get_name(), "Read packet received in master driver", UVM_LOW)
                     read_transaction.print();  // Print transaction details for debugging
                     if (read_transaction.ARESET_n == 0) begin
-                    	`uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
-                        vif.master_driver_cb.AWVALID <= 0;
-                        vif.master_driver_cb.WVALID <= 0;
-                        vif.master_driver_cb.ARVALID <= 0;
-                        vif.slave_driver_cb.RVALID <= 0;
+                    	    `uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
+			    vif.master_driver_cb.AWVALID <= 0;
+			    vif.master_driver_cb.WVALID <= 0;
+			    vif.master_driver_cb.ARVALID <= 0;
+			    vif.slave_driver_cb.RVALID <= 0;
             		    vif.slave_driver_cb.BVALID <= 0;
-                        @(vif.master_driver_cb);
-                        @(vif.master_driver_cb);
-                        `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
                     end
                     else begin
                     	send_read_address();  // Send the read address

@@ -1,213 +1,134 @@
-//************************************************************
-//               AXI SLAVE MONITOR CLASS
-//************************************************************
-// Description: 
-// - Monitors AXI transactions for the Slave interface.
-// - Captures write and read transactions and sends them to
-//   the scoreboard for verification through an analysis port.
-//************************************************************
-
-import config_pkg::*;           // Import configuration package
-import axi_parameters::*;       // Import AXI parameter definitions
-
-//************************************************************
-// ENUMERATIONS
-//************************************************************
-// B_TYPE: Defines burst types for AXI transactions.
+import config_pkg::*;
+import axi_parameters::*;
 typedef enum bit [1:0] { FIXED, INCR, WRAP } B_TYPE;
-
-//************************************************************
-// CLASS: axi_slave_monitor
-//************************************************************
 class axi_slave_monitor extends uvm_monitor;
-
-    // Factory registration for the UVM component
     `uvm_component_utils(axi_slave_monitor)
 
-    //****************************************************
-    //              INTERFACE AND PORTS
-    //****************************************************
-    virtual axi4_if vif; // Virtual interface to connect with the DUT
+    // ******************* Component Interface *******************
+    // Virtual Interface for the AXI Slave interface (connected to the DUT)
+    virtual axi4_if vif;
 
-    // Analysis port to send transaction objects to the scoreboard
-    uvm_analysis_port#(axi_master_seq_item) mon2scb_port;
+    // ******************* UVM Ports *******************
+    uvm_analysis_port#(axi_master_seq_item) mon2scb_port; // Analysis port for write/read transactions
 
-    //****************************************************
-    //              VARIABLES
-    //****************************************************
-    axi_master_seq_item write_transaction, read_transaction; // Transaction objects
+    // ******************* Variables *******************
+    axi_master_seq_item write_transaction, read_transaction;  // Write and Read transaction objects
     bit write_done, read_done;                               // Flags to indicate transaction completion
 
-    //****************************************************
-    //              CONSTRUCTOR
-    //****************************************************
-    // Initializes the monitor and fetches the interface
+    // ******************* Constructor *******************
     function new(string name = "axi_slave_monitor", uvm_component parent);
         super.new(name, parent);
-        write_done = 1;   // Mark write transaction as initially completed
-        read_done = 1;    // Mark read transaction as initially completed
-
-        // Fetch virtual interface from UVM config database
-        if (!uvm_config_db#(virtual axi4_if)::get(null, "*env*", "vif", vif)) begin
-            `uvm_error(get_name(), "AXI Interface is not available. Check your configuration.")
+        write_done = 1;   // Initially set write transaction as done
+        read_done = 1;    // Initially set read transaction as done
+        if (!uvm_config_db#(virtual axi4_if)::get(null,"*env*","vif",vif))
+        begin
+           `uvm_error(get_name(), "Interface is not available");
         end
     endfunction
 
-    //****************************************************
-    //              BUILD PHASE
-    //****************************************************
-    // Initializes ports and analysis components
+    // ******************* Build Phase *******************
     function void build_phase(uvm_phase phase);
-        mon2scb_port = new("mon2scb_port", this); // Instantiate the analysis port
+        mon2scb_port = new("mon2scb_port", this); // Create the analysis port for transaction items
     endfunction
 
-    //****************************************************
-    //              RUN PHASE
-    //****************************************************
-    // Continuously monitor AXI transactions during simulation
+    // ******************* Run Phase *******************
     task run_phase(uvm_phase phase);
         forever begin
-            run_mon(phase);     // Monitor AXI transactions
-            @(vif.monitor_cb);  // Synchronize with the AXI clock
+            run_mon(phase);  // Monitor the AXI signals in each phase iteration
+            @(vif.monitor_cb);    // Synchronize with the AXI interface clock
         end
     endtask
 
-    //****************************************************
-    //              MONITOR TASK
-    //****************************************************
-    // Handles concurrent monitoring of write and read transactions
+    // ******************* Monitor Task *******************
     task run_mon(uvm_phase phase);
         fork
-            // ------------------ WRITE TRANSACTION MONITOR ------------------
+            // Monitor Write Transaction
             if (write_done) begin
-                phase.raise_objection(this); // Raise phase objection
-                write_done = 0;              // Mark write transaction as ongoing
-                write_monitor();             // Start write transaction monitoring
-                write_done = 1;              // Mark write transaction as completed
-                phase.drop_objection(this);  // Drop phase objection
+                phase.raise_objection(this);  // Raise objection for the phase
+                write_done = 0;
+                write_monitor();  // Monitor the write transaction
+                write_done = 1;
+                phase.drop_objection(this);  // Drop objection after transaction is completed
             end
 
-            // ------------------ READ TRANSACTION MONITOR ------------------
+            // Monitor Read Transaction
             if (read_done) begin
-                phase.raise_objection(this); // Raise phase objection
-                read_done = 0;               // Mark read transaction as ongoing
-                read_monitor();              // Start read transaction monitoring
-                read_done = 1;               // Mark read transaction as completed
-                phase.drop_objection(this);  // Drop phase objection
+                phase.raise_objection(this);  // Raise objection for the phase
+                read_done = 0;
+                read_monitor();  // Monitor the read transaction
+                read_done = 1;
+                phase.drop_objection(this);  // Drop objection after transaction is completed
             end
         join_none
     endtask
 
-    //************************************************************
-    //                WRITE TRANSACTION MONITORING
-    //************************************************************
-    // Monitors the AXI Write transaction:
-    // - Captures Write Address, Write Data, and Write Response channels.
-    // - Sends the collected transaction object to the analysis port.
-    //************************************************************
+    // ******************* Write Transaction Monitoring *******************
     task write_monitor();
-
-        // Check for the Write Address handshake (AWVALID & AWREADY)
         if (vif.monitor_cb.AWVALID && vif.monitor_cb.AWREADY) begin
-
-            // Create a new write transaction object
             write_transaction = axi_master_seq_item::type_id::create("write_transaction");
 
-            // ------------------ Collect Write Address Channel ------------------
-            write_transaction.ARESET_n     = vif.ARESET_n;             // Capture reset signal
-            write_transaction.ADDR         = vif.monitor_cb.AWADDR;    // Write address
-            write_transaction.ID           = vif.monitor_cb.AWID;      // Transaction ID
-            write_transaction.BURST_SIZE   = vif.monitor_cb.AWSIZE;    // Burst size
-            write_transaction.BURST_LENGTH = vif.monitor_cb.AWLEN;     // Burst length
-            write_transaction.BURST_TYPE   = B_TYPE'(vif.monitor_cb.AWBURST); // Burst type
-            write_transaction.DATA         = new [write_transaction.BURST_LENGTH + 1]; // Initialize data array
+            // Collect Write Address channel information
+            write_transaction.ARESET_n = vif.ARESET_n;
+            write_transaction.ADDR = vif.monitor_cb.AWADDR;
+            write_transaction.ID = vif.monitor_cb.AWID;
+            write_transaction.BURST_SIZE = vif.monitor_cb.AWSIZE;
+            write_transaction.BURST_LENGTH = vif.monitor_cb.AWLEN;
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
+            write_transaction.DATA = new [write_transaction.BURST_LENGTH + 1];
 
-            // ------------------ Collect Write Data Channel ------------------
+            // Collect Write Data channel information
             for (int i = 0; i < write_transaction.BURST_LENGTH + 1; i++) begin
-                @(vif.monitor_cb);  // Synchronize with the AXI clock
-
-                // Wait for Write Data handshake (WVALID & WREADY)
-                wait(vif.monitor_cb.WVALID && vif.monitor_cb.WREADY);
-
-                // Initialize memory to hold write data
-                write_transaction.DATA[i] = new [DATA_WIDTH / 8];
-
-                // Capture write data byte by byte
+                @(vif.monitor_cb);  // Wait for the AXI interface
+                wait(vif.monitor_cb.WVALID && vif.monitor_cb.WREADY);  // Ensure WVALID and WREADY are asserted
+                write_transaction.DATA[i] = new [DATA_WIDTH / 8];  // Initialize the data
                 for (int j = 0; j < DATA_WIDTH / 8; j++) begin
-                    write_transaction.DATA[i][j] = vif.monitor_cb.WDATA[8 * j +: 8];
+                    write_transaction.DATA[i][j] = vif.monitor_cb.WDATA[8 * j +: 8];  // Capture the write data
                 end
             end
 
-            // ------------------ Collect Write Response Channel ------------------
-            wait(vif.monitor_cb.BVALID);  // Wait for Write Response (BVALID asserted)
-            write_transaction.WRITE_RESP = vif.monitor_cb.BRESP; // Capture write response status
+            // Wait for Write Response
+            wait(vif.monitor_cb.BVALID);
 
-            // ------------------ Send Write Transaction to Analysis Port ------------------
+            // Collect Write Response
+            write_transaction.WRITE_RESP = vif.monitor_cb.BRESP;
+
+            // Send the captured transaction to the analysis port for reporting or coverage
             mon2scb_port.write(write_transaction);
-
-            // Log the captured write transaction details
             `uvm_info(get_type_name(), $sformatf("Write Transaction: %s", write_transaction.sprint()), UVM_HIGH)
         end
     endtask
 
-    //************************************************************
-    //                READ TRANSACTION MONITORING
-    //************************************************************
-    // Monitors the AXI Read transaction:
-    // - Captures Read Address and Read Data channels.
-    // - Sends the collected transaction object to the analysis port.
-    //************************************************************
+    // ******************* Read Transaction Monitoring *******************
     task read_monitor();
-
-        // Check for the Read Address handshake (ARVALID & ARREADY)
         if (vif.monitor_cb.ARVALID && vif.monitor_cb.ARREADY) begin
-
-            // Create a new read transaction object
             read_transaction = axi_master_seq_item::type_id::create("read_transaction");
 
-            // ------------------ Collect Read Address Channel ------------------
-            read_transaction.ARESET_n     = vif.ARESET_n;             // Capture reset signal
-            read_transaction.ADDR         = vif.monitor_cb.ARADDR;    // Read address
-            read_transaction.ID           = vif.monitor_cb.ARID;      // Transaction ID
-            read_transaction.BURST_SIZE   = vif.monitor_cb.ARSIZE;    // Burst size
-            read_transaction.BURST_LENGTH = vif.monitor_cb.ARLEN;     // Burst length
-            read_transaction.BURST_TYPE   = B_TYPE'(vif.monitor_cb.ARBURST); // Burst type
-            read_transaction.DATA         = new [read_transaction.BURST_LENGTH + 1];  // Initialize data array
-            read_transaction.READ_RESP    = new [read_transaction.BURST_LENGTH + 1];  // Initialize response array
+            // Collect Read Address channel information
+            read_transaction.ARESET_n = vif.ARESET_n;
+            read_transaction.ADDR = vif.monitor_cb.ARADDR;
+            read_transaction.ID = vif.monitor_cb.ARID;
+            read_transaction.BURST_SIZE = vif.monitor_cb.ARSIZE;
+            read_transaction.BURST_LENGTH = vif.monitor_cb.ARLEN;
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
+            read_transaction.DATA = new [read_transaction.BURST_LENGTH + 1];
+            read_transaction.READ_RESP = new [read_transaction.BURST_LENGTH + 1];
 
-            // ------------------ Collect Read Data Channel ------------------
+            // Collect Read Data channel information
             for (int i = 0; i < read_transaction.BURST_LENGTH + 1; i++) begin
-                @(vif.monitor_cb);  // Synchronize with the AXI clock
-
-                // Wait for Read Data handshake (RVALID & RREADY)
-                wait(vif.monitor_cb.RVALID && vif.monitor_cb.RREADY);
-
-                // Initialize memory to hold read data
-                read_transaction.DATA[i] = new [DATA_WIDTH / 8];
-
-                // Capture read data byte by byte
+                @(vif.monitor_cb);  // Wait for the AXI interface
+                wait(vif.monitor_cb.RVALID && vif.monitor_cb.RREADY);  // Ensure RVALID and RREADY are asserted
+                read_transaction.DATA[i] = new [DATA_WIDTH / 8];  // Initialize the data
                 for (int j = 0; j < DATA_WIDTH / 8; j++) begin
-                    read_transaction.DATA[i][j] = vif.monitor_cb.RDATA[8 * j +: 8];
+                    read_transaction.DATA[i][j] = vif.monitor_cb.RDATA[8 * j +: 8];  // Capture the read data
                 end
-
-                // Capture read response status for each data beat
-                read_transaction.READ_RESP[i] = vif.monitor_cb.RRESP;
+                $display("MUGHAL");
+                read_transaction.READ_RESP[i] = vif.monitor_cb.RRESP;  // Capture the read response
             end
 
-            // ------------------ Send Read Transaction to Analysis Port ------------------
+            // Send the captured read transaction to the analysis port
             mon2scb_port.write(read_transaction);
-
-            // Log the captured read transaction details
             `uvm_info(get_type_name(), $sformatf("Read Transaction: %s", read_transaction.sprint()), UVM_HIGH)
         end
     endtask
 
-    //********************************************************************************
-    //                               END OF MONITORING
-    //********************************************************************************
-
 endclass: axi_slave_monitor
-
-//***********************************************************************************
-//                                      END OF CLASS
-//***********************************************************************************

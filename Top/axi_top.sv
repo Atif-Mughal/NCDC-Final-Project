@@ -28,15 +28,31 @@ module AXI_top;
     //---------------------------------------------------------------------------
     import axi_master_pkg::*;           // axi_master interface and related components
     import axi_slave_pkg::*;              // Slave interface and related components
+    /*
+  `include "../Master-UVC/axi_master_seq_item.sv"
+  `include "../Master-UVC/axi_master_sequence.sv"
+  `include "../Master-UVC/axi_master_monitor.sv"
+  `include "../Master-UVC/axi_master_sequencer.sv"
+  `include "../Master-UVC/axi_master_driver.sv"
+  `include "../Master-UVC/axi_master_agent.sv"
+  
+  `include "../Master-UVC/axi_master_env.sv"
+  `include "../Slave-UVC/axi_slave_monitor.sv"
+  `include "../Slave-UVC/axi_slave_driver.sv"
+  `include "../Slave-UVC/axi_slave_agent.sv"
+  `include "../Slave-UVC/axi_slave_env.sv"
+  */
 
     //---------------------------------------------------------------------------
     // TESTBENCH AND SCOREBOARD INCLUDES
     //---------------------------------------------------------------------------
     // - Includes testbench, scoreboard, and test library files for AXI verification.
     //---------------------------------------------------------------------------
-    `include "AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
+   `include "AXI_scoreboard.sv" // Scoreboard for AXI functional coverage
     `include "axi_tb.sv"              // AXI testbench definitions
     `include "axi_test_lib.sv"        // AXI test library containing sequences and tests
+    //`include "AXI_assertions.sv"      // Assertions for AXI verification
+    //test_config test_cfg;
 
     //---------------------------------------------------------------------------
     // INITIAL BLOCK

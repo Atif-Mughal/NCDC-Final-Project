@@ -40,13 +40,13 @@ class axi_master_seq_item extends uvm_sequence_item;
           `uvm_field_int(ARESET_n, UVM_DEFAULT ) 
           `uvm_field_int(ID, UVM_DEFAULT + UVM_BIN + UVM_NOCOMPARE)                               // Transaction ID
           `uvm_field_int(ADDR, UVM_DEFAULT + UVM_HEX)                   // Address for transaction
-          // `uvm_field_array_int(DATA, UVM_DEFAULT)                   // Burst data (pack/unpack as needed)
+          // `uvm_field_sarray_int(DATA, UVM_DEFAULT)                   // Burst data (pack/unpack as needed)
           `uvm_field_int(BURST_SIZE, UVM_DEFAULT)                        // Burst size (number of bytes per beat)
           `uvm_field_int(BURST_LENGTH, UVM_DEFAULT)                      // Burst length (number of beats)
           `uvm_field_enum(B_TYPE, BURST_TYPE, UVM_DEFAULT)              // Burst type (FIXED, INCR, WRAP)
           `uvm_field_int(LAST, UVM_DEFAULT)                              // Last beat indicator
           `uvm_field_int(WRITE_RESP, UVM_DEFAULT)                       // Write response
-          `uvm_field_array_int(READ_RESP, UVM_DEFAULT + UVM_BIN)            // Read responses for burst
+          `uvm_field_array_int(READ_RESP, UVM_DEFAULT + UVM_BIN + UVM_NOCOMPARE)            // Read responses for burst
 
       `uvm_object_utils_end
 

@@ -12,7 +12,7 @@
 /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/additions/sv/lib/64bit/libuvmpli.so
 -SVSEED
 random
-+UVM_TESTNAME=axi_single_write_fixed_test
++UVM_TESTNAME=axi_single_raw_incr_test
 -MESSAGES
 -RUN
 -SV_LIB
@@ -20,7 +20,7 @@ random
 +EMGRLOG
 xrun.log
 -XLSTIME
-1734421531
+1734447005
 -XLKEEP
 -XLMODE
 ./xcelium.d/run.lnx8664.23.09.d

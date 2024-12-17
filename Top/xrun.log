@@ -1,0 +1,1002 @@
+xrun(64): 23.09-s006: (c) Copyright 1995-2024 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	23.09-s006: Started on Dec 17, 2024 at 10:33:41 PKT
+xrun
+	-f run.f
+		-64
+		-access +rwc
+		-sv
+		-timescale 1ns/1ns
+		+SVSEED=random
+		-uvmhome /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
+		+UVM_TESTNAME=axi_single_write_fixed_test
+		+UVM_VERBOSITY=UVM_HIGH
+		axi_config.sv
+		-incdir ../Master-UVC/
+		-incdir ../Slave-UVC/
+		./axi_parameters.sv
+		../Master-UVC/axi_master_pkg.sv
+		../Slave-UVC/axi_slave_pkg.sv
+		axi4_if.sv
+		hw_top.sv
+		axi_top.sv
+
+   User defined plus("+") options:
+	+UVM_VERBOSITY=UVM_HIGH
+
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+Recompiling... reason: file '../Master-UVC/axi_master_seq_item.sv' is newer than expected.
+	expected: Mon Dec 16 18:47:19 2024
+	actual:   Tue Dec 17 09:47:06 2024
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+Compiling UVM packages (uvm_pkg.sv cdns_uvm_pkg.sv) using uvmhome location /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d
+DEFINE std       ./STD
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xmvlog: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+file: ../Master-UVC/axi_master_pkg.sv
+package axi_master_pkg;
+                     |
+xmvlog: *W,TSNSPK (../Master-UVC/axi_master_pkg.sv,1|21): `timescale is not specified for the package.  The default timescale of 1ns/1ns will be assumed for this package.
+	package worklib.axi_master_pkg:sv
+		errors: 0, warnings: 1
+file: ../Slave-UVC/axi_slave_pkg.sv
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
+                                                  |
+xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,76|50): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
+                                                 |
+xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,112|49): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
+                                              |
+xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,87|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
+                                             |
+xmvlog: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,196|45): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+	package worklib.axi_slave_pkg:sv
+		errors: 0, warnings: 4
+file: axi_top.sv
+	module worklib.AXI_top:sv
+		errors: 0, warnings: 0
+	Total errors/warnings found outside modules and primitives:
+		errors: 0, warnings: 15
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xrun: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+DEFINE std       ./STD
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xmelab: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Top level design units:
+		axi_parameters
+		$unit_0x6406450b
+		uvm_pkg
+		cdns_uvmapi
+		cdns_assert2uvm_pkg
+		cdns_uvm_pkg
+		config_pkg
+		axi_master_pkg
+		axi_slave_pkg
+		hw_top
+		AXI_top
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,103|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,103|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,103|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,103|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,103|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,134|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,134|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,134|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,134|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+			                                                                                                                                                                                                                                                                            |
+xmelab: *W,CONOTR (../Master-UVC/axi_master_driver.sv,134|271): A clocking output is not a legal rvalue [IEEE STD 1800-2009].
+            write_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.AWBURST);
+                                                  |
+xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,76|50): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+            read_transaction.BURST_TYPE = B_TYPE'(vif.monitor_cb.ARBURST);
+                                                 |
+xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_monitor.sv,112|49): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+        write_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.AWBURST);
+                                              |
+xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,87|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+        read_transaction.BURST_TYPE = B_TYPE'(vif.slave_driver_cb.ARBURST);
+                                             |
+xmelab: *W,ENUMERR (../Slave-UVC/axi_slave_driver.sv,196|45): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+DEFINE std       ./STD
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xmvlog_cg: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+		worklib.AXI_top:sv <0x4c5c0c45>
+			streams: 1109, words: 1335458
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                       Instances  Unique
+		Modules:                       2       2
+		Interfaces:                    1       1
+		Verilog packages:              8       8
+		Registers:                 15162   10667
+		Scalar wires:                  1       -
+		Named events:                  4      12
+		Always blocks:                 1       1
+		Initial blocks:              355     176
+		Clocking blocks:               3       3
+		Clocking items:               90      90
+		Parallel blocks:              32      33
+		Pseudo assignments:            1       -
+		Assertions:                   18      18
+		Compilation units:             1       1
+		SV Class declarations:       223     336
+		SV Class specializations:    433     433
+		Simulation timescale:        1ns
+	Writing initial simulation snapshot: worklib.hw_top:sv
+DEFINE std       ./STD
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/STD' (cds.lib command ignored).
+DEFINE synopsys  ./SYNOPSYS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,2): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/SYNOPSYS' (cds.lib command ignored).
+DEFINE ieee      ./IEEE
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,3): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/IEEE' (cds.lib command ignored).
+DEFINE ambit     ./AMBIT
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,4): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/AMBIT' (cds.lib command ignored).
+DEFINE vital_memory ./VITAL_MEMORY
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,5): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/VITAL_MEMORY' (cds.lib command ignored).
+DEFINE ncutils ./NCUTILS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,6): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCUTILS' (cds.lib command ignored).
+DEFINE ncinternal ./NCINTERNAL
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,7): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCINTERNAL' (cds.lib command ignored).
+DEFINE ncmodels ./NCMODELS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,8): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/NCMODELS' (cds.lib command ignored).
+DEFINE xmutils ./XMUTILS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,9): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMUTILS' (cds.lib command ignored).
+DEFINE xminternal ./XMINTERNAL
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,10): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMINTERNAL' (cds.lib command ignored).
+DEFINE xmmodels ./XMMODELS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,11): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/XMMODELS' (cds.lib command ignored).
+DEFINE cds_assertions ./CDS_ASSERTIONS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
+DEFINE cds_inhconn ./CDS_INHCONN
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,13): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_INHCONN' (cds.lib command ignored).
+DEFINE cds_spicelib ./CDS_SPICELIB
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,14): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_SPICELIB' (cds.lib command ignored).
+DEFINE cds_amsfunctions ./CDS_AMSFUNCTIONS
+|
+xmsim: *W,DLCPTH (/home/cc/mnt/XCELIUM2309/tools/inca/files/cdsvhdl.lib,15): cds.lib Invalid path '/home/cc/mnt/XCELIUM2309/tools/inca/files/CDS_AMSFUNCTIONS' (cds.lib command ignored).
+Loading snapshot worklib.hw_top:sv .................... Done
+SVSEED set randomly from command line: 2022787407
+xcelium> source /home/cc/mnt/XCELIUM2309/tools/xcelium/files/xmsimrc
+xcelium> source /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/additions/sv/files/tcl/uvm_sim.tcl
+xcelium> run
+----------------------------------------------------------------
+CDNS-UVM-1.1d (23.09-s006)
+(C) 2007-2013 Mentor Graphics Corporation
+(C) 2007-2013 Cadence Design Systems, Inc.
+(C) 2006-2013 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test axi_single_write_fixed_test...
+UVM_INFO ../Master-UVC/axi_master_env.sv(27) @ 0: uvm_test_top.env.master [axi_master_env] Building axi_master ENV
+UVM_INFO ../Slave-UVC/axi_slave_env.sv(27) @ 0: uvm_test_top.env.slave [axi_slave_env] Building axi_slave ENV
+UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+---------------------------------------------------------------------
+Name                         Type                         Size  Value
+---------------------------------------------------------------------
+uvm_test_top                 axi_single_write_fixed_test  -     @2722
+  env                        AXI_tb                       -     @2818
+    master                   axi_master_env               -     @2879
+      my_agent               axi_master_agent             -     @2759
+        driver               axi_master_driver            -     @4813
+          rsp_port           uvm_analysis_port            -     @4913
+          seq_item_port      uvm_seq_item_pull_port       -     @4864
+          seq_item_port2     uvm_seq_item_pull_port       -     @4962
+        monitor              axi_master_monitor           -     @4733
+          mon2scb_port       uvm_analysis_port            -     @5021
+        read_seqr            uvm_sequencer                -     @4156
+          rsp_export         uvm_analysis_export          -     @4213
+          seq_item_export    uvm_seq_item_pull_imp        -     @4753
+          arbitration_queue  array                        0     -    
+          lock_queue         array                        0     -    
+          num_last_reqs      integral                     32    'd1  
+          num_last_rsps      integral                     32    'd1  
+        write_seqr           uvm_sequencer                -     @3522
+          rsp_export         uvm_analysis_export          -     @3581
+          seq_item_export    uvm_seq_item_pull_imp        -     @4125
+          arbitration_queue  array                        0     -    
+          lock_queue         array                        0     -    
+          num_last_reqs      integral                     32    'd1  
+          num_last_rsps      integral                     32    'd1  
+    scoreboard               AXI_scorboard                -     @2909
+      master_in_fifo         uvm_tlm_analysis_fifo #(T)   -     @2908
+        analysis_export      uvm_analysis_imp             -     @3187
+        get_ap               uvm_analysis_port            -     @3137
+        get_peek_export      uvm_get_peek_imp             -     @3039
+        put_ap               uvm_analysis_port            -     @3088
+        put_export           uvm_put_imp                  -     @2988
+      slave_in_fifo          uvm_tlm_analysis_fifo #(T)   -     @3217
+        analysis_export      uvm_analysis_imp             -     @3458
+        get_ap               uvm_analysis_port            -     @3409
+        get_peek_export      uvm_get_peek_imp             -     @3313
+        put_ap               uvm_analysis_port            -     @3361
+        put_export           uvm_put_imp                  -     @3265
+    slave                    axi_slave_env                -     @2849
+      my_agent               axi_slave_agent              -     @5102
+        driver               axi_slave_driver             -     @5166
+          rsp_port           uvm_analysis_port            -     @5268
+          seq_item_port      uvm_seq_item_pull_port       -     @5217
+        monitor              axi_slave_monitor            -     @5135
+          mon2scb_port       uvm_analysis_port            -     @5342
+---------------------------------------------------------------------
+
+UVM_INFO ../Master-UVC/axi_master_driver.sv(60) @ 0: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Started AXI Master Driver
+UVM_INFO ../Master-UVC/axi_master_driver.sv(61) @ 0: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Started AXI Master Driver
+UVM_INFO ../Master-UVC/axi_master_driver.sv(91) @ 0: uvm_test_top.env.master.my_agent.driver [driver] Write packet received in master driver
+----------------------------------------------------------
+Name                           Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------------------
+item                           axi_master_seq_item  -     @5506                                                                                                                                                                                       
+  ARESET_n                     integral             1     'h1                                                                                                                                                                                         
+  ID                           integral             8     'd1                                                                                                                                                                                         
+  ADDR                         integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE                   integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH                 integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE                   B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST                         integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP                   integral             2     'h0                                                                                                                                                                                         
+  READ_RESP                    da(integral)         0     -                                                                                                                                                                                           
+  begin_time                   time                 64    0                                                                                                                                                                                           
+  depth                        int                  32    'd2                                                                                                                                                                                         
+  parent sequence (name)       string               9     write_seq                                                                                                                                                                                   
+  parent sequence (full name)  string               53    uvm_test_top.env.master.my_agent.write_seqr.write_seq                                                                                                                                       
+  sequencer                    string               43    uvm_test_top.env.master.my_agent.write_seqr                                                                                                                                                 
+  DATA                         Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------------------
+UVM_INFO ../Master-UVC/axi_master_driver.sv(150) @ 0: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Inside send_write_address()
+UVM_INFO ../Master-UVC/axi_master_driver.sv(184) @ 0: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Inside send_write_data()
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(81) @ 5: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_write_address
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(189) @ 5: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_write_address
+UVM_INFO ../Master-UVC/axi_master_driver.sv(165) @ 15: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Asserted AWVALID
+UVM_INFO ../Master-UVC/axi_master_driver.sv(193) @ 15: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Packed write data
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 15: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 0
+--------------------------------------------------------------------------------
+Name               Type                 Size  Value                             
+--------------------------------------------------------------------------------
+write_transaction  axi_master_seq_item  -     @5298                             
+  ARESET_n         integral             1     'h1                               
+  ID               integral             8     'd1                               
+  ADDR             integral             32    'b10111001001110010110010110011111
+  BURST_SIZE       integral             3     'h2                               
+  BURST_LENGTH     integral             4     'h6                               
+  BURST_TYPE       B_TYPE               2     FIXED                             
+  LAST             integral             1     'h0                               
+  WRITE_RESP       integral             2     'h0                               
+  READ_RESP        da(integral)         0     -                                 
+  DATA             Dynamic Array        224   '{}                               
+--------------------------------------------------------------------------------
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(99) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_write_data
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(108) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Calculated aligned address -1187420768
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 0
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 25: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Master-UVC/axi_master_driver.sv(172) @ 25: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Deasserted AWVALID
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 26: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is 6b
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is cd
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is 2c
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 3a
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is 6b
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is cd
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is 2c
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 35: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 3a
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 36: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 2
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 2
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is d4
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is 68
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is bf
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 45: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 57
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 46: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is be
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is b5
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is ef
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 55: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 7c
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 56: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 4
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 4
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is 60
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is 40
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is 79
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 65: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 92
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 66: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 5
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 5
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is dc
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is 36
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is fa
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 75: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is f7
+UVM_INFO ../Master-UVC/axi_master_driver.sv(197) @ 76: uvm_test_top.env.master.my_agent.driver [axi_master_driver] Sending data beat 6
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(126) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] Inside read_data_loop
+Atif 6
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(142) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] lower_byte_lane is -1
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(143) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] upper_byte_lane is 3
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(144) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] current_addr is -1187420769
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is -1, addr is -1187420769, stored value is 00
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 0, addr is -1187420768, stored value is cd
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 1, addr is -1187420767, stored value is c2
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 2, addr is -1187420766, stored value is e9
+UVM_INFO ../Slave-UVC/axi_slave_driver.sv(151) @ 85: uvm_test_top.env.slave.my_agent.driver [axi_slave_driver] byte_index is 3, addr is -1187420765, stored value is 0e
+UVM_INFO ../Slave-UVC/axi_slave_monitor.sv(97) @ 115: uvm_test_top.env.slave.my_agent.monitor [axi_slave_monitor] Write Transaction: ----------------------------------------------
+Name               Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------
+write_transaction  axi_master_seq_item  -     @5465                                                                                                                                                                                       
+  ARESET_n         integral             1     'h1                                                                                                                                                                                         
+  ID               integral             8     'd1                                                                                                                                                                                         
+  ADDR             integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE       integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH     integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE       B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST             integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP       integral             2     'h0                                                                                                                                                                                         
+  READ_RESP        da(integral)         0     -                                                                                                                                                                                           
+  DATA             Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------
+
+UVM_INFO ../Master-UVC/axi_master_monitor.sv(106) @ 115: uvm_test_top.env.master.my_agent.monitor [axi_master_monitor] Write Transaction: ----------------------------------------------
+Name               Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------
+write_transaction  axi_master_seq_item  -     @5426                                                                                                                                                                                       
+  ARESET_n         integral             1     'h1                                                                                                                                                                                         
+  ID               integral             8     'd1                                                                                                                                                                                         
+  ADDR             integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE       integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH     integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE       B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST             integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP       integral             2     'h0                                                                                                                                                                                         
+  READ_RESP        da(integral)         0     -                                                                                                                                                                                           
+  DATA             Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------
+
+UVM_INFO AXI_scoreboard.sv(92) @ 115: uvm_test_top.env.scoreboard [AXI_scorboard] Packet is 
+ ----------------------------------------------
+Name               Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------
+write_transaction  axi_master_seq_item  -     @5465                                                                                                                                                                                       
+  ARESET_n         integral             1     'h1                                                                                                                                                                                         
+  ID               integral             8     'd1                                                                                                                                                                                         
+  ADDR             integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE       integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH     integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE       B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST             integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP       integral             2     'h0                                                                                                                                                                                         
+  READ_RESP        da(integral)         0     -                                                                                                                                                                                           
+  DATA             Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------
+
+UVM_INFO AXI_scoreboard.sv(83) @ 115: uvm_test_top.env.scoreboard [AXI_scorboard] Packet is 
+ ----------------------------------------------
+Name               Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------
+write_transaction  axi_master_seq_item  -     @5426                                                                                                                                                                                       
+  ARESET_n         integral             1     'h1                                                                                                                                                                                         
+  ID               integral             8     'd1                                                                                                                                                                                         
+  ADDR             integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE       integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH     integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE       B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST             integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP       integral             2     'h0                                                                                                                                                                                         
+  READ_RESP        da(integral)         0     -                                                                                                                                                                                           
+  DATA             Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------
+
+----------------------------------------------------------
+Name                           Type                 Size  Value                                                                                                                                                                                       
+----------------------------------------------------------
+item                           axi_master_seq_item  -     @5506                                                                                                                                                                                       
+  ARESET_n                     integral             1     'h1                                                                                                                                                                                         
+  ID                           integral             8     'd1                                                                                                                                                                                         
+  ADDR                         integral             32    'b10111001001110010110010110011111                                                                                                                                                          
+  BURST_SIZE                   integral             3     'h2                                                                                                                                                                                         
+  BURST_LENGTH                 integral             4     'h6                                                                                                                                                                                         
+  BURST_TYPE                   B_TYPE               2     FIXED                                                                                                                                                                                       
+  LAST                         integral             1     'h0                                                                                                                                                                                         
+  WRITE_RESP                   integral             2     'h0                                                                                                                                                                                         
+  READ_RESP                    da(integral)         0     -                                                                                                                                                                                           
+  begin_time                   time                 64    0                                                                                                                                                                                           
+  end_time                     time                 64    115                                                                                                                                                                                         
+  depth                        int                  32    'd2                                                                                                                                                                                         
+  parent sequence (name)       string               9     write_seq                                                                                                                                                                                   
+  parent sequence (full name)  string               53    uvm_test_top.env.master.my_agent.write_seqr.write_seq                                                                                                                                       
+  sequencer                    string               43    uvm_test_top.env.master.my_agent.write_seqr                                                                                                                                                 
+  DATA                         Dynamic Array        224   '{'{'h6b, 'hcd, 'h2c, 'h3a}, '{'hd4, 'h68, 'hbf, 'h57}, '{'hbe, 'hb5, 'hef, 'h7c}, '{'h60, 'h40, 'h79, 'h92}, '{'hdc, 'h36, 'hfa, 'hf7}, '{'hcd, 'hc2, 'he9, 'he}, '{'h24, 'h98, 'h74, 'h0}}
+----------------------------------------------------------
+Atif +++++++++++++++++++++++++++
+UVM_INFO /home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_objection.svh(1268) @ 125: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   91
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[AXI_scorboard]     2
+[RNTST]     1
+[TEST_DONE]     1
+[UVMTOP]     1
+[axi_master_driver]    14
+[axi_master_env]     1
+[axi_master_monitor]     1
+[axi_slave_driver]    67
+[axi_slave_env]     1
+[axi_slave_monitor]     1
+[driver]     1
+Simulation complete via $finish(1) at time 125 NS + 49
+/home/cc/mnt/XCELIUM2309/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_root.svh:457     $finish;
+xcelium> exit
+TOOL:	xrun(64)	23.09-s006: Exiting on Dec 17, 2024 at 10:33:44 PKT  (total: 00:00:03)

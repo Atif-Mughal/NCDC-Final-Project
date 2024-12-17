@@ -121,6 +121,7 @@ class axi_slave_monitor extends uvm_monitor;
                 for (int j = 0; j < DATA_WIDTH / 8; j++) begin
                     read_transaction.DATA[i][j] = vif.monitor_cb.RDATA[8 * j +: 8];  // Capture the read data
                 end
+                $display("MUGHAL");
                 read_transaction.READ_RESP[i] = vif.monitor_cb.RRESP;  // Capture the read response
             end
 

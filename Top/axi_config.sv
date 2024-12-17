@@ -34,6 +34,10 @@ class test_config extends uvm_object;
     //  2: Wrap bursts
     byte burst_type = -1;
 
+    bit [31:0] addr;
+    bit [3:0] burst_length;
+    bit [2:0] burst_size;
+
     // Enable or disable randomization of burst lengths
     bit randomize_burst_length = 1;
 
@@ -48,3 +52,4 @@ class test_config extends uvm_object;
 
 endclass: test_config
 endpackage
+

@@ -78,12 +78,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
     
         // Handle reset signal and drive control signals accordingly
         if (test_cfg.ARESET_n == 0) begin
-        	`uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
-            vif.master_driver_cb.AWVALID <= 0;
-            vif.master_driver_cb.WVALID <= 0;
-            vif.master_driver_cb.ARVALID <= 0;
-            
-            return;
+
         end
         
         fork
@@ -95,12 +90,25 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
                     seq_item_port.get_next_item(write_transaction);  // Get next write transaction
                     `uvm_info(get_name(), "Write packet received in master driver", UVM_LOW)
                     write_transaction.print();  // Print transaction details for debugging
-                    
-                    // Send write address and data
-                    fork
-                        send_write_address();  // Send the write address
-                        send_write_data();     // Send the write data
-                    join
+                    if (write_transaction.ARESET_n == 0) begin
+                    	    `uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
+			    vif.master_driver_cb.AWVALID <= 0;
+			    vif.master_driver_cb.WVALID <= 0;
+			    vif.master_driver_cb.ARVALID <= 0;
+			    vif.slave_driver_cb.RVALID <= 0;
+            		    vif.slave_driver_cb.BVALID <= 0;
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+                    end
+                    else begin
+		            // Send write address and data
+		            fork
+		                send_write_address();  // Send the write address
+		                send_write_data();     // Send the write data
+		            join
+                    end
 
                     seq_item_port.item_done();  // Indicate completion of the transaction
                     write_done = 1;  // Set write transaction flag to true
@@ -114,8 +122,20 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
                     seq_item_port2.get_next_item(read_transaction);  // Get next read transaction
                     `uvm_info(get_name(), "Read packet received in master driver", UVM_LOW)
                     read_transaction.print();  // Print transaction details for debugging
-                    
-                    send_read_address();  // Send the read address
+                    if (read_transaction.ARESET_n == 0) begin
+                    	    `uvm_info(get_type_name(), "Reset Signal Asserted", UVM_LOW)
+			    vif.master_driver_cb.AWVALID <= 0;
+			    vif.master_driver_cb.WVALID <= 0;
+			    vif.master_driver_cb.ARVALID <= 0;
+			    vif.slave_driver_cb.RVALID <= 0;
+            		    vif.slave_driver_cb.BVALID <= 0;
+			    @(vif.master_driver_cb);
+			    @(vif.master_driver_cb);
+			    `uvm_info(get_type_name(), $sformatf("AWVALID = %0d, WVALID = %0d, ARVALID = %0d, RVALID = %0d, BVALID = %0d", vif.master_driver_cb.AWVALID, vif.master_driver_cb.WVALID, vif.master_driver_cb.ARVALID, vif.slave_driver_cb.RVALID, vif.slave_driver_cb.BVALID), UVM_LOW)
+                    end
+                    else begin
+                    	send_read_address();  // Send the read address
+                    end
                     seq_item_port2.item_done();  // Indicate completion of the transaction
                     read_done = 1;  // Set read transaction flag to true
                 end
@@ -220,7 +240,7 @@ class axi_master_driver extends uvm_driver#(axi_master_seq_item);
         
 
         // Wait for RLAST signal before sending next address
-        wait(vif.master_driver_cb.RLAST && vif.master_driver_cb.RVALID);
+        wait(vif.master_driver_cb.RLAST);
         //vif.master_driver_cb.ARVALID <= 0;
     endtask: send_read_address
 

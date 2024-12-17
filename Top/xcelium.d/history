@@ -1,0 +1,21 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(17Dec2024:00:53:28):( xrun -f run.f )
+s2::(17Dec2024:01:00:39):( xrun -f run.f )
+s3::(17Dec2024:01:12:23):( xrun -f run.f )
+s4::(17Dec2024:01:16:07):( xrun -f run.f )
+s5::(17Dec2024:01:20:08):( xrun -f run.f )
+s6::(17Dec2024:01:27:10):( xrun -f run.f )
+s7::(17Dec2024:01:37:32):( xrun -f run.f )
+s8::(17Dec2024:01:40:03):( xrun -f run.f )
+s9::(17Dec2024:08:51:03):( xrun -f run.f )
+s10::(17Dec2024:08:53:56):( xrun -f run.f )
+s11::(17Dec2024:08:56:03):( xrun -f run.f )
+s12::(17Dec2024:08:57:03):( xrun -f run.f )
+s13::(17Dec2024:09:07:08):( xrun -f run.f )
+s14::(17Dec2024:09:11:21):( xrun -f run.f )
+s15::(17Dec2024:09:13:41):( xrun -f run.f )
+s16::(17Dec2024:09:14:53):( xrun -f run.f -access +rwc -gui )
+s17::(17Dec2024:10:33:41):( xrun -f run.f )

@@ -50,11 +50,12 @@ class axi_slave_driver extends uvm_driver;
     
 
     task drive();
+    /*
         if(!test_cfg.ARESET_n) begin
             vif.slave_driver_cb.RVALID <= 0;
             vif.slave_driver_cb.BVALID <= 0;
             return;
-        end
+        end*/
         fork
             begin
                 if(write_done) begin
@@ -146,10 +147,6 @@ class axi_slave_driver extends uvm_driver;
             
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
-                if (current_addr + j - lower_byte_lane >= 2**ADDR_WIDTH)
-                    error_flag = 1;
-                if (error_flag || alignment_error)
-                    continue;
                 mem[current_addr + j - lower_byte_lane] = vif.slave_driver_cb.WDATA[8 * byte_index +: 8];
                 `uvm_info(get_type_name(), $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
@@ -261,10 +258,6 @@ class axi_slave_driver extends uvm_driver;
             
             error_flag = 0;
             for (int j = lower_byte_lane; j <= upper_byte_lane; j++) begin
-                if (current_addr + j - lower_byte_lane >= 2**ADDR_WIDTH)
-                    error_flag = 1;
-                if (error_flag)
-                    continue;
                 vif.slave_driver_cb.RDATA[8 * byte_index +: 8] <= mem[current_addr + j - lower_byte_lane];
                 `uvm_info(get_type_name(), $sformatf("byte_index is %0d, addr is %0d, stored value is %h", byte_index, current_addr + j - lower_byte_lane, mem[current_addr + j - lower_byte_lane]), UVM_HIGH)
                 byte_index++;
@@ -285,26 +278,23 @@ class axi_slave_driver extends uvm_driver;
                     is_aligned = 1;
                 end
             end
+            // Write back the response
+            vif.slave_driver_cb.RID <= read_transaction.ID;
+            if (error_flag)
+                vif.slave_driver_cb.RRESP <= 2'b01; // Error response
+            else
+                vif.slave_driver_cb.RRESP <= 2'b00; // OKAY response
+            vif.slave_driver_cb.RVALID <= 1;
+            wait(vif.slave_driver_cb.RREADY); // Wait for RREADY to deassert RVALID
             @(vif.slave_driver_cb);
+            vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
         end
 
-        // Write back the response
-        vif.slave_driver_cb.RID <= read_transaction.ID;
-        if (error_flag)
-            vif.slave_driver_cb.RRESP <= 2'b01; // Error response
-        else
-            vif.slave_driver_cb.RRESP <= 2'b00; // OKAY response
-
-        @(vif.slave_driver_cb);
-        vif.slave_driver_cb.RVALID <= 1;
-        
-        @(vif.slave_driver_cb);
-        wait(vif.slave_driver_cb.RREADY); // Wait for RREADY to deassert RVALID
         vif.slave_driver_cb.RLAST  <= 1;
         @(vif.slave_driver_cb);
-        vif.slave_driver_cb.RVALID <= 0; // Deassert RVALID
     endtask: send_read_data
  
 endclass 
+
 
 

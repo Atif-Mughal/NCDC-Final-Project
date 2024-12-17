@@ -33,10 +33,10 @@ class axi_base_test extends uvm_test;
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
     	super.build_phase(phase);
-        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg); // Set test configuration in UVM database
-        write_seq = new("write_seq");                   // Instantiate write sequence
-        read_seq = new("read_seq");                     // Instantiate read sequence
-        env = AXI_tb::type_id::create("env", this);      // Create testbench environment instance
+        uvm_config_db#(test_config)::set(null, "*", "test_cfg", test_cfg);      // Set test configuration in UVM database
+        write_seq = new("write_seq");                                           // Instantiate write sequence
+        read_seq = new("read_seq");                                             // Instantiate read sequence
+        env = AXI_tb::type_id::create("env", this);                             // Create testbench environment instance
     endfunction: build_phase
 
     //---------------------------------------------------------------------------
@@ -137,9 +137,9 @@ class axi_single_write_fixed_test extends axi_base_test;
     // - Starts the write sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
-        phase.raise_objection(this);            // Raise objection to keep simulation running
-        write_seq.start(env.master.my_agent.write_seqr); // Start write sequence
-        phase.drop_objection(this);             // Drop objection after the sequence starts
+        phase.raise_objection(this);                        // Raise objection to keep simulation running
+        write_seq.start(env.master.my_agent.write_seqr);    // Start write sequence
+        phase.drop_objection(this);                         // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_single_write_fixed_test
 
@@ -156,10 +156,10 @@ class axi_multiple_write_fixed_test extends axi_base_test;
     // - Creates an instance of axi_multiple_write_fixed_test class.
     //---------------------------------------------------------------------------
     function new(string name, uvm_component parent);
-        super.new(name, parent);  // Call base class constructor
-        test_cfg = new("test_cfg");           // Create a new test configuration object
-        test_cfg.number_of_write_cases = 30;  // Set number of write cases
-        test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
+        super.new(name, parent);                // Call base class constructor
+        test_cfg = new("test_cfg");             // Create a new test configuration object
+        test_cfg.number_of_write_cases = 30;    // Set number of write cases
+        test_cfg.ARESET_n = 1;                  // Set reset signal to active (low)
         test_cfg.burst_type = 0;
     endfunction: new
 
@@ -170,7 +170,6 @@ class axi_multiple_write_fixed_test extends axi_base_test;
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
-        
     endfunction: build_phase
 
     //---------------------------------------------------------------------------
@@ -213,7 +212,7 @@ class axi_single_read_fixed_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -230,7 +229,7 @@ class axi_single_read_fixed_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
@@ -260,7 +259,7 @@ class axi_multiple_read_fixed_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -277,7 +276,7 @@ class axi_multiple_read_fixed_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
@@ -381,7 +380,7 @@ class axi_multiple_write_wrap_test extends axi_base_test;
 endclass: axi_multiple_write_wrap_test
 
 // ==========================================================================================
-//                              AXI SINGLE READ FIXED TEST CLASS
+//                              AXI SINGLE READ WRAP TEST CLASS
 // ==========================================================================================
 class axi_single_read_wrap_test extends axi_base_test;
     `uvm_component_utils(axi_single_read_wrap_test)
@@ -393,7 +392,7 @@ class axi_single_read_wrap_test extends axi_base_test;
     function new(string name, uvm_component parent);
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
-        test_cfg.number_of_read_cases = 1;  // Set number of write cases
+        test_cfg.number_of_read_cases = 1;  // Set number of read cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
         test_cfg.burst_type = 2;
     endfunction: new
@@ -401,7 +400,7 @@ class axi_single_read_wrap_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -418,7 +417,7 @@ class axi_single_read_wrap_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
@@ -440,7 +439,7 @@ class axi_multiple_read_wrap_test extends axi_base_test;
     function new(string name, uvm_component parent);
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
-        test_cfg.number_of_read_cases = 30;  // Set number of write cases
+        test_cfg.number_of_read_cases = 30;  // Set number of read cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
         test_cfg.burst_type = 2;
     endfunction: new
@@ -448,7 +447,7 @@ class axi_multiple_read_wrap_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -465,11 +464,11 @@ class axi_multiple_read_wrap_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
-        read_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+        read_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_multiple_read_wrap_test
@@ -583,7 +582,7 @@ class axi_single_read_incr_test extends axi_base_test;
     function new(string name, uvm_component parent);
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
-        test_cfg.number_of_read_cases = 1;  // Set number of write cases
+        test_cfg.number_of_read_cases = 1;  // Set number of read cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
         test_cfg.burst_type = 1;
     endfunction: new
@@ -591,7 +590,7 @@ class axi_single_read_incr_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -608,11 +607,11 @@ class axi_single_read_incr_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
-        read_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+        read_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_single_read_incr_test
@@ -630,7 +629,7 @@ class axi_multiple_read_incr_test extends axi_base_test;
     function new(string name, uvm_component parent);
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
-        test_cfg.number_of_read_cases = 30;  // Set number of write cases
+        test_cfg.number_of_read_cases = 30;  // Set number of read cases
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
         test_cfg.burst_type = 1;
     endfunction: new
@@ -638,11 +637,10 @@ class axi_multiple_read_incr_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
-        
     endfunction: build_phase
 
     //---------------------------------------------------------------------------
@@ -655,11 +653,11 @@ class axi_multiple_read_incr_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read sequence and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
-        read_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+        read_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_multiple_read_incr_test
@@ -693,7 +691,7 @@ class axi_single_raw_fixed_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read and write sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -711,12 +709,12 @@ class axi_single_raw_fixed_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read and write sequences and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
         write_raw_seq.start(env.master.my_agent.write_seqr); // Start write sequence
-        read_raw_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+        read_raw_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_single_raw_fixed_test
@@ -738,8 +736,8 @@ class axi_single_raw_incr_test extends axi_base_test;
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 1;  // Set number of write cases
-        test_cfg.number_of_read_cases = 1;  // Set number of write cases
-        test_cfg.addr = 8;  // Set number of write cases
+        test_cfg.number_of_read_cases = 1;  // Set number of read cases
+        test_cfg.addr = 8;  
         test_cfg.burst_length = 8;
         test_cfg.burst_size = 2;
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
@@ -767,19 +765,19 @@ class axi_single_raw_incr_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read and write sequences and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
         write_raw_seq.start(env.master.my_agent.write_seqr); // Start write sequence
-        read_raw_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+        read_raw_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
 endclass: axi_single_raw_incr_test
 
 
 // ==========================================================================================
-//                              AXI SINGLE CONCURRENT INCR TEST CLASS
+//                              AXI SINGLE CONCURRENT FIXED TEST CLASS
 // ==========================================================================================
 class axi_single_concurrent_fixed_test extends axi_base_test;
     `uvm_component_utils(axi_single_concurrent_fixed_test)
@@ -794,8 +792,8 @@ class axi_single_concurrent_fixed_test extends axi_base_test;
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 1;  // Set number of write cases
-        test_cfg.number_of_read_cases = 1;  // Set number of write cases
-        test_cfg.addr = 8;  // Set number of write cases
+        test_cfg.number_of_read_cases = 1;  // Set number of read cases
+        test_cfg.addr = 8; 
         test_cfg.burst_length = 8;
         test_cfg.burst_size = 2;
         test_cfg.ARESET_n = 1;     // Set reset signal to active (low)
@@ -805,7 +803,7 @@ class axi_single_concurrent_fixed_test extends axi_base_test;
     //---------------------------------------------------------------------------
     // Build Phase:
     // - Configures test settings for AXI write operation.
-    // - Instantiates write sequence for the test.
+    // - Instantiates read and write sequence for the test.
     //---------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);  // Invoke base class build phase
@@ -823,13 +821,13 @@ class axi_single_concurrent_fixed_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read and write sequences and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
         fork
 		write_raw_seq.start(env.master.my_agent.write_seqr); // Start write sequence
-		read_raw_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+		read_raw_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         join
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase
@@ -850,7 +848,7 @@ class axi_single_concurrent_incr_test extends axi_base_test;
         super.new(name, parent);  // Call base class constructor
         test_cfg = new("test_cfg");           // Create a new test configuration object
         test_cfg.number_of_write_cases = 1;  // Set number of write cases
-        test_cfg.number_of_read_cases = 1;  // Set number of write cases
+        test_cfg.number_of_read_cases = 1;  // Set number of read cases
         test_cfg.addr = 8;  // Set number of write cases
         test_cfg.burst_length = 8;
         test_cfg.burst_size = 2;
@@ -879,13 +877,13 @@ class axi_single_concurrent_incr_test extends axi_base_test;
 
     //---------------------------------------------------------------------------
     // Run Phase:
-    // - Starts the write sequence and raises/drops objections during the phase.
+    // - Starts the read and write sequences and raises/drops objections during the phase.
     //---------------------------------------------------------------------------
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);            // Raise objection to keep simulation running
         fork
 		write_raw_seq.start(env.master.my_agent.write_seqr); // Start write sequence
-		read_raw_seq.start(env.master.my_agent.read_seqr); // Start write sequence
+		read_raw_seq.start(env.master.my_agent.read_seqr); // Start read sequence
         join
         phase.drop_objection(this);             // Drop objection after the sequence starts
     endtask: run_phase

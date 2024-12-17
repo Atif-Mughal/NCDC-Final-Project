@@ -1,5 +1,5 @@
 // *****************************************************************************
-// ** CLASS: axi_write_seq
+// **                       CLASS: axi_write_sequence
 // *****************************************************************************
 /**
  * The `body` task handles the logic of generating multiple write transactions 
@@ -14,7 +14,7 @@ class axi_write_sequence extends uvm_sequence;
     // UVM factory registration macro to enable object creation via factory
     `uvm_object_param_utils(axi_write_sequence)
 
-    // ***************** Class Variables *****************
+    // ************************ Class Variables ***********************
 
     // Number of write transactions to generate (retrieved from config)
     const int number_of_transactions;
@@ -29,7 +29,7 @@ class axi_write_sequence extends uvm_sequence;
 
     
 
-    // ***************** Constructor *****************
+    // ********************************** Constructor ***************************************
 
     /**
      * @brief Constructor
@@ -37,12 +37,12 @@ class axi_write_sequence extends uvm_sequence;
      * 
      * @param name Name of the sequence (default "axi_write_seq")
      */
-    function new(string name = "axi_write_seq");
+    function new(string name = "axi_write_sequence");
         super.new(name);
         test_cfg = new("test_cfg");
         
         if (!uvm_config_db#(test_config)::get(null, "*", "test_cfg", test_cfg)) 
-            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+            `uvm_fatal(get_name(), "Test configuration not found!");
 
         // Retrieve the number of write transactions to generate
         number_of_transactions = test_cfg.number_of_write_cases;
@@ -57,10 +57,7 @@ class axi_write_sequence extends uvm_sequence;
      * It handles burst type, address alignment, and randomization of transaction parameters.
      */
     virtual task body();
-    	// Fetch configuration from the UVM ConfigDB
-    	
-        
-        // Repeat the transaction generation process based on `no_of_trans`
+        // Repeat the transaction generation process based on `number_of_transactions`
         repeat (number_of_transactions) begin
             id++;  // Increment the transaction ID
 
@@ -117,7 +114,7 @@ class axi_write_sequence extends uvm_sequence;
 endclass: axi_write_sequence
 
 // *****************************************************************************
-// ** CLASS: axi_read_seq
+// **                       CLASS: axi_read_sequence
 // *****************************************************************************
 /**
  * @brief AXI Master Read Sequence Class
@@ -157,14 +154,14 @@ class axi_read_sequence extends uvm_sequence;
      * @brief Constructor
      * Initializes the sequence and retrieves the test configuration from UVM's ConfigDB.
      * 
-     * @param name Name of the sequence (default "axi_read_seq")
+     * @param name Name of the sequence (default "axi_read_sequence")
      */
     function new(string name = "axi_read_sequence");
         super.new(name);
 
         // Retrieve configuration from ConfigDB
         if (!uvm_config_db#(test_config)::get(null, "*tb*", "test_cfg", test_cfg)) 
-            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+            `uvm_fatal(get_name(), "Test configuration not found!");
 
         // Retrieve the number of read transactions to generate
         number_of_transactions = test_cfg.number_of_read_cases;
@@ -179,7 +176,7 @@ class axi_read_sequence extends uvm_sequence;
      * address alignment, burst type, and other parameters.
      */
     virtual task body();
-        // Repeat transaction generation based on `no_of_trans`
+        // Repeat transaction generation based on `number_of_transactions`
         repeat (number_of_transactions) begin
             id++;  // Increment the transaction ID
 
@@ -238,6 +235,15 @@ endclass: axi_read_sequence
 
 // *************************** RAW SEQUENCES ******************************
 
+
+// *****************************************************************************
+// **                   CLASS: axi_write_raw_sequence
+// *****************************************************************************
+/**
+ * The `body` task handles the logic of generating multiple write transactions 
+ * with configurable burst types, address alignment, and randomization features.
+ */
+
 class axi_write_raw_sequence extends uvm_sequence;
 
     // UVM factory registration macro to enable object creation via factory
@@ -264,14 +270,14 @@ class axi_write_raw_sequence extends uvm_sequence;
      * @brief Constructor
      * Initializes the sequence and fetches the test configuration from UVM's config database.
      * 
-     * @param name Name of the sequence (default "axi_write_seq")
+     * @param name Name of the sequence (default "axi_write_raw_sequence")
      */
     function new(string name = "axi_write_raw_sequence");
         super.new(name);
         test_cfg = new("test_cfg");
         
         if (!uvm_config_db#(test_config)::get(null, "*", "test_cfg", test_cfg)) 
-            `uvm_fatal(get_name(), "Test configuration not found in ConfigDB!");
+            `uvm_fatal(get_name(), "Test configuration not found!");
 
         // Retrieve the number of write transactions to generate
         number_of_transactions = test_cfg.number_of_write_cases;
@@ -346,10 +352,10 @@ class axi_write_raw_sequence extends uvm_sequence;
 endclass: axi_write_raw_sequence
 
 // *****************************************************************************
-// ** CLASS: axi_read_seq
+// ** CLASS: axi_read_raw_sequence
 // *****************************************************************************
 /**
- * @brief AXI Master Read Sequence Class
+ * @brief AXI Master RAW Read Sequence Class
  * 
  * This class generates AXI read transactions for the UVM testbench. The sequence 
  * is fully configurable via `test_config` and allows flexibility in transaction 
@@ -386,7 +392,7 @@ class axi_read_raw_sequence extends uvm_sequence;
      * @brief Constructor
      * Initializes the sequence and retrieves the test configuration from UVM's ConfigDB.
      * 
-     * @param name Name of the sequence (default "axi_read_seq")
+     * @param name Name of the sequence (default "axi_read_raw_sequence")
      */
     function new(string name = "axi_read_raw_sequence");
         super.new(name);

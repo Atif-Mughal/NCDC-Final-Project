@@ -1,5 +1,14 @@
 import config_pkg::*;
 import axi_parameters::*;
+// ****************************************************************************
+// ** CLASS: axi_slave_driver
+// ** DESCRIPTION:
+// ** - The `axi_slave_driver` handles the driving of AXI transactions from
+// **   the master side. It sends both write and read transactions, including
+// **   address and data, to the AXI interface.
+// ** - This driver interacts with the UVM sequence items and controls the 
+// **   flow of the transactions based on the AXI protocol for the slave.
+// ****************************************************************************
 class axi_slave_driver extends uvm_driver;
     `uvm_component_utils(axi_slave_driver)
     
@@ -47,15 +56,7 @@ class axi_slave_driver extends uvm_driver;
         end
     endtask: run_phase
 
-    
-
     task drive();
-    /*
-        if(!test_cfg.ARESET_n) begin
-            vif.slave_driver_cb.RVALID <= 0;
-            vif.slave_driver_cb.BVALID <= 0;
-            return;
-        end*/
         fork
             begin
                 if(write_done) begin

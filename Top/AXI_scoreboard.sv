@@ -10,25 +10,28 @@ import axi_parameters::*;
 //-----------------------------------------------------------------------------
 class AXI_scorboard extends uvm_scoreboard;
 
-	  //---------------------------------------------------------------------------
-	  // UVM COMPONENT UTILS
-	  //---------------------------------------------------------------------------
-	  // - Registers the `AXI_scorboard` class with the UVM factory for dynamic instantiation.
-	  //---------------------------------------------------------------------------
-	  `uvm_component_utils(AXI_scorboard)
+        //---------------------------------------------------------------------------
+        // UVM COMPONENT UTILS
+        //---------------------------------------------------------------------------
+        // - Registers the `AXI_scorboard` class with the UVM factory for dynamic instantiation.
+        //---------------------------------------------------------------------------
+        `uvm_component_utils(AXI_scorboard)
 
-	  //---------------------------------------------------------------------------
-	  // CLASS PROPERTIES
-	  //---------------------------------------------------------------------------
-	  uvm_tlm_analysis_fifo #(axi_master_seq_item) master_in_fifo;  // FIFO for Master transactions
-	  uvm_tlm_analysis_fifo #(axi_master_seq_item) slave_in_fifo;      // FIFO for Slave interface packets
-	  
-	  bit [1:0] m_received, s_received;
+        //---------------------------------------------------------------------------
+        // CLASS PROPERTIES
+        //---------------------------------------------------------------------------
+        uvm_tlm_analysis_fifo #(axi_master_seq_item) master_in_fifo;  // FIFO for Master transactions
+        uvm_tlm_analysis_fifo #(axi_master_seq_item) slave_in_fifo;      // FIFO for Slave interface packets
+        
+        bit [1:0] m_received, s_received;
 
 
-	  axi_master_seq_item master_in, master_transaction; // Stores Master transaction data
-	  axi_master_seq_item slave_in, slave_transaction;     // Stores Slave interface packet data
-	        // *******************************************************************
+        axi_master_seq_item master_in, master_transaction; // Stores Master transaction data
+        axi_master_seq_item slave_in, slave_transaction;     // Stores Slave interface packet data
+        
+        virtual axi4_if vif;
+      
+        // *******************************************************************
         // **                     COVERAGE GROUPS                          **
         // *******************************************************************
         covergroup coverage;    	  
@@ -255,7 +258,7 @@ class AXI_scorboard extends uvm_scoreboard;
         		bins b1[] =  {[0 : 2]};
         }
         BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
-        		bins b1[] =  {[0 : 15]};
+        		bins b1[] =  {1, 3, 7, 15};
         }        
     endgroup
     //////////////////////////////////////////////////////////////////
@@ -282,88 +285,102 @@ class AXI_scorboard extends uvm_scoreboard;
         		bins b1[] =  {[0 : 2]};
         }
         BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
-        		bins b1[] =  {[0 : 15]};
+        		bins b1[] =  {1, 3, 7, 15};
         }        
     endgroup
+        //---------------------------------------------------------------------------
+        // CONSTRUCTOR
+        //---------------------------------------------------------------------------
+        // - Creates an instance of the `SPI_scorboard` class and initializes properties.
+        // - Initializes the analysis FIFOs for incoming Wishbone and Slave transactions.
+        //---------------------------------------------------------------------------
+        function new(string name, uvm_component parent);
+              super.new(name, parent);                          // Call the base class constructor
 
-	  //---------------------------------------------------------------------------
-	  // CONSTRUCTOR
-	  //---------------------------------------------------------------------------
-	  // - Creates an instance of the `SPI_scorboard` class and initializes properties.
-	  // - Initializes the analysis FIFOs for incoming Wishbone and Slave transactions.
-	  //---------------------------------------------------------------------------
-	  function new(string name, uvm_component parent);
-	    super.new(name, parent);                          // Call the base class constructor
+              // Create FIFOs for capturing transactions
+              master_in_fifo = new("master_in_fifo", this); // FIFO for Master interface
+              slave_in_fifo = new("slave_in_fifo", this);     // FIFO for Slave interface
+              
+              master_in = new("master_in"); 
+              master_transaction = new("master_transaction");
+         	  slave_in = new("slave_in"); 
+         	  slave_transaction = new("slave_transaction"); 
+              
+              if(!uvm_config_db#(virtual axi4_if)::get(this, "*", "vif", vif))
+              	  `uvm_error(get_name(), "AXI Interface is not available. Check your configuration.")
 
-	    // Create FIFOs for capturing transactions
-	    master_in_fifo = new("master_in_fifo", this); // FIFO for Master interface
-	    slave_in_fifo = new("slave_in_fifo", this);     // FIFO for Slave interface
-	    coverage = new();
-	    fixed_write = new();
-	    wrap_write = new();
-	    incr_write = new();
-	    fixed_read = new();
-	    wrap_read = new();
-	    incr_read = new();
+              wrap_read = new();
 
-	  endfunction : new
+        endfunction : new
 
-    	//-----------------------------------------------------------------------------
-        // TASK: run_phase
-        // DESCRIPTION:
-        // - Executes the main functionality of the scoreboard during the `run_phase`.
-        //-----------------------------------------------------------------------------
+        //============================================================
+        // Task: run_phase
+        // Description: 
+        //  - Executes the UVM run phase, continuously fetching transactions 
+        //    from Master and Slave FIFOs using parallel processes (fork-join).
+        //  - Compares Master and Slave transactions when both IDs are received.
+        //============================================================
         task run_phase(uvm_phase phase);
-        	super.run_phase(phase); // Call the base class `run_phase`
+            super.run_phase(phase); // Call the base class `run_phase`
 
-        fork
-            forever begin
-                  // Fetch the next Master transaction from the FIFO
-                  master_in_fifo.get_peek_export.get(master_in);
-                  // Log the information about the sequence item for debugging purposes
-                  `uvm_info(get_type_name(), $sformatf("Packet is \n %s", master_in.sprint()), UVM_LOW)
-                  if (master_in.ID[7] == 0)
-                  	m_received[0] = 1'b1;
-                  if (master_in.ID[7] == 1)
-                  	m_received[1] = 1'b1;
-                  master_transaction = master_in;
-                  if (m_received === 2'b11)
-                  	check();
-			coverage.sample();
-                  fixed_write.sample();
-			fixed_read.sample();
-			incr_write.sample();
-			incr_read.sample();
-			wrap_write.sample();
-			wrap_read.sample();
+            // Fork to execute two parallel forever loops
+            fork
+                //========================================
+                //       MASTER TRANSACTION HANDLER
+                //========================================
+                forever begin
+                    // Fetch the next Master transaction from the FIFO
+                    master_in_fifo.get_peek_export.get(master_in);
 
-                
-            end
-            forever begin
-                  // Fetch the next Slave transaction from the FIFO
-                  slave_in_fifo.get_peek_export.get(slave_in);
-                  // Log the information about the sequence item for debugging purposes
-                   `uvm_info(get_type_name(), $sformatf("Packet is \n %s", slave_in.sprint()), UVM_LOW)
-                   
-                   if (slave_in.ID[7] == 0)
-                  	s_received[0] = 1'b1;
-                  if (slave_in.ID[7] == 1)
-                  	s_received[1] = 1'b1;
-                  slave_transaction = slave_in;
-                  if (s_received == 2'b11)
-                  	check();
-			coverage.sample();
-			fixed_write.sample();
-			fixed_read.sample();
-			incr_write.sample();
-			incr_read.sample();
-			wrap_write.sample();
-			wrap_read.sample();
+                    // Log the fetched Master transaction for debugging
+                    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", master_in.sprint()), UVM_LOW)
 
-            end
+                    // Update the received flag based on the MSB of the Master transaction ID
+                    if (master_in.ID[7] == 0)
+                        m_received[0] = 1'b1; // Set bit 0 if ID[7] == 0
+                    if (master_in.ID[7] == 1)
+                        m_received[1] = 1'b1; // Set bit 1 if ID[7] == 1
 
-      join
-    endtask : run_phase
+                    // Store the current Master transaction for comparison
+                    master_transaction = master_in;
+
+                    // Check if both ID[7] values (0 and 1) have been received
+                    if (m_received === 2'b11)
+                        check(); // Call check function for transaction comparison
+
+                    // Optional: Uncomment to sample master coverage
+                    wrap_read.sample();
+                end
+
+                //========================================
+                //        SLAVE TRANSACTION HANDLER
+                //========================================
+                forever begin
+                    // Fetch the next Slave transaction from the FIFO
+                    slave_in_fifo.get_peek_export.get(slave_in);
+
+                    // Log the fetched Slave transaction for debugging
+                    `uvm_info(get_type_name(), $sformatf("Packet is \n %s", slave_in.sprint()), UVM_LOW)
+
+                    // Update the received flag based on the MSB of the Slave transaction ID
+                    if (slave_in.ID[7] == 0)
+                        s_received[0] = 1'b1; // Set bit 0 if ID[7] == 0
+                    if (slave_in.ID[7] == 1)
+                        s_received[1] = 1'b1; // Set bit 1 if ID[7] == 1
+
+                    // Store the current Slave transaction for comparison
+                    slave_transaction = slave_in;
+
+                    // Check if both ID[7] values (0 and 1) have been received
+                    if (s_received === 2'b11)
+                        check(); // Call check function for transaction comparison
+
+                    // Optional: Uncomment to sample slave coverage
+                    wrap_read.sample();
+                end
+            join // End of fork-join for parallel execution
+        endtask : run_phase
+
         //============================================================
         // Function: check
         // Description: 
@@ -379,5 +396,6 @@ class AXI_scorboard extends uvm_scoreboard;
                 `uvm_info(get_type_name, $sformatf("Test FAILED"), UVM_LOW)
             end
         endfunction
+
 
 endclass

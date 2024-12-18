@@ -41,10 +41,8 @@ class AXI_scorboard extends uvm_scoreboard;
         
         //Read Address Channel
         ARADDR: coverpoint vif.ARADDR {
-				bins b1[] = {[0: ADDR_WIDTH >> 2]};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]};             
         }
         ARREADY: coverpoint vif.ARREADY;
         ARVALID: coverpoint vif.ARVALID;
@@ -67,10 +65,8 @@ class AXI_scorboard extends uvm_scoreboard;
         
         //Read Data Channel
         RDATA:  coverpoint vif.RDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};              
         }
         RREADY: coverpoint vif.RREADY;
         RVALID: coverpoint vif.RVALID;
@@ -79,10 +75,8 @@ class AXI_scorboard extends uvm_scoreboard;
         
         //Write Address Channel
         AWADDR: coverpoint vif.AWADDR {
-				bins b1[] = {[0: ADDR_WIDTH >> 2]};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]}; 
         }
         AWREADY: coverpoint vif.AWREADY;
         AWVALID: coverpoint vif.AWVALID;
@@ -106,10 +100,8 @@ class AXI_scorboard extends uvm_scoreboard;
         
         //Write Data Channel
         WDATA:  coverpoint vif.WDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};             
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};              
         }
         WSTRB:  coverpoint vif.WSTRB{
         		bins b1[] =  {0, 1, 2, 4, 8};
@@ -130,17 +122,13 @@ class AXI_scorboard extends uvm_scoreboard;
     covergroup fixed_write;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]}; 
         }
 		  
 		  DATA:  coverpoint vif.WDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};              
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -157,17 +145,13 @@ class AXI_scorboard extends uvm_scoreboard;
     covergroup incr_write;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]}; 
         }
 		  
 		  DATA:  coverpoint vif.WDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};             
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -184,17 +168,13 @@ class AXI_scorboard extends uvm_scoreboard;
     covergroup wrap_write;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]}; 
         }
 		  
 		  DATA:  coverpoint vif.WDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};             
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -204,24 +184,20 @@ class AXI_scorboard extends uvm_scoreboard;
         		bins b1[] =  {[0 : 2]};
         }
         BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
-        		bins b1[] =  {[0 : 15]};
+        		bins b1[] =  {1, 3, 7, 15};
         }        
     endgroup
 	 //////////////////////////////////////////////////////////////////
     covergroup fixed_read;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]};  
         }
 		  
 		  DATA:  coverpoint vif.RDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};             
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -238,17 +214,13 @@ class AXI_scorboard extends uvm_scoreboard;
     covergroup incr_read;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]}; 
         }
 		  
 		  DATA:  coverpoint vif.RDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};             
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -258,24 +230,20 @@ class AXI_scorboard extends uvm_scoreboard;
         		bins b1[] =  {[0 : 2]};
         }
         BURST_LENGTH: coverpoint master_in.BURST_LENGTH{
-        		bins b1[] =  {1, 3, 7, 15};
+        		bins b1[] =  {[0 : 15]};
         }        
     endgroup
     //////////////////////////////////////////////////////////////////
     covergroup wrap_read;
            
         ADDR: coverpoint master_in.ADDR {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (ADDR_WIDTH - 1)) : (1 << (ADDR_WIDTH)) - 1]};            
-				bins b2 = {((1 << ADDR_WIDTH) - 1)};
+				bins lower_bins = {[0 : ((1 << (ADDR_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (ADDR_WIDTH - 2)) : (1 << (ADDR_WIDTH - 1)) - 1]};  
         }
 		  
 		  DATA:  coverpoint vif.RDATA {
-				bins b1 = {0};
-				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 1)) - 1)]};
-				bins upper_bins = {[(1 << (DATA_WIDTH - 1)) : (1 << (DATA_WIDTH)) - 1]};
-				bins b2 = {((1 << DATA_WIDTH) - 1)};            
+				bins lower_bins = {[0 : ((1 << (DATA_WIDTH - 2)) - 1)]};
+				bins upper_bins = {[(1 << (DATA_WIDTH - 2)) : (1 << (DATA_WIDTH - 1)) - 1]};           
         }
         
         BURST_TYPE: coverpoint master_in.BURST_TYPE{
@@ -309,7 +277,7 @@ class AXI_scorboard extends uvm_scoreboard;
               if(!uvm_config_db#(virtual axi4_if)::get(this, "*", "vif", vif))
               	  `uvm_error(get_name(), "AXI Interface is not available. Check your configuration.")
 
-              wrap_read = new();
+              wrap_write = new();
 
         endfunction : new
 
@@ -349,7 +317,7 @@ class AXI_scorboard extends uvm_scoreboard;
                         check(); // Call check function for transaction comparison
 
                     // Optional: Uncomment to sample master coverage
-                    wrap_read.sample();
+                    wrap_write.sample();
                 end
 
                 //========================================
@@ -376,7 +344,7 @@ class AXI_scorboard extends uvm_scoreboard;
                         check(); // Call check function for transaction comparison
 
                     // Optional: Uncomment to sample slave coverage
-                    wrap_read.sample();
+                    wrap_write.sample();
                 end
             join // End of fork-join for parallel execution
         endtask : run_phase
